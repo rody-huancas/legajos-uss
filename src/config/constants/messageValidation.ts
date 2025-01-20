@@ -1,0 +1,1 @@
+export const REQUIRED_FIELD = (value: string | number) => `El campo (${value}) es requerido`;

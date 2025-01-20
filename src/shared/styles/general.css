@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+.swiper-pagination-bullet {
+  background: #fff;
+}
+
+/* ICON */
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-icon {
+  animation: rotate 1s linear infinite;
+}
+
+/* SIDEBAR */
+.height-sidebar {
+  height: calc(100dvh - 80px);
+}
+
+/* REACT SELECT */
+.css-13cymwt-control,
+.css-t3ipsp-control {
+  @apply py-1;
+}
+
+/* SCROLLBAR */
+.scroll {
+  overflow-y: scroll;
+  scrollbar-color: #BEBEBE white;
+  scrollbar-width: thin;
+}
