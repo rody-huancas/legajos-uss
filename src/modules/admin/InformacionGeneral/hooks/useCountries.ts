@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { informationGeneralService } from "../services";
-import { ICountries } from "../models/information-general.model";
+import { IInterface } from "../models/information-general.model";
 
 export const useCountries = () => {
-  const [ubigeo, setUbigeo]               = useState<ICountries[]>([]);
-  const [departments, setDepartments]     = useState<ICountries[]>([]);
-  const [nationalities, setNationalities] = useState<ICountries[]>([]);
-  const [countries, setCountries]         = useState<ICountries[]>([]);
+  const [ubigeo, setUbigeo]               = useState<IInterface[]>([]);
+  const [departments, setDepartments]     = useState<IInterface[]>([]);
+  const [nationalities, setNationalities] = useState<IInterface[]>([]);
+  const [countries, setCountries]         = useState<IInterface[]>([]);
   const [isLoading, setIsLoading]         = useState<boolean>(true);
   
   const fetchCountries = async () => {

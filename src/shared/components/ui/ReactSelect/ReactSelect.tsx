@@ -12,10 +12,10 @@ interface SelectProps extends ReactSelectProps {
 }
 
 const ReactSelect: React.FC<SelectProps> = (props) => {
-  const { name, control, errorMessage, clean = true, label, isLoading = true, ...selectProps } = props;
+  const { name, control, errorMessage, clean = true, label, isLoading = false, ...selectProps } = props;
 
   return (
-    <div className="relative flex flex-col">
+    <div className="relative flex flex-col w-full flex-1">
       {
         label && (
           <label htmlFor={name} className="mb-1 text-sm font-medium leading-5 text-secondary-800/95">
@@ -41,9 +41,10 @@ const ReactSelect: React.FC<SelectProps> = (props) => {
                   noOptionsMessage={() => <span className="text-sm">No hay opciones disponibles</span>}
                   menuPortalTarget={document.body}
                   styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+                  classNamePrefix={errorMessage && "error-select"}
                 />
                 {errorMessage && (
-                  <p className="text-red-600 text-sm mt-1">{errorMessage}</p>
+                   <span className="mt-1 text-xs text-red-500">{errorMessage}</span>
                 )}
               </div>
             )}

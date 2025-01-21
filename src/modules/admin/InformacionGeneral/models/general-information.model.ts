@@ -1,7 +1,7 @@
 export interface LegDatosGenerales {
   nLegDatCodigo               : number;
   nLegDatTipoDoc              : number;
-  nClaseTipoDoc               : number;
+  nClaseTipoDoc               : number; // ok
   cLegDatNroDoc               : string;
   cLegDatApellidoPaterno      : string;
   cLegDatApellidoMaterno      : string;

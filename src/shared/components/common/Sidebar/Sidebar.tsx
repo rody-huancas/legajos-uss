@@ -10,11 +10,18 @@ import { GiArchiveResearch, GiVideoConference } from "react-icons/gi";
 import { RiFolderInfoLine, RiLogoutCircleLine } from "react-icons/ri";
 
 const Sidebar = () => {
-  const isMenuOpen = useThemeStore((state) => state.menuIsOpen);
-  const logoutUser = useAuthStore((state) => state.logoutUser);
+  const isMenuOpen    = useThemeStore((state) => state.menuIsOpen);
+  const setMenuIsOpen = useThemeStore((state) => state.setMenuIsOpen);
+  const logoutUser    = useAuthStore((state) => state.logoutUser);
 
   return (
     <>
+      {
+        isMenuOpen && (
+          <div className="fixed bg-[#2524243d] w-full h-full z-30 xl:hidden" onClick={() => setMenuIsOpen(false)} />
+        )
+      }
+
       <div
         className={cn(
           "h-dvh overflow-y-auto fixed xl:static w-content xl:w-auto top-0 bg-secondary-800 p-4 flex flex-col justify-between z-50 transition-all duration-300",

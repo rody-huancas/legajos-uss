@@ -71,7 +71,7 @@ const Header = () => {
               onClick={logoutUser}
               className="rounded-lg transition-colors text-secondary-800/70 hover:bg-secondary-800/5 flex items-center gap-x-4 py-2 px-4 flex-1"
             >
-              <RiLogoutCircleLine /> Logout
+              <RiLogoutCircleLine /> Cerrar Sesión
             </button>
           </MenuItem>
         </Menu>

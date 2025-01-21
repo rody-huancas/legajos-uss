@@ -1,0 +1,27 @@
+.react-datepicker-wrapper {
+  @apply w-full;
+}
+
+.react-datepicker__close-icon::after {
+  display: flex;
+  padding-bottom: 3px;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(235, 94, 94);
+}
+
+.react-datepicker__header {
+ @apply bg-secondary-800 text-secondary-100;
+}
+
+.react-datepicker__day-name {
+  @apply text-secondary-100 capitalize py-1 px-3
+}
+
+.react-datepicker__day {
+  @apply p-1 text-secondary-800/90
+}
+
+.react-datepicker__day--selected {
+  @apply bg-[#2557ad] hover:bg-[#2557ad]/80 text-secondary-100
+}

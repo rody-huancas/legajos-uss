@@ -31,6 +31,10 @@
   @apply py-1;
 }
 
+.css-13cymwt-control.error-select__control {
+  border-color: red !important;
+}
+
 /* SCROLLBAR */
 .scroll {
   overflow-y: scroll;
