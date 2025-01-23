@@ -54,6 +54,12 @@ export const legajoDataSchema = z.object({
         .refine((file) => file.type === "application/pdf", { message: "Solo se permiten archivos PDF" }),
       z.null(),
     ]).optional(),
+  cLegDatSunedu: z
+    .union([
+      z.instanceof(File, { message: "Debe ser un archivo PDF" })
+        .refine((file) => file.type === "application/pdf", { message: "Solo se permiten archivos PDF" }),
+      z.null(),
+    ]).optional(),
 
 
 
