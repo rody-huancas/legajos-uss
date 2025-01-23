@@ -12,8 +12,8 @@ export const legajoDataSchema = z.object({
   vEstadoCivil          : z.object({ value: z.number(), label: z.string() }).optional().refine((val) => val !== undefined, { message: REQUIRED_FIELD("Estado Civil") }),
   vSexo                 : z.object({ value: z.number(), label: z.string() }).optional().refine((val) => val !== undefined, { message: REQUIRED_FIELD("Sexo") }),
   cLegDatEmail          : z.string().email({ message: "E-mail no válido" }).min(1, { message: REQUIRED_FIELD("E-mail") }),
-  cLegDatMovil          : z.string().min(1, { message: REQUIRED_FIELD("Móvil") }),
-  cLegDatTelefono       : z.string().min(1, { message: REQUIRED_FIELD("Teléfono") }),
+  cLegDatMovil          : z.string().optional(),
+  cLegDatTelefono       : z.string().optional(),
   vGradoAcad            : z.object({ value: z.number(), label: z.string() }).optional().refine((val) => val !== undefined, { message: REQUIRED_FIELD("Grado Académico") }),
   vIdiomaNativo         : z.object({ value: z.number(), label: z.string() }).optional().refine((val) => val !== undefined, { message: REQUIRED_FIELD("Idioma Nativo") }),
   vZona                 : z.object({ value: z.number(), label: z.string() }).optional(),
@@ -35,9 +35,25 @@ export const legajoDataSchema = z.object({
   provinciaNac          : z.object({ value: z.number(), label: z.string() }).optional(),
   distritoNac           : z.object({ value: z.number(), label: z.string() }).optional(),
   // -------------------------------------
-
-
-
+  
+  cLegDatBuenaSalud: z
+    .union([
+      z.instanceof(File, { message: "Debe ser un archivo PDF" })
+      .refine((file) => file.type === "application/pdf", { message: "Solo se permiten archivos PDF" }),
+      z.null(),
+    ]).optional(),
+  cLegDatPolicial: z
+    .union([
+      z.instanceof(File, { message: "Debe ser un archivo PDF" })
+        .refine((file) => file.type === "application/pdf", { message: "Solo se permiten archivos PDF" }),
+      z.null(),
+    ]).optional(),
+  cLegDatJudicial: z
+    .union([
+      z.instanceof(File, { message: "Debe ser un archivo PDF" })
+        .refine((file) => file.type === "application/pdf", { message: "Solo se permiten archivos PDF" }),
+      z.null(),
+    ]).optional(),
 
 
 
@@ -58,7 +74,6 @@ export const legajoDataSchema = z.object({
   // stringSunedu          : z.string().min(1, { message: REQUIRED_FIELD("String Sunedu") }),
   // cLegDatSunedu         : z.string().min(1, { message: REQUIRED_FIELD("Sunedu") }),
   // stringPolicial        : z.string().min(1, { message: REQUIRED_FIELD("String Policial") }),
-  // cLegDatPolicial       : z.string().min(1, { message: REQUIRED_FIELD("Policial") }),
   // stringJudicial        : z.string().min(1, { message: REQUIRED_FIELD("String Judicial") }),
   // stringBuenaSalud      : z.string().min(1, { message: REQUIRED_FIELD("String Buena Salud") }),
   // declaracionjuradaflag : z.boolean({ required_error: REQUIRED_FIELD("Declaración Jurada Flag") }),
@@ -66,8 +81,6 @@ export const legajoDataSchema = z.object({
   //                           .date({ required_error: REQUIRED_FIELD("Fecha Declaración Jurada") })
   //                           .refine((date) => !isNaN(date.getTime()), { message: "La fecha de declaración jurada no es válida" }),
   // nLegIdiomaNativo          : z.number({ required_error: REQUIRED_FIELD("Idioma Nativo") }),
-  // cLegDatBuenaSalud         : z.string().min(1, { message: REQUIRED_FIELD("Buena Salud") }),
-  // cLegDatJudicial           : z.string().min(1, { message: REQUIRED_FIELD("Judicial") }),
   // nLegDatGradoAcad          : z.number({ required_error: REQUIRED_FIELD("Grado Académico") }),
   // nClaseGradoAcad           : z.number({ required_error: REQUIRED_FIELD("Clase Grado Académico") }),
   
