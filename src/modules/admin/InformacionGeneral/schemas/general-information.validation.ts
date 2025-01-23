@@ -16,8 +16,25 @@ export const legajoDataSchema = z.object({
   cLegDatTelefono       : z.string().min(1, { message: REQUIRED_FIELD("Teléfono") }),
   vGradoAcad            : z.object({ value: z.number(), label: z.string() }).optional().refine((val) => val !== undefined, { message: REQUIRED_FIELD("Grado Académico") }),
   vIdiomaNativo         : z.object({ value: z.number(), label: z.string() }).optional().refine((val) => val !== undefined, { message: REQUIRED_FIELD("Idioma Nativo") }),
+  vZona                 : z.object({ value: z.number(), label: z.string() }).optional(),
+  vTipoDomicilio        : z.object({ value: z.number(), label: z.string() }).optional(),
+  cLegDatCalleDomicilio : z.string().optional(),
+  cLegDatNroDomicilio   : z.string().optional(),
+  cLegDatDptoDomicilio  : z.string().optional(),
+  cLegDatMzaDomicilio   : z.string().optional(),
+  cLegDatLtDomicilio    : z.string().optional(),
+  cLegDatReferencia     : z.string().optional(),
   
-
+  //! Revisar si son correctos los campos
+  dptodomic             : z.object({ value: z.number(), label: z.string() }).optional(),
+  provdomic             : z.object({ value: z.number(), label: z.string() }).optional(),
+  distdomic             : z.object({ value: z.number(), label: z.string() }).optional(),
+  
+  paisNac               : z.object({ value: z.number(), label: z.string() }).optional(),
+  departamentoNac       : z.object({ value: z.number(), label: z.string() }).optional(),
+  provinciaNac          : z.object({ value: z.number(), label: z.string() }).optional(),
+  distritoNac           : z.object({ value: z.number(), label: z.string() }).optional(),
+  // -------------------------------------
 
 
 
@@ -60,12 +77,6 @@ export const legajoDataSchema = z.object({
   // nValorZona                : z.number({ required_error: REQUIRED_FIELD("Valor Zona") }),
   // nLegDatTipoDomicilio      : z.number({ required_error: REQUIRED_FIELD("Tipo Domicilio") }),
   // nValorTipoDomicilio       : z.number({ required_error: REQUIRED_FIELD("Valor Tipo Domicilio") }),
-  // cLegDatCalleDomicilio     : z.string().min(1, { message: REQUIRED_FIELD("Calle Domicilio") }),
-  // cLegDatNroDomicilio       : z.string().min(1, { message: REQUIRED_FIELD("Número Domicilio") }),
-  // cLegDatMzaDomicilio       : z.string().min(1, { message: REQUIRED_FIELD("Manzana Domicilio") }),
-  // cLegDatLtDomicilio        : z.string().min(1, { message: REQUIRED_FIELD("Lote Domicilio") }),
-  // cLegDatDptoDomicilio      : z.string().min(1, { message: REQUIRED_FIELD("Departamento Domicilio") }),
-  // cLegDatReferencia         : z.string().min(1, { message: REQUIRED_FIELD("Referencia") }),
   // nLetDatUbigeo             : z.number({ required_error: REQUIRED_FIELD("Ubigeo") }),
   // nClaseUbigeo              : z.number({ required_error: REQUIRED_FIELD("Clase Ubigeo") }),
   // nLetDatNacimiento         : z.number({ required_error: REQUIRED_FIELD("Nacimiento") }),

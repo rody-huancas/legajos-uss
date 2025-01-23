@@ -1,7 +1,7 @@
-export interface LegDatosGenerales {
+export interface ILegDatosGenerales {
   nLegDatCodigo               : number;
   nLegDatTipoDoc              : number;
-  nClaseTipoDoc               : number; // ok
+  nClaseTipoDoc               : number;
   cLegDatNroDoc               : string;
   cLegDatApellidoPaterno      : string;
   cLegDatApellidoMaterno      : string;
@@ -31,7 +31,7 @@ export interface LegDatosGenerales {
   cLegDatMovil                : string;
   nLegDatGradoAcad            : number;
   nClaseGradoAcad             : number;
-  nLegDatPais                 : number; // ok
+  nLegDatPais                 : number;
   nClasePais                  : number;
   cLegDatAcerca               : string;
   nLegDatZona                 : number;

@@ -4,6 +4,15 @@ import { InformationGeneralRepository } from "../repositories/information-genera
 export class InformationGeneralService {
   constructor(private InformationGeneralRepository: InformationGeneralRepository) {}
   
+  async getGeneralInformation(cPerCodigo: string) {
+    try {
+      const response = await this.InformationGeneralRepository.getGeneralInformation(cPerCodigo);
+      return response;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al mostrar los grados académicos.");
+    }  
+  }
+  
   async getAcademicDegree() {
     try {
       const response = await this.InformationGeneralRepository.getAcademicDegree();
@@ -52,12 +61,32 @@ export class InformationGeneralService {
     }  
   }
   
+  async getZoneType() {
+    try {
+      const response = await this.InformationGeneralRepository.getZoneType();
+      const data = response.filter(res => res.nConValor !== 0);
+      return data;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al mostrar el tipo de zona.");
+    }  
+  }
+  
+  async getStreetType() {
+    try {
+      const response = await this.InformationGeneralRepository.getStreetType();
+      const data = response.filter(res => res.nConValor !== 0);
+      return data;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al mostrar el tipo de calle.");
+    }  
+  }
+  
   async getLanguage() {
     try {
       const response = await this.InformationGeneralRepository.getLanguage();
       return response;
     } catch (error) {
-      showNotification("error", "Ocurrió un error al mostrar el sexo.");
+      showNotification("error", "Ocurrió un error al mostrar los idiomas.");
     }  
   }
 }

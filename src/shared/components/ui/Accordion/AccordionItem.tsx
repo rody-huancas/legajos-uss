@@ -68,8 +68,8 @@ export function AccordionItem({ title, children, index }: AccordionItemProps) {
                   type="button"
                   onClick={() => setActiveIndex(index - 1)}
                   className={cn(
-                    "flex items-center text-gray-500",
-                    "hover:text-gray-900 transition-colors"
+                    "flex items-center bg-secondary-800/80 text-secondary-100 p-2 rounded",
+                    "hover:bg-secondary-800 transition-colors"
                   )}
                 >
                   <IoChevronBack className="w-3 h-3 mr-1" />
@@ -81,8 +81,8 @@ export function AccordionItem({ title, children, index }: AccordionItemProps) {
                   type="button"
                   onClick={() => setActiveIndex(index + 1)}
                   className={cn(
-                    "flex items-center text-gray-500",
-                    "hover:text-gray-900 transition-colors ml-auto"
+                    "flex items-center bg-secondary-800/80 text-secondary-100 p-2 rounded",
+                    "hover:bg-secondary-800 transition-colors ml-auto"
                   )}
                 >
                   Siguiente

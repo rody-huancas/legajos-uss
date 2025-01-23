@@ -2,6 +2,10 @@
 @tailwind utilities;
 @tailwind components;
 
+body::-webkit-scrollbar {
+  width: 0px;
+}
+
 .swiper-pagination-bullet {
   background: #fff;
 }

@@ -22,7 +22,7 @@ export const useCountries = () => {
 
       const nationalityData = filteredUbigeo.filter((x) => x.cIntJerarquia.trim().length === 3);
       setNationalities(nationalityData);
-
+      
       setCountries([...nationalityData]);
     } catch (err) {
       console.error("Error al obtener los países:", err);

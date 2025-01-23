@@ -24,14 +24,14 @@ const Sidebar = () => {
 
       <div
         className={cn(
-          "h-dvh overflow-y-auto fixed xl:static w-content xl:w-auto top-0 bg-secondary-800 p-4 flex flex-col justify-between z-50 transition-all duration-300",
+          "h-dvh overflow-y-auto fixed w-content xl:w-content top-0 xl:left-0 bg-secondary-800 p-4 flex flex-col justify-between z-50 transition-all duration-300",
           isMenuOpen ? "left-0" : "-left-full"
         )}
       >
         <div className="space-y-1">
           <SidebarLogo />
 
-          <span className="text-xs uppercase text-secondary-100/70 font-bold">
+          <span className="text-xs uppercase text-secondary-100/70 font-bold plc">
             Legajos
           </span>
           <ul className="text-secondary-100 ml-5 space-y-1">
