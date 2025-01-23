@@ -16,6 +16,7 @@ import { ILegDatosGenerales } from "../models/general-information.model";
 import { informationGeneralService } from "../services";
 /* Store */
 import { useAuthStore } from "@store/auth/auth.store";
+import { SectionDegreesTitles } from "../components/SectionDegreesTitles";
 
 const GeneralInformation = () => {
   const user = useAuthStore((state) => state.user);
@@ -53,7 +54,7 @@ const GeneralInformation = () => {
             <SectionAttachDocuments setValue={setValue} errors={errors} />
           </AccordionItem>
           <AccordionItem title="Grados y Títulos" index={2}>
-            <p>Contenido de la tercera sección</p>
+            <SectionDegreesTitles setValue={setValue} errors={errors} />
           </AccordionItem>
         </Accordion>
 
