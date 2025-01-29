@@ -79,7 +79,7 @@ export interface ILegDatosGenerales {
   legCapacitaciones           : LegCapacitacione[];
   legCategoriaDocente         : LegCategoriaDocente[];
   legDocenciaUniv             : LegDocenciaUniv[];
-  legGradoTitulo              : LegGradoTitulo[];
+  legGradoTitulo              : ILegGradoTitulo[];
   legIdiomaOfimatica          : LegIdiomaOfimatica[];
   legInvestigador             : LegInvestigador[];
   legParticipacionCongSem     : LegParticipacionCongSem[];
@@ -348,7 +348,7 @@ export interface LegEvaluacionDesemp {
   vNivel           : VCondicionColeg;
 }
 
-export interface LegGradoTitulo {
+export interface ILegGradoTitulo {
   nLegGraCodigo               : number;
   nLegGraGradoAcad            : number;
   nClaseGradoAcad             : number;
@@ -360,7 +360,7 @@ export interface LegGradoTitulo {
   nLegGraUbigeo               : number;
   nClaseUbigeo                : number;
   dLegGraFecha                : Date;
-  string                       : string;
+  cFile                       : string;
   cLegGraArchivo              : string;
   nLegGraDatCodigo            : number;
   cLegGraValida               : boolean;
@@ -384,7 +384,7 @@ export interface LegIdiomaOfimatica {
   nLegIdOfNivel         : number;
   nValorNivel           : number;
   dLegIdOfFecha         : Date;
-  string                 : string;
+  string                : string;
   cLegIdOfArchivo       : string;
   nLegIdOfDatCodigo     : number;
   cLegIdOfValida        : boolean;
@@ -406,7 +406,7 @@ export interface LegInvestigador {
   cLegInvNroRegistro    : string;
   dLegInvFechaInicio    : Date;
   dLegInvFechaFin       : Date;
-  string                 : string;
+  string                : string;
   cLegInvArchivo        : string;
   nLegInvDatCodigo      : number;
   cLegInvValida         : boolean;

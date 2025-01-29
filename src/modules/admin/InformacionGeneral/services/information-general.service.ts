@@ -89,4 +89,32 @@ export class InformationGeneralService {
       showNotification("error", "Ocurrió un error al mostrar los idiomas.");
     }  
   }
+
+  async getInstitution() {
+    try {
+      const response = await this.InformationGeneralRepository.getInstitution();
+      return response;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al mostrar las instituciones.");
+    }  
+  }
+
+  async getDegreeTitle(ncodigo: number) {
+    try {
+      const response = await this.InformationGeneralRepository.getDegreeTitle(ncodigo);
+      return response;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al obtener la información de grados y títulos.");
+    }  
+  }
+
+  async registerDegreeTitle(id: number | undefined, data: any) {
+    try {
+      console.log(data)
+      const response = await this.InformationGeneralRepository.registerDegreeTitle(id, data);
+      return response;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al registrar el grado y  título.");
+    }  
+  }
 }

@@ -16,6 +16,24 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 const InputField: React.FC<InputProps> = (props) => {
   const { label, className, icon, type = "text", error, register, name, valueAsNumber, classContainer, ...args } = props;
 
+  const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
+    if (type === "text") {
+      const input = e.target as HTMLInputElement;
+      input.value = input.value.toUpperCase();
+    }
+  };
+
+  const registerConfig = register && {
+    ...register(name, {
+      valueAsNumber,
+      onChange: (e) => {
+        if (type === "text") {
+          e.target.value = e.target.value.toUpperCase();
+        }
+      }
+    })
+  };
+
   return (
     <div className={cn("relative flex flex-col w-full flex-1", classContainer)}>
       {/* Label */}
@@ -29,17 +47,22 @@ const InputField: React.FC<InputProps> = (props) => {
           type={type}
           name={name}
           id={name}
+          onInput={handleInput}
           className={cn(
             "w-full overflow-hidden text-ellipsis rounded border border-gray-800/20 bg-white py-3 pl-3.5 pr-8 text-sm font-normal leading-5 text-secondary-800",
             "outline-none transition duration-200 ease-in-out placeholder:text-secondary-800/50 focus:border-secondary-800 focus:ring-sec8border-secondary-800 focus:ring-offset-0",
             "disabled:cursor-not-allowed disabled:border-secondary-800 disabled:text-secondary-800/60",
-            "dark:bg-gray-100/10 dark:text-secondary-800 dark:border-secondary-800/50 dark:placeholder-secondary-800 dark:focus:border-secondary-800/90",
+            "dark:bg-gray-100/10 dark:text-secondary-800 dark:border-secondary-800/50 dark:placeholder-secondary-800 dark:focus:border-secondary-800/90 placeholder:capitalize",
             icon && "pl-10",
             error && "border-red-500 focus:border-red-500",
             className
           )}
-          {...(register && register(name, { valueAsNumber }))}
+          {...registerConfig}
           {...args}
+          style={{ 
+            textTransform: type === "text" ? "uppercase" : "none",
+            ...args.style 
+          }}
         />
 
         {/* Left Icon */}

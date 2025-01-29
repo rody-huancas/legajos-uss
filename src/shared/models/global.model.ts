@@ -4,3 +4,10 @@ export interface ResponseSuccess {
   cmessage: string;
   odata   : null;
 }
+
+export interface IColumn<T> {
+  key?   : keyof T;
+  header : string;
+  render?: (row: T) => React.ReactNode;
+  cell?  : () => React.ReactNode;
+}

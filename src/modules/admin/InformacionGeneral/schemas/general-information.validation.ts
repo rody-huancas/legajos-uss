@@ -37,15 +37,15 @@ export const legajoDataSchema = z.object({
   // -------------------------------------
   
   cLegDatBuenaSalud: z
-    .union([
+  .union([
       z.instanceof(File, { message: "Debe ser un archivo PDF" })
       .refine((file) => file.type === "application/pdf", { message: "Solo se permiten archivos PDF" }),
       z.null(),
     ]).optional(),
   cLegDatPolicial: z
-    .union([
+  .union([
       z.instanceof(File, { message: "Debe ser un archivo PDF" })
-        .refine((file) => file.type === "application/pdf", { message: "Solo se permiten archivos PDF" }),
+      .refine((file) => file.type === "application/pdf", { message: "Solo se permiten archivos PDF" }),
       z.null(),
     ]).optional(),
   cLegDatJudicial: z
@@ -61,7 +61,11 @@ export const legajoDataSchema = z.object({
       z.null(),
     ]).optional(),
 
+  //! Revisar si son correctos los campos
+  nClasePais            : z.object({ value: z.number(), label: z.string() }).optional(),
+  cLegGraInstitucion    : z.string().optional(),
 
+  // -------------------------------------
 
 
 

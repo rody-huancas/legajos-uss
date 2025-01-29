@@ -40,7 +40,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, Var
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
-  const { className, children, href, variant, size, ...args } = props;
+  const { className, children, href, variant, size, type = "button",  ...args } = props;
 
   if (href) {
     return (
@@ -54,6 +54,7 @@ const Button: React.FC<ButtonProps> = (props) => {
   }
   return (
     <button
+      type={type}
       className={cn(buttonVariants({ variant, size, className }))}
       {...args}
     >

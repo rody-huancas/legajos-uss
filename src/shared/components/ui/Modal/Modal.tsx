@@ -70,6 +70,7 @@ const ModalContainer: React.FC<PropsModalContainer> = (props) => {
       { showButtonClose && (
         <div className="w-full flex justify-end py-2 md:py-0">
           <button
+            type="button"
             onClick={onClose}
             className="text-lg bg-red-500 p-1 rounded text-white hover:bg-red-600 transition-colors"
           >
@@ -77,7 +78,7 @@ const ModalContainer: React.FC<PropsModalContainer> = (props) => {
           </button>
         </div>
       )}
-      <div className="py-2 flex flex-col gap-5 h-full md:h-auto overflow-y-scroll md:overflow-visible pb-10 md:pb-0 text-secondary-800">
+      <div className="py-2 flex flex-col gap-5 h-[600px] sm:h-full md:h-auto overflow-y-auto overflow-x-auto md:overflow-visible pb-10 md:pb-0 text-secondary-800">
         {title && (
           <h2 className="text-xl font-extrabold uppercase flex items-center gap-2">
             {title}

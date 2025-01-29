@@ -24,7 +24,7 @@ interface InputDatePickerProps {
 
 const InputDatePicker = (props: InputDatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { name, control, label, errorMessage, isLoading = false, placeholder = "", disabled = false, dateFormat = "dd/MM/yyyy" } = props;
+  const { name, control, label, errorMessage, isLoading = false, placeholder = "Selecciona una fecha", disabled = false, dateFormat = "dd/MM/yyyy" } = props;
 
   return (
     <div className="relative flex flex-col w-full flex-1">

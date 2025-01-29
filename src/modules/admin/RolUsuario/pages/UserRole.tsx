@@ -109,7 +109,7 @@ const UserRol = () => {
               errorMessage={errors.select?.message}
               isLoading={isLoading}
             />
-            <Button className="h-11 uppercase">Continuar</Button>
+            <Button type="submit" className="h-11 uppercase">Continuar</Button>
           </form>
           <hr />
           <div className="p-3">

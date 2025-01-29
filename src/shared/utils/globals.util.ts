@@ -51,3 +51,37 @@ export const calculateAge = (birthDate: Date): number => {
 
   return age;
 };
+
+/**
+ * Formatea una fecha en diferentes formatos.
+ * @param date - La fecha a formatear (puede ser un objeto Date, una cadena ISO o un timestamp).
+ * @param format - El formato deseado:
+ *   - "short": Formato corto (10/10/2025 o 14-10-2025).
+ *   - "long": Formato largo (10 de agosto de 2025).
+ * @param separator - El separador para el formato corto (por defecto es "/").
+ * @returns La fecha formateada como una cadena.
+ */
+export const formatDate = ( date: Date | string | number, format: "short" | "long" = "short", separator: string = "/" ): string => {
+  const parsedDate = new Date(date);
+
+  if (isNaN(parsedDate.getTime())) {
+    throw new Error("Fecha no válida");
+  }
+
+  if (format === "short") {
+    const day = parsedDate.getDate().toString().padStart(2, "0");
+    const month = (parsedDate.getMonth() + 1).toString().padStart(2, "0");
+    const year = parsedDate.getFullYear();
+
+    return `${day}${separator}${month}${separator}${year}`;
+  } else if (format === "long") {
+    const formatter = new Intl.DateTimeFormat("es-ES", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    return formatter.format(parsedDate);
+  }
+
+  throw new Error("Formato no válido");
+};

@@ -38,7 +38,7 @@ const Login = () => {
           <InputField label="Contraseña" name="pcPerUsuClave" placeholder="Ingrese su contraseña" type="password" register={register} error={errors.pcPerUsuClave}/>
         </div>
 
-        <Button variant="default" size="xl" className="w-full uppercase gap-2" disabled={load}>
+        <Button type="submit" variant="default" size="xl" className="w-full uppercase gap-2" disabled={load}>
           { load && <RiLoaderLine className="animate-spin" size={18} /> }
           { load ? "Ingresando" : "Ingresar" }
         </Button>

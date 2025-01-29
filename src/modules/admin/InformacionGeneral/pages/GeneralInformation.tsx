@@ -5,6 +5,7 @@ import { Title } from "@shared/components/ui/Title/Title";
 import { Accordion } from "@shared/components/ui/Accordion/Accordion";
 import { AccordionItem } from "@shared/components/ui/Accordion/AccordionItem";
 import { SectionGeneralData } from "../components/SectionGeneralData";
+import { SectionDegreesTitles } from "../components/SectionDegreesTitles";
 import { SectionAttachDocuments } from "../components/SectionAttachDocuments";
 /* Hooks */
 import { useZodForm } from "@shared/hooks/useZodForm";
@@ -16,7 +17,6 @@ import { ILegDatosGenerales } from "../models/general-information.model";
 import { informationGeneralService } from "../services";
 /* Store */
 import { useAuthStore } from "@store/auth/auth.store";
-import { SectionDegreesTitles } from "../components/SectionDegreesTitles";
 
 const GeneralInformation = () => {
   const user = useAuthStore((state) => state.user);
@@ -25,7 +25,6 @@ const GeneralInformation = () => {
   // States
   const [dataGI, setDataGI] = useState<ILegDatosGenerales>();
 
-  // Data de información general
   useEffect(() => {
     const fetchGI = async () => {
       if (!user) return;
@@ -45,7 +44,7 @@ const GeneralInformation = () => {
         Información General
       </Title>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
         <Accordion>
           <AccordionItem title="Datos Generales" index={0}>
             <SectionGeneralData control={control} errors={errors} register={register} watch={watch} />
@@ -54,7 +53,7 @@ const GeneralInformation = () => {
             <SectionAttachDocuments setValue={setValue} errors={errors} />
           </AccordionItem>
           <AccordionItem title="Grados y Títulos" index={2}>
-            <SectionDegreesTitles setValue={setValue} errors={errors} />
+            <SectionDegreesTitles setValue={setValue} errors={errors} legGradoTitulo={dataGI?.legGradoTitulo} />
           </AccordionItem>
         </Accordion>
 

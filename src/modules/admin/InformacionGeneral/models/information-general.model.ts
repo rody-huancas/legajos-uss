@@ -13,16 +13,31 @@ export interface IConstante {
   cConDescripcion: string;
 }
 
+export interface IPersona {
+  cPerCodigo       : string;
+  cPerApellido?    : string;
+  cPerApellPat?    : string;
+  cPerNombre       : string;
+  dPerNacimiento?  : Date | null;
+  nPerTipo?        : number | null;
+  nPerEstado?      : number | null;
+  cUbigeoCodigo?   : string;
+  cperestadobiblio?: string;
+  nUbiGeoCodigo?   : number | null;
+}
 export interface IBaseOptionGI {
-  value: number;
+  value: number | string;
   label: string;
 }
 
 export interface IBaseDataGI {
   nIntCodigo     ?: number;
   nConValor      ?: number;
+  cPerCodigo     ?: string;
+
   cIntDescripcion?: string;
   cConDescripcion?: string;
+  cPerNombre     ?: string;
 }
 
 export type OptionsMappingGI = {
