@@ -1,6 +1,6 @@
 /* Models */
 import { IColumn } from "@shared/models/global.model";
-import { IDataGradoTitulo } from "@modules/admin/FormsGeneral/grados-titulos/repositories/grado-titulo.model";
+import { IDataDegreesTitle } from "../models/degrees-title.model";
 /* Config */
 import { API_FILE_PDF } from "@config/env.config";
 /* Utils */
@@ -11,7 +11,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiFilePdf2Fill } from "react-icons/ri";
 import { MdDeleteOutline } from "react-icons/md";
 
-export const columnsDegreesTitles: IColumn<IDataGradoTitulo>[] = [
+export const columnsDegreesTitles: IColumn<IDataDegreesTitle>[] = [
     {
       header: "Opciones",
       cell: () => (

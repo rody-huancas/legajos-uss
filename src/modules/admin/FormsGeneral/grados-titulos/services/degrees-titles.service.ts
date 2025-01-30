@@ -1,25 +1,21 @@
-import { showNotification } from "@shared/utils/notification.util";
 import { DegreesTitlesRepository } from "../repositories/degrees-titles.respository";
+import { IDataDegreesTitle, IRegisterDegreesTitle } from "../models/degrees-title.model";
 
 export class DegreesTitlesService {
   constructor(private degreesTitlesRepository: DegreesTitlesRepository) {}
   
-  async getDegreeTitle(ncodigo: number) {
-    try {
-      const response = await this.degreesTitlesRepository.getDegreeTitle(ncodigo);
-      return response;
-    } catch (error) {
-      showNotification("error", "Ocurrió un error al obtener la información de grados y títulos.");
-    }  
+  async getDegreeTitle(ncodigo: number): Promise<IDataDegreesTitle[]> {
+    const response = await this.degreesTitlesRepository.getDegreeTitle(ncodigo);
+    return response;
   }
 
-  async registerDegreeTitle(id: number | undefined, data: any) {
-    try {
-      console.log(data)
-      const response = await this.degreesTitlesRepository.registerDegreeTitle(id, data);
-      return response;
-    } catch (error) {
-      showNotification("error", "Ocurrió un error al registrar el grado y  título.");
-    }  
+  async registerDegreeTitle(id: number, data: IRegisterDegreesTitle) {
+    const response = await this.degreesTitlesRepository.registerDegreeTitle(id, data);
+    return response;
+  }
+
+  async removeDegreeTitle(id: number) {
+    const response = await this.degreesTitlesRepository.removeDegreeTitle(id);
+    return response;
   }
 }

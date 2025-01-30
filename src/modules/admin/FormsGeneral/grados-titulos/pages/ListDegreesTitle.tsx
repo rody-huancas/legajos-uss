@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 /* Components */
 import Table from "@shared/components/ui/Table/Table";
+import Loader from "@shared/components/ui/Loader/Loader";
+import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 /* Data */
 import { columnsDegreesTitles } from "../data/ColumnsDegreesTitles";
-/* Repositories */
-import { IDataGradoTitulo } from "../repositories/grado-titulo.model";
 /* Services */
 import { degreesTitleService } from "../services";
 
@@ -13,20 +13,28 @@ interface Props {
 }
 
 const ListDegreesTitle = ({ nLegGraDatCodigo }: Props) => {
-  const [degreesTitle, setDegreesTitle] = useState<IDataGradoTitulo[]>([]);
-
-  useEffect(() => {
-    if (!nLegGraDatCodigo) return;
-    const fetchDegreesTitle = async () => {
+  const { data: degreesTitle, isLoading, isError } = useQuery({
+    queryKey: ["degreesTitle", nLegGraDatCodigo],
+    queryFn: async () => {
       const response = await degreesTitleService.getDegreeTitle(nLegGraDatCodigo);
-      setDegreesTitle(response);
-    };
-    fetchDegreesTitle();
-  }, [nLegGraDatCodigo]);
+      return response;
+    },
+    enabled: !!nLegGraDatCodigo,
+  });
+
+  if (isError) {
+    return (
+      <AlertMessage title="Error al cargar los datos. Por favor, inténtelo de nuevo." />
+    );
+  }
 
   return (
     <div className="overflow-x-auto">
-      <Table columns={columnsDegreesTitles} data={degreesTitle} />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Table columns={columnsDegreesTitles} data={degreesTitle || []} />
+      )}
     </div>
   );
 };
