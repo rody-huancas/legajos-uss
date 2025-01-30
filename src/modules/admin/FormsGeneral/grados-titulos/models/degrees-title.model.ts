@@ -1,11 +1,11 @@
-export interface IGradoTitulo {
+export interface IResponseDegreesTitle {
   ncode   : number;
   cstate  : boolean;
   cmessage: string;
-  odata   : IDataGradoTitulo[];
+  odata   : IDataDegreesTitle[];
 }
 
-export interface IDataGradoTitulo {
+export interface IDataDegreesTitle {
   nLegGraCodigo               : number;
   nLegGraGradoAcad            : number;
   nClaseGradoAcad             : number;
@@ -17,7 +17,7 @@ export interface IDataGradoTitulo {
   nLegGraUbigeo               : number;
   nClaseUbigeo                : number;
   dLegGraFecha                : Date;
-  cFile                       : string;
+  cFile                       : File;
   cLegGraArchivo              : string;
   nLegGraDatCodigo            : number;
   cLegGraValida               : boolean;
@@ -54,4 +54,19 @@ export interface VGradoAcad {
   cIntNombre     : string;
   cIntDescripcion: string;
   nIntTipo       : number;
+}
+
+// Para mandar a registrar
+export interface IRegisterDegreesTitle {
+  NLegGraGradoAcad  : number;
+  NClaseGradoAcad   : number;
+  CLegGraCarreraProf: string;
+  CLegGraInstitucion: string;
+  CLegGraOtraInst   : string;
+  NLegGraPais       : number;
+  NClasePais        : number;
+  DLegGraFecha      : string;
+  cFile             : File | null;
+  CLegGraValida     : boolean;
+  CLegGraEstado     : boolean;
 }
