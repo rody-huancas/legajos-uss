@@ -61,8 +61,8 @@ export const calculateAge = (birthDate: Date): number => {
  * @param separator - El separador para el formato corto (por defecto es "/").
  * @returns La fecha formateada como una cadena.
  */
-export const formatDate = ( date: Date | string | number, format: "short" | "long" = "short", separator: string = "/" ): string => {
-  const parsedDate = new Date(date);
+export const formatDate = ( date: Date | string | number | undefined, format: "short" | "long" = "short", separator: string = "/" ): string => {
+  const parsedDate = new Date(date!);
 
   if (isNaN(parsedDate.getTime())) {
     throw new Error("Fecha no válida");
