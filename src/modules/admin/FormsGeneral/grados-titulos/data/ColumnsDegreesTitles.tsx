@@ -11,12 +11,17 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiFilePdf2Fill } from "react-icons/ri";
 import { MdDeleteOutline } from "react-icons/md";
 
-export const columnsDegreesTitles = (handleDelete: (id: number) => void): IColumn<IDataDegreesTitle>[] => [
+interface Props {
+  handleDelete: (id: number) => void;
+  handleEdit  : (id: number) => void;
+}
+
+export const columnsDegreesTitles = ({ handleDelete, handleEdit }: Props): IColumn<IDataDegreesTitle>[] => [
     {
       header: "Opciones",
       render: (row) => (
         <div className="flex items-center justify-center gap-1">
-          <button className="bg-indigo-600 text-secondary-100 p-1.5 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+          <button onClick={() => handleEdit(row.nLegGraCodigo)} className="bg-indigo-600 text-secondary-100 p-1.5 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
             <FaRegEdit size={14} />
           </button>
           <button onClick={() => handleDelete(row.nLegGraCodigo)} className="bg-red-600 text-secondary-100 p-1.5 rounded-lg hover:bg-red-700 transition-colors duration-300">
@@ -30,7 +35,7 @@ export const columnsDegreesTitles = (handleDelete: (id: number) => void): IColum
       key: "cLegGraInstitucionNavigation",
       header: "Institución",
       render: (row) => (
-        <span>{row.cLegGraInstitucionNavigation?.cPerNombre || ""}</span>
+        <span>{(row.cLegGraInstitucionNavigation?.cPerNombre ?? row.cLegGraOtraInst) || ""}</span>
       ),
     },
     {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query"; // Importar useMutation
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 /* Components */
 import Button from "@shared/components/ui/Button/Button";
 import InputField from "@shared/components/ui/InputField/InputField";
@@ -24,15 +24,18 @@ import { useZodForm } from "@shared/hooks/useZodForm";
 import { useFormOptions } from "@modules/admin/InformacionGeneral/hooks/useFormOptions";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
+import Loader from "@shared/components/ui/Loader/Loader";
+import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 
 interface Props {
   showModal      : boolean;
   onClose        : () => void;
   legGradoTitulo?: ILegGradoTitulo[];
+  id?            : number | null;
 }
 
 const ModalDegreesTitle = (props: Props) => {
-  const { showModal, onClose, legGradoTitulo } = props;
+  const { showModal, onClose, legGradoTitulo, id } = props;
 
   // hooks
   const { options, loadingStates } = useFormOptions();
@@ -48,7 +51,33 @@ const ModalDegreesTitle = (props: Props) => {
   // query
   const queryClient = useQueryClient();
 
+  const { data: degreeTitle, isLoading, isError } = useQuery({
+    queryKey: ["degreeTitle", id],
+    queryFn : async () => {
+      if (id) {
+        const response = await degreesTitleService.getDegreeTitle(id);
+        return response;
+      }
+    },
+    enabled: !!id,
+  });
+
   // effects
+  useEffect(() => {
+    if (degreeTitle) {
+      setValue("vPais", { value: degreeTitle.vPais.nIntCodigo, label: degreeTitle.vPais.cIntDescripcion });
+      if (id && degreeTitle.cLegGraOtraInst !== "") {
+        setValue("cLegGraInstitucion", { value: degreeTitle.cLegGraInstitucion.toString().trim(), label: "OTRA INSTITUCIÓN" });
+      } else {
+        setValue("cLegGraInstitucion", { value: degreeTitle.cLegGraInstitucionNavigation.cPerCodigo, label: degreeTitle.cLegGraInstitucionNavigation.cPerNombre });
+      }
+      setValue("vGradoAcad", { value: degreeTitle.vGradoAcad.nIntCodigo, label: degreeTitle.vGradoAcad.cIntDescripcion });
+      setValue("cLegGraCarreraProf", degreeTitle.cLegGraCarreraProf);
+      setValue("cLegGraOtraInst", degreeTitle.cLegGraOtraInst);
+      setValue("dLegGraFecha", new Date(degreeTitle.dLegGraFecha));
+    }
+  }, [degreeTitle, setValue]);
+
   useEffect(() => {
     const fetchInstitutions = async () => {
       setLoadInstitutions(true);
@@ -111,10 +140,11 @@ const ModalDegreesTitle = (props: Props) => {
     mutationFn: async (data: DegreesTitleSchemaType) => {
       const dataFilter = legGradoTitulo?.[0];
       if (!dataFilter) return;
-
-      const nLegGraCodigo = legGradoTitulo?.[0]?.nLegGraDatCodigo;
-
+  
+      const nLegGraCodigoTitulo = dataFilter.nLegGraDatCodigo;
+  
       const dataMapped: IRegisterDegreesTitle = {
+        NLegGraCodigo     : id ?? undefined,
         NLegGraGradoAcad  : dataFilter.nLegGraGradoAcad ?? 0,
         NClaseGradoAcad   : dataFilter.nClaseGradoAcad ?? 0,
         CLegGraCarreraProf: data.cLegGraCarreraProf ?? "",
@@ -127,13 +157,22 @@ const ModalDegreesTitle = (props: Props) => {
         CLegGraValida     : false,
         CLegGraEstado     : true,
       };
-
-      await degreesTitleService.registerDegreeTitle(nLegGraCodigo, dataMapped);
+      
+      if (id) {
+        await degreesTitleService.updateDegreeTitle(id, dataMapped);
+      } else {
+        await degreesTitleService.registerDegreeTitle(nLegGraCodigoTitulo, dataMapped);
+      }
     },
     onSuccess: () => {
-      showNotification("success", "Grado y título registrado correctamente");
+      if (id !== undefined) {
+        showNotification("success", "Grado y título actualizado correctamente");
+      } else {
+        showNotification("success", "Grado y título registrado correctamente");
+      }
+  
       onClose();
-
+  
       queryClient.invalidateQueries({
         queryKey: ["degreesTitle", legGradoTitulo?.[0]?.nLegGraDatCodigo],
       });
@@ -151,52 +190,67 @@ const ModalDegreesTitle = (props: Props) => {
 
   return (
     <ModalContainer isOpen={showModal} onClose={onClose} title="Agregar Grado y Título">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
-        <div className="space-y-5">
-          <ReactSelect
-            label="País" name="vPais" control={control} options={options.nationality} placeholder="Seleccione un país" errorMessage={errors.vPais?.message} isLoading={loadingStates.nationality}
-          />
+      {
+        isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            {
+              isError ? (
+                <AlertMessage variant="error" title="No se pudo cargar los datos." />
+              ) : (
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+                  <div className="space-y-5">
+                    <ReactSelect
+                      label="País" name="vPais" control={control} options={options.nationality} placeholder="Seleccione un país" errorMessage={errors.vPais?.message} isLoading={loadingStates.nationality}
+                      defaultValue={degreeTitle?.vPais ? { value: +degreeTitle.vPais.nIntCodigo || "", label: degreeTitle.vPais.cIntDescripcion || "" } : undefined }
+                    />
 
-          <ReactSelect
-            label="Institución"
-            name="cLegGraInstitucion"
-            control={control}
-            options={formatToOptions(institutions)}
-            placeholder="Seleccione una institución"
-            errorMessage={errors.cLegGraInstitucion?.message}
-            isLoading={loadInstitutions}
-            onMenuScrollToBottom={loadMoreInstitutions}
-            onInputChange={handleSearch}
-            filterOption={() => true}
-          />
+                    <ReactSelect
+                      label                = "Institución"
+                      name                 = "cLegGraInstitucion"
+                      control              = {control}
+                      options              = {formatToOptions(institutions)}
+                      placeholder          = "Seleccione una institución"
+                      errorMessage         = {errors.cLegGraInstitucion?.message}
+                      isLoading            = {loadInstitutions}
+                      onMenuScrollToBottom = {loadMoreInstitutions}
+                      onInputChange        = {handleSearch}
+                      filterOption         = {() => true}
+                    />
 
-          {String(watch("cLegGraInstitucion.value")) === "PER100" && (
-            <InputField
-              label="Nombre de Institución" register={register} name="cLegGraOtraInst" error={errors.cLegGraOtraInst} placeholder="Ingrese el nombre de institución"
-            />
-          )}
+                    {String(watch("cLegGraInstitucion.value")) === "PER100" && (
+                      <InputField
+                        label="Nombre de Institución" register={register} name="cLegGraOtraInst" error={errors.cLegGraOtraInst} placeholder="Ingrese el nombre de institución"
+                      />
+                    )}
 
-          <ReactSelect
-            label="Grado Académico" name="vGradoAcad" control={control} options={academicDegreeOptions} placeholder="Seleccione un grado académico" errorMessage={errors.vGradoAcad?.message}
-          />
+                    <ReactSelect
+                      label="Grado Académico" name="vGradoAcad" control={control} options={academicDegreeOptions} placeholder="Seleccione un grado académico" errorMessage={errors.vGradoAcad?.message}
+                    />
 
-          <InputField
-            label="Mención en" register={register} name="cLegGraCarreraProf" error={errors.cLegGraCarreraProf} placeholder="Ingrese la mención en..."
-          />
+                    <InputField
+                      label="Mención en" register={register} name="cLegGraCarreraProf" error={errors.cLegGraCarreraProf} placeholder="Ingrese la mención en..."
+                    />
 
-          <InputDatePicker
-            control={control} name="dLegGraFecha" label="Fecha de obtención" required errorMessage={errors.dLegGraFecha?.message}
-          />
+                    <InputDatePicker
+                      control={control} name="dLegGraFecha" label="Fecha de obtención" required errorMessage={errors.dLegGraFecha?.message}
+                    />
 
-          <FileUploader
-            name="cLegGraArchivo" title="Adjuntar archivo (PNG, JPG, JPEG, PDF)" acceptedFileTypes="image/*, application/pdf" setValue={setValue} error={errors.cLegGraArchivo?.message}
-          />
-        </div>
+                    <FileUploader
+                      name="cLegGraArchivo" title="Adjuntar archivo (PNG, JPG, JPEG, PDF)" acceptedFileTypes="image/*, application/pdf" setValue={setValue} error={errors.cLegGraArchivo?.message}
+                    />
+                  </div>
 
-        <Button type="submit" className="gap-2" disabled={isSubmitting}>
-          <LuSaveAll size={16} /> {isSubmitting ? "Guardando..." : "Guardar"}
-        </Button>
-      </form>
+                  <Button type="submit" className="gap-2" disabled={isSubmitting}>
+                    <LuSaveAll size={16} /> {isSubmitting ? "Guardando..." : "Guardar"}
+                  </Button>
+                </form>
+              )
+            }
+          </>
+        )
+      }
     </ModalContainer>
   );
 };

@@ -5,6 +5,13 @@ export interface IResponseDegreesTitle {
   odata   : IDataDegreesTitle[];
 }
 
+export interface IResponseDegreeTitle {
+  ncode   : number;
+  cstate  : boolean;
+  cmessage: string;
+  odata   : IDataDegreesTitle;
+}
+
 export interface IDataDegreesTitle {
   nLegGraCodigo               : number;
   nLegGraGradoAcad            : number;
@@ -58,6 +65,7 @@ export interface VGradoAcad {
 
 // Para mandar a registrar
 export interface IRegisterDegreesTitle {
+  NLegGraCodigo    ?: number | undefined;
   NLegGraGradoAcad  : number;
   NClaseGradoAcad   : number;
   CLegGraCarreraProf: string;

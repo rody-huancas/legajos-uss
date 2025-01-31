@@ -24,8 +24,6 @@ export const SectionDegreesTitles = (props: Props) => {
   const { setValue, errors, legGradoTitulo = [] } = props;
   const [addRegister, setAddRegister] = useState<boolean>(false);
 
-  const nLegGraDatCodigo = legGradoTitulo[0]?.nLegGraDatCodigo;
-
   return (
     <>
       <div className="space-y-5 mb-7">
@@ -40,7 +38,7 @@ export const SectionDegreesTitles = (props: Props) => {
             </Button>
           </div>
 
-          <ListDegreesTitle nLegGraDatCodigo={nLegGraDatCodigo} />
+          <ListDegreesTitle legGradoTitulo={legGradoTitulo} />
         </div>
       </div>
 

@@ -1,30 +1,43 @@
+import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
   /* Components */
 import Table from "@shared/components/ui/Table/Table";
 import Loader from "@shared/components/ui/Loader/Loader";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
+import ModalDegreesTitle from "./ModalDegreesTitle";
   /* Data */
 import { columnsDegreesTitles } from "../data/ColumnsDegreesTitles";
-  /* Services */
-  import { degreesTitleService } from "../services";
-  /* Utils */
-  import { showNotification } from "@shared/utils/notification.util";
-  /* Store */
+/* Services */
+import { degreesTitleService } from "../services";
+/* Utils */
+import { showNotification } from "@shared/utils/notification.util";
+/* Store */
 import { useDialogStore } from "@store/ui/useDialog.store";
+/* Models */
+import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 
 interface Props {
-  nLegGraDatCodigo: number;
+  legGradoTitulo?: ILegGradoTitulo[];
 }
 
-const ListDegreesTitle = ({ nLegGraDatCodigo }: Props) => {
+const ListDegreesTitle = ({ legGradoTitulo }: Props) => {
   const queryClient = useQueryClient();
+
+  if (!legGradoTitulo) return;
+
+  const nLegGraDatCodigo = legGradoTitulo[0]?.nLegGraDatCodigo;
+
+  // store
   const openDialog  = useDialogStore((state) => state.openDialog);
 
+  // states
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [idDegree, setIdDegree]   = useState<number | null>(null)
 
   const { data: degreesTitle, isLoading, isError } = useQuery({
     queryKey: ["degreesTitle", nLegGraDatCodigo],
     queryFn : async () => {
-      const response = await degreesTitleService.getDegreeTitle(nLegGraDatCodigo);
+      const response = await degreesTitleService.getDegreesTitles(nLegGraDatCodigo);
       return response;
     },
     enabled: !!nLegGraDatCodigo,
@@ -53,8 +66,12 @@ const ListDegreesTitle = ({ nLegGraDatCodigo }: Props) => {
     if (confirmed) {
       deleteDegreeTitle(id);
     }
-
   };
+
+  const handleEdit = (id: number) => {
+    setIdDegree(id);
+    setOpenModal(true);
+  }
 
   if (isError) {
     return (
@@ -68,10 +85,16 @@ const ListDegreesTitle = ({ nLegGraDatCodigo }: Props) => {
         <Loader />
       ) : (
         <Table
-          columns = {columnsDegreesTitles(handleDelete)}
+          columns = {columnsDegreesTitles({ handleDelete, handleEdit })}
           data    = {degreesTitle || []}
         />
       )}
+
+      {
+        openModal && (
+          <ModalDegreesTitle showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} legGradoTitulo={legGradoTitulo} />
+        )
+      }
     </div>
   );
 };

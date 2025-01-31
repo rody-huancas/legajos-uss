@@ -19,10 +19,11 @@ interface DatePickerFieldProps {
   errorMessage?: string;
   isOpen       : boolean;
   setIsOpen    : (isOpen: boolean) => void;
+  value       ?: string | undefined;
 }
 
 export const DatePickerField = (props: DatePickerFieldProps) => {
-  const { name, control, disabled = false, placeholder, dateFormat = "dd/MM/yyyy", errorMessage, isOpen, setIsOpen } = props;
+  const { name, control, disabled = false, placeholder, dateFormat = "dd/MM/yyyy", errorMessage, isOpen, setIsOpen, value: valueInput } = props;
 
   return (
     <div className="relative w-full">
@@ -57,6 +58,7 @@ export const DatePickerField = (props: DatePickerFieldProps) => {
             showPopperArrow={false}
             popperClassName="z-50"
             popperPlacement="bottom-start"
+            value={valueInput}
           />
         )}
       />
