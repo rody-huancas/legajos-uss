@@ -42,11 +42,16 @@ export class DegreesTitlesRepository {
   // Eliminar grado y título
   async removeDegreeTitle(parnId: number) {
     try {
-      const response = await AxiosConfig.delete(`/gradotitulo/${parnId}`);
+      const patchData = [
+        { op: "replace", path: "/cLegGraEstado", value: false },
+      ];
+  
+      const response = await AxiosConfig.patch(`/gradotitulo/${parnId}`, patchData);
+  
       return response;
     } catch (error) {
       handleAxiosError(error, {
-        defaultMessage: 'Ocurrió un error al registrar el grado y título.'
+        defaultMessage: 'Ocurrió un error al eliminar el grado y título.'
       });
     }
   }
