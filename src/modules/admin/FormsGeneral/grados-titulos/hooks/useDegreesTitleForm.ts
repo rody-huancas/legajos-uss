@@ -11,6 +11,7 @@ import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/genera
 import { formatToOptions } from "@modules/admin/InformacionGeneral/utils";
 import { IPersona, IInterface } from "@modules/admin/InformacionGeneral/models/information-general.model";
 import { informationGeneralService } from "@modules/admin/InformacionGeneral/services";
+import { OTHER_INSTITUTION_LABEL, OTHER_INSTITUTION_VALUE } from "@config/constants/variables";
 
 interface UseDegreesTitleFormProps {
   legGradoTitulo?: ILegGradoTitulo[];
@@ -28,7 +29,7 @@ export const useDegreesTitleForm = ({ legGradoTitulo, id, onClose }: UseDegreesT
   const [academics, setAcademics] = useState<IInterface[] | undefined>([]);
   const queryClient = useQueryClient();
 
-    // Obtener el título académico
+  // Obtener el título académico
   const { data: degreeTitle, isLoading, isError } = useQuery({
     queryKey: ["degreeTitle", id],
     queryFn : async () => {
@@ -40,12 +41,12 @@ export const useDegreesTitleForm = ({ legGradoTitulo, id, onClose }: UseDegreesT
     enabled: !!id,
   });
 
-    // Establecer valores iniciales del formulario
+  // Establecer valores iniciales del formulario
   useEffect(() => {
     if (degreeTitle) {
       setValue("vPais", { value: degreeTitle.vPais.nIntCodigo, label: degreeTitle.vPais.cIntDescripcion });
-      if (degreeTitle.cLegGraInstitucion.trim() === "PER100") {
-        setValue("cLegGraInstitucion", { value: degreeTitle.cLegGraInstitucion.toString().trim(), label: "OTRA INSTITUCIÓN" });
+      if (degreeTitle.cLegGraInstitucion.trim() === OTHER_INSTITUTION_VALUE) {
+        setValue("cLegGraInstitucion", { value: degreeTitle.cLegGraInstitucion.toString().trim(), label: OTHER_INSTITUTION_LABEL });
       } else {
         setValue("cLegGraInstitucion", { value: degreeTitle.cLegGraInstitucionNavigation.cPerCodigo, label: degreeTitle.cLegGraInstitucionNavigation.cPerNombre });
       }
@@ -78,7 +79,7 @@ export const useDegreesTitleForm = ({ legGradoTitulo, id, onClose }: UseDegreesT
     fetchInstitutions();
   }, [watch("vPais")]);
 
-    // Actualizar campo "cLegGraOtraInst"
+  // Actualizar campo "cLegGraOtraInst"
   useEffect(() => {
     if (String(watch("cLegGraInstitucion.value")) !== "PER100") {
       setValue("cLegGraOtraInst", watch("cLegGraInstitucion.label"));
