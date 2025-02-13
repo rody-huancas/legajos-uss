@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 /* Components */
 import Button from "@shared/components/ui/Button/Button";
+import Loader from "@shared/components/ui/Loader/Loader";
+import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import { Title } from "@shared/components/ui/Title/Title";
 import { Accordion } from "@shared/components/ui/Accordion/Accordion";
 import { AccordionItem } from "@shared/components/ui/Accordion/AccordionItem";
 import { SectionGeneralData } from "../components/SectionGeneralData";
 import { SectionDegreesTitles } from "../components/SectionDegreesTitles";
 import { SectionAttachDocuments } from "../components/SectionAttachDocuments";
+import { SectionTeachingCategory } from "../components/SectionTeachingCategory";
 import { SectionExperienceUniversity } from "../components/SectionExperienceUniversity";
 /* Hooks */
 import { useZodForm } from "@shared/hooks/useZodForm";
@@ -16,8 +19,6 @@ import { legajoDataSchema, LegajoDataSchemaType } from "../schemas/general-infor
 import { informationGeneralService } from "../services";
 /* Store */
 import { useAuthStore } from "@store/auth/auth.store";
-import Loader from "@shared/components/ui/Loader/Loader";
-import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 
 const GeneralInformation = () => {
   const user = useAuthStore((state) => state.user);
@@ -61,7 +62,10 @@ const GeneralInformation = () => {
                 <SectionDegreesTitles setValue={setValue} errors={errors} legGradoTitulo={dataGI?.legGradoTitulo} />
               </AccordionItem>
               <AccordionItem title="Experiencia en Docencia Universitaria" index={3}>
-                <SectionExperienceUniversity setValue={setValue} errors={errors} legGradoTitulo={dataGI?.legGradoTitulo} />
+                <SectionExperienceUniversity legGradoTitulo={dataGI?.legGradoTitulo} />
+              </AccordionItem>
+              <AccordionItem title="Categoría Docente" index={4}>
+                <SectionTeachingCategory legGradoTitulo={dataGI?.legGradoTitulo} />
               </AccordionItem>
             </Accordion>
 

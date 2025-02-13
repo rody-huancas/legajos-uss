@@ -19,13 +19,13 @@ const ListExperienceUniversity = ({ legGradoTitulo }: Props) => {
 
   const queryClient = useQueryClient();
 
-  const dataFilter = legGradoTitulo?.[0];
+  const dataFilter = legGradoTitulo[0];
   const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
 
   const openDialog  = useDialogStore((state) => state.openDialog);
 
-    const [openModal, setOpenModal] = useState<boolean>(false);
-    const [idDegree, setIdDegree]   = useState<number | null>(null)
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [idDegree, setIdDegree]   = useState<number | null>(null)
 
   const { data: experienceUniversity, isLoading, isFetching, isError } = useQuery({
     queryKey: ["experiencesUniversity", nLegGraDatCodigo],
