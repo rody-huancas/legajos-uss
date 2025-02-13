@@ -4,7 +4,7 @@ import { TeachingCategoryRepository } from "../repositories/teaching-category.re
 export class TeachingCategoryService {
   constructor(private teachingCategoryRepository: TeachingCategoryRepository) {}
   
- async getTeachingCategories(ncodigo: number): Promise<ITeachingCategory[]> {
+  async getTeachingCategories(ncodigo: number): Promise<ITeachingCategory[]> {
     const response = await this.teachingCategoryRepository.getTeachingCategories(ncodigo);
     return response;
   }
