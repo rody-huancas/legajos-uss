@@ -113,6 +113,7 @@ const ModalExperienceUniversity = ({ showModal, onClose, legGradoTitulo, id }: P
     },
   });
 
+  // Cargar data inicial para editar
   useEffect(() => {
     if (experienceUniversity || experienceUniversity !== undefined) {
       const country = options.nationality.filter(item => item.value === Number(experienceUniversity.cLegDocPais));
@@ -130,7 +131,7 @@ const ModalExperienceUniversity = ({ showModal, onClose, legGradoTitulo, id }: P
       }
       
       setValue("cLegGraOtraInst", experienceUniversity.cLegDocOtraInst);
-      setValue("lRegimenDed", { value: experienceUniversity.vRegimen.nConCodigo, label: experienceUniversity.vRegimen.cConDescripcion });
+      setValue("lRegimenDed", { value: experienceUniversity.vRegimen.nConValor, label: experienceUniversity.vRegimen.cConDescripcion });
       setValue("lCategoriaDoc", { value: experienceUniversity.vCategoria.nConValor, label: experienceUniversity.vCategoria.cConDescripcion });
       setValue("dateFecIni", new Date(experienceUniversity.dLegDocFechaFin));
       setValue("dateFecFin", new Date(experienceUniversity.dLegDocFechaInicio));
@@ -143,11 +144,11 @@ const ModalExperienceUniversity = ({ showModal, onClose, legGradoTitulo, id }: P
 
     const regime   = dedicationRegime?.filter(item => item.nConValor === data.lRegimenDed.value);
     const category = teachingCategory?.filter(item => item.nConValor === data.lCategoriaDoc.value);
-
+    
     if (!regime || !category) return;
-
-    const regimeData   = regime?.[0]!;
-    const categoryData = category?.[0]!;
+    
+    const regimeData   = regime[0];
+    const categoryData = category[0];
 
     const dataMapper: IExperienceUniversityPost = {
       nLegDocCodigo     : id ?? undefined,
@@ -167,7 +168,6 @@ const ModalExperienceUniversity = ({ showModal, onClose, legGradoTitulo, id }: P
 
     registerExperience(dataMapper);
   };
-  
 
   return (
     <ModalContainer isOpen={showModal} onClose={onClose} title="Agregar Docencia Universitaria">

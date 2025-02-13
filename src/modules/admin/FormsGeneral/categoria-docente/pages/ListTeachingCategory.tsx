@@ -1,12 +1,19 @@
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+/* Components */
 import Table from "@shared/components/ui/Table/Table";
+import Loader from "@shared/components/ui/Loader/Loader";
+import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
+import ModalTeachingCategory from "./ModalTeachingCategory";
+/* Models */
 import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 import { ColumnsTeachingCategory } from "../data/ColumnsTeachingCategory";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+/* Services */
 import { teachingCategoryService } from "../services";
-import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
-import Loader from "@shared/components/ui/Loader/Loader";
-import { showNotification } from "@shared/utils/notification.util";
+/* Store */
 import { useDialogStore } from "@store/ui/useDialog.store";
+/* Utils */
+import { showNotification } from "@shared/utils/notification.util";
 
 interface Props {
   legGradoTitulo: ILegGradoTitulo[];
@@ -19,6 +26,9 @@ const ListTeachingCategory = ({ legGradoTitulo }: Props) => {
   
   const dataFilter = legGradoTitulo[0];
   const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
+
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [idDegree, setIdDegree]   = useState<number | null>(null)
 
   const openDialog  = useDialogStore((state) => state.openDialog);
 
@@ -56,8 +66,9 @@ const ListTeachingCategory = ({ legGradoTitulo }: Props) => {
   };
 
   const handleEdit = (id: number) => {
+    setIdDegree(id);
+    setOpenModal(true);
   };
-  
   
   if (isError) {
     return <AlertMessage variant="error" title="Error al cargar la categoría del docente" />;
@@ -74,6 +85,12 @@ const ListTeachingCategory = ({ legGradoTitulo }: Props) => {
             data={teachingCategories ?? []}
             messageNoData="Aún no se ha registrado ninguna categoría de docente"
           />
+        )
+      }
+
+      {
+        openModal && (
+          <ModalTeachingCategory showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} legGradoTitulo={legGradoTitulo} />
         )
       }
     </div>

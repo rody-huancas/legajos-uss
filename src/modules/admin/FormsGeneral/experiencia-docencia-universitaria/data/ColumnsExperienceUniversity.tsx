@@ -21,10 +21,10 @@ export const ColumnsExperienceUniversity = ({ handleDelete, handleEdit }: Props)
       header: "Opciones",
       render: (row) => (
         <div className="flex items-center justify-center gap-1">
-          <button onClick={() => handleEdit(row.nLegDocCodigo)} className="bg-indigo-600 text-secondary-100 p-1.5 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+          <button type="button" onClick={() => handleEdit(row.nLegDocCodigo)} className="bg-indigo-600 text-secondary-100 p-1.5 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
             <FaRegEdit size={14} />
           </button>
-          <button onClick={() => handleDelete(row.nLegDocCodigo)} className="bg-red-600 text-secondary-100 p-1.5 rounded-lg hover:bg-red-700 transition-colors duration-300">
+          <button type="button" onClick={() => handleDelete(row.nLegDocCodigo)} className="bg-red-600 text-secondary-100 p-1.5 rounded-lg hover:bg-red-700 transition-colors duration-300">
             <MdDeleteOutline size={14} />
           </button>
         </div>
