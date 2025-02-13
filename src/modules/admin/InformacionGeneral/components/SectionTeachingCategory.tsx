@@ -4,16 +4,16 @@ import Button from "@shared/components/ui/Button/Button";
 /* Models */
 import { ILegGradoTitulo } from "../models/general-information.model";
 /* Modules */
-import ListExperienceUniversity from "@modules/admin/FormsGeneral/experiencia-docencia-universitaria/pages/ListExperienceUniversity";
-import ModalExperienceUniversity from "@modules/admin/FormsGeneral/experiencia-docencia-universitaria/pages/ModalExperienceUniversity";
+import ListTeachingCategory from "@modules/admin/FormsGeneral/categoria-docente/pages/ListTeachingCategory";
 /* Icons */
 import { HiAcademicCap } from "react-icons/hi";
+import ModalTeachingCategory from "@modules/admin/FormsGeneral/categoria-docente/pages/ModalTeachingCategory";
 
 interface Props {
   legGradoTitulo?: ILegGradoTitulo[];
 }
 
-export const SectionExperienceUniversity = (props: Props) => {
+export const SectionTeachingCategory = (props: Props) => {
   const { legGradoTitulo = [] } = props;
   const [showModal, setShowModal] = useState<boolean>(false)
   
@@ -28,12 +28,13 @@ export const SectionExperienceUniversity = (props: Props) => {
           </div>
 
           {/* Tabla */}
-          <ListExperienceUniversity legGradoTitulo={legGradoTitulo} />
+          <ListTeachingCategory legGradoTitulo={legGradoTitulo} />
         </div>
       </div>
 
-
-      { showModal && <ModalExperienceUniversity showModal={showModal} onClose={() => setShowModal(false)} legGradoTitulo={legGradoTitulo} /> }
+      {
+        showModal && <ModalTeachingCategory legGradoTitulo={legGradoTitulo} showModal={showModal} onClose={() => setShowModal(false)} />
+      }
     </>
   );
 };

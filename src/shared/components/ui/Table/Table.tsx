@@ -1,11 +1,12 @@
 import { IColumn } from "@shared/models/global.model";
 
 interface TableProps<T> {
-  columns: IColumn<T>[];
-  data: T[];
+  columns       : IColumn<T>[];
+  data          : T[];
+  messageNoData?: string;
 }
 
-const Table = <T extends {}>({ columns, data }: TableProps<T>) => {
+const Table = <T extends {}>({ columns, data, messageNoData = "No hay registros" }: TableProps<T>) => {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white border border-gray-200">
@@ -25,7 +26,7 @@ const Table = <T extends {}>({ columns, data }: TableProps<T>) => {
           { data.length === 0 && (
             <tr>
               <td colSpan={columns.length} className="px-3 py-2 text-xs text-gray-700 border-b whitespace-nowrap text-center">
-                No hay registros
+                {messageNoData}
               </td>
             </tr>
           )}
