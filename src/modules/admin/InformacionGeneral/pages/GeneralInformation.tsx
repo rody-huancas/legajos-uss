@@ -11,6 +11,7 @@ import { SectionDegreesTitles } from "../components/SectionDegreesTitles";
 import { SectionAttachDocuments } from "../components/SectionAttachDocuments";
 import { SectionTeachingCategory } from "../components/SectionTeachingCategory";
 import { SectionExperienceUniversity } from "../components/SectionExperienceUniversity";
+import { SectionTeachingDedicationRegime } from "../components/SectionTeachingDedicationRegime";
 /* Hooks */
 import { useZodForm } from "@shared/hooks/useZodForm";
 /* Schemas */
@@ -66,6 +67,9 @@ const GeneralInformation = () => {
               </AccordionItem>
               <AccordionItem title="Categoría Docente" index={4}>
                 <SectionTeachingCategory legGradoTitulo={dataGI?.legGradoTitulo} />
+              </AccordionItem>
+              <AccordionItem title="Régimen Dedicación Docente" index={5}>
+                <SectionTeachingDedicationRegime legGradoTitulo={dataGI?.legGradoTitulo} />
               </AccordionItem>
             </Accordion>
 
