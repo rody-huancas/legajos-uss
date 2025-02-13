@@ -21,10 +21,10 @@ export const columnsDegreesTitles = ({ handleDelete, handleEdit }: Props): IColu
       header: "Opciones",
       render: (row) => (
         <div className="flex items-center justify-center gap-1">
-          <button onClick={() => handleEdit(row.nLegGraCodigo)} className="bg-indigo-600 text-secondary-100 p-1.5 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+          <button type="button" onClick={() => handleEdit(row.nLegGraCodigo)} className="bg-indigo-600 text-secondary-100 p-1.5 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
             <FaRegEdit size={14} />
           </button>
-          <button onClick={() => handleDelete(row.nLegGraCodigo)} className="bg-red-600 text-secondary-100 p-1.5 rounded-lg hover:bg-red-700 transition-colors duration-300">
+          <button type="button" onClick={() => handleDelete(row.nLegGraCodigo)} className="bg-red-600 text-secondary-100 p-1.5 rounded-lg hover:bg-red-700 transition-colors duration-300">
             <MdDeleteOutline size={14} />
           </button>
         </div>

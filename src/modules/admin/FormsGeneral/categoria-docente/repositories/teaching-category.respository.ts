@@ -1,5 +1,5 @@
 import AxiosConfig from "@config/axios.config";
-import { ITeachingCategoriesResp, ITeachingCategoryPost } from "../models/teaching-category.model";
+import { ITeachingCategoriesResp, ITeachingCategoryPost, ITeachingCategoryResp } from "../models/teaching-category.model";
 import { handleAxiosError } from "@shared/utils/axios.util";
 
 export class TeachingCategoryRepository {
@@ -8,6 +8,17 @@ export class TeachingCategoryRepository {
   async getTeachingCategories(ncodigo: number) {
     try {
       const response = await AxiosConfig<ITeachingCategoriesResp>(`/categoriadocente_lst/${ncodigo}`);
+      return response.data.odata;
+    } catch (error) {
+      handleAxiosError(error, { defaultMessage: 'Ocurrió un error al obtener las categorías del docente.' });
+      throw error;
+    }
+  }
+
+  // Obtener la categoría del docente
+  async getTeachingCategory(ncodigo: number) {
+    try {
+      const response = await AxiosConfig<ITeachingCategoryResp>(`/categoriadocente/${ncodigo}`);
       return response.data.odata;
     } catch (error) {
       handleAxiosError(error, { defaultMessage: 'Ocurrió un error al obtener la categoría del docente.' });
@@ -34,6 +45,29 @@ export class TeachingCategoryRepository {
     } catch (error) {
       handleAxiosError(error, {
         defaultMessage: 'Ocurrió un error al registrar la categoría del docente.'
+      });
+    }
+  }
+  
+  // Actualizar grado y título
+  async updateTeachingCategory(parnId: number | undefined, data: ITeachingCategoryPost) {
+    try {
+      const formData = new FormData();
+  
+      (Object.keys(data) as Array<keyof ITeachingCategoryPost>).forEach(key => {
+        if (key === 'cFile' && data[key]) {
+          formData.append('cFile', data[key] as File);
+        } else if (data[key] !== null && data[key] !== undefined) {
+          formData.append(key, data[key].toString());
+        }
+      });
+  
+      const response = await AxiosConfig.post(`/categoriadocente/put/${parnId}`, formData);
+  
+      return response;
+    } catch (error) {
+      handleAxiosError(error, {
+        defaultMessage: 'Ocurrió un error al actualizar la categoría del docente.'
       });
     }
   }
