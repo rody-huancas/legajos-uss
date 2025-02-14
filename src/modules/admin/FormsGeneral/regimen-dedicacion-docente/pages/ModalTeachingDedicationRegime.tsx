@@ -25,7 +25,7 @@ import { IBaseOptionGI } from "@modules/admin/InformacionGeneral/models/informat
 import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 import { ITeachingDedicactionsRegimePost } from "../models/teaching-dedication-regime.model";
 /* Schemas */
-import { teachingDedicationRegime, TeachingDedicationRegimeType } from "../schemas/teaching-dedication-regime.validation";
+import { teachingDedicationRegimeSchema, TeachingDedicationRegimeType } from "../schemas/teaching-dedication-regime.validation";
 /* Services */
 import { experienceUnivesityService } from "../../experiencia-docencia-universitaria/services";
 import { teachingDedicationRegimeService } from "../services";
@@ -47,7 +47,7 @@ const ModalTeachingDedicationRegime = ({ showModal, onClose, legGradoTitulo, id 
   const queryClient = useQueryClient();
 
   const { options, loadingStates } = useFormOptions();
-  const { register, control, handleSubmit, formState: { errors }, watch, setValue } = useZodForm(teachingDedicationRegime);
+  const { register, control, handleSubmit, formState: { errors }, watch, setValue } = useZodForm(teachingDedicationRegimeSchema);
   const { institutions, loadInstitutions, loadMoreInstitutions, handleSearch } = useInstitutionForm({
     countryFieldName         : "vPais",
     institutionFieldName     : "cLegGraInstitucion",
