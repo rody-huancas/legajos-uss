@@ -10,6 +10,7 @@ import { SectionGeneralData } from "../components/SectionGeneralData";
 import { SectionDegreesTitles } from "../components/SectionDegreesTitles";
 import { SectionAttachDocuments } from "../components/SectionAttachDocuments";
 import { SectionTeachingCategory } from "../components/SectionTeachingCategory";
+import { SectionLanguageMasteryTools } from "../components/SectionLanguageMasteryTools";
 import { SectionExperienceUniversity } from "../components/SectionExperienceUniversity";
 import { SectionTeachingDedicationRegime } from "../components/SectionTeachingDedicationRegime";
 import { SectionNoTeachingProfessionalExperience } from "../components/SectionNoTeachingProfessionalExperience";
@@ -29,7 +30,7 @@ const GeneralInformation = () => {
   const { data: dataGI, isLoading, isError } = useQuery({
     queryKey: ["generalInformation", user?.cPerCodigo],
     queryFn: async () => {
-      if (!user?.cPerCodigo) throw new Error("User code is missing");
+      if (!user?.cPerCodigo) return;
       return await informationGeneralService.getGeneralInformation(user.cPerCodigo);
     },
     enabled: !!user?.cPerCodigo,
@@ -74,6 +75,9 @@ const GeneralInformation = () => {
               </AccordionItem>
               <AccordionItem title="Experiencia Profesional no Docente" index={6}>
                 <SectionNoTeachingProfessionalExperience legGradoTitulo={dataGI?.legGradoTitulo} />
+              </AccordionItem>
+              <AccordionItem title="Dominio de idiomas - Herramientas de Informática" index={7}>
+                <SectionLanguageMasteryTools legGradoTitulo={dataGI?.legGradoTitulo} />
               </AccordionItem>
             </Accordion>
 
