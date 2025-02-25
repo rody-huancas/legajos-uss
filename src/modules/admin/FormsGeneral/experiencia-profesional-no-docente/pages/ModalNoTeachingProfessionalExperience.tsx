@@ -18,21 +18,18 @@ import { useInstitutionForm } from "@shared/hooks/useInstitutionForm";
 import { formatDate } from "@shared/utils/globals.util";
 import { formatToOptions } from "@modules/admin/InformacionGeneral/utils";
 import { showNotification } from "@shared/utils/notification.util";
+import { INoTeachigProfessionalExperiencePost } from "../models/no-teaching-profesional-exprience.model";
   /* Config */
 import { OTHER_INSTITUTION_LABEL, OTHER_INSTITUTION_VALUE } from "@config/constants/variables";
-  /* Models */
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
-import {
-  noTeachingProfessionalExperienceSchema,
-  NoTeachingProfessionalExperienceSchemaType,
-} from "../schemas/teaching-dedication-regime.validation";
-  /* Services */
-import { experienceUnivesityService } from "../../experiencia-docencia-universitaria/services";
-  /* Icons */
-import { LuSaveAll } from "react-icons/lu";
-import { noTeachingProfessionalExperienceService } from "../services";
-import { INoTeachigProfessionalExperiencePost } from "../models/no-teaching-profesional-exprience.model";
+/* Models */
 import { IBaseOptionGI } from "@modules/admin/InformacionGeneral/models/information-general.model";
+import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
+import { noTeachingProfessionalExperienceService } from "../services";
+import { noTeachingProfessionalExperienceSchema, NoTeachingProfessionalExperienceSchemaType } from "../schemas/teaching-dedication-regime.validation";
+/* Services */
+import { experienceUnivesityService } from "../../experiencia-docencia-universitaria/services";
+/* Icons */
+import { LuSaveAll } from "react-icons/lu";
 
 interface Props {
   showModal      : boolean;
@@ -58,17 +55,17 @@ const ModalNoTeachingProfessionalExperience = ({ showModal, onClose, legGradoTit
     setValue,
   });
 
-    // Obtener el régimen dedicación docente
-    const { data: noTeachingProfessionalExperienceData, isLoading: isLoadingNoTeachingProfessionalExperience, isError: isErrorNoTeachingProfessionalExperience } = useQuery({
-      queryKey: ["noTeachingProfessionalExperience", nLegGraDatCodigo, id],
-      queryFn: async () => {
-        if (id) {
-          const response = await noTeachingProfessionalExperienceService.getNoTeachingProfessionalExperience(id);
-          return response;
-        }
-      },
-      enabled: !!id,
-    });
+  // Obtener el régimen dedicación docente
+  const { data: noTeachingProfessionalExperienceData, isLoading: isLoadingNoTeachingProfessionalExperience, isError: isErrorNoTeachingProfessionalExperience } = useQuery({
+    queryKey: ["noTeachingProfessionalExperience", nLegGraDatCodigo, id],
+    queryFn: async () => {
+      if (id) {
+        const response = await noTeachingProfessionalExperienceService.getNoTeachingProfessionalExperience(id);
+        return response;
+      }
+    },
+    enabled: !!id,
+  });
 
     // Opciones régimen dedicación
   const { data: dedicationRegime, isLoading: isLoadingDedicationRegime } = useQuery({
@@ -151,89 +148,103 @@ const ModalNoTeachingProfessionalExperience = ({ showModal, onClose, legGradoTit
 
   return (
     <ModalContainer isOpen={showModal} onClose={onClose} title="Agregar Experiencia Profesional no Docente">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
-        <div className="space-y-5">
-          <ReactSelect
-            label        = "País"
-            name         = "vPais"
-            control      = {control}
-            options      = {options.nationality}
-            placeholder  = "Seleccione un país"
-            errorMessage = {errors.vPais?.message}
-            isLoading    = {loadingStates.nationality}
-          />
+      {
+        isErrorNoTeachingProfessionalExperience ? (
+          <AlertMessage variant="error" title="Error al cargar la experiencia profesional no docente." />
+        ) : (
+          <>
+            {
+              isLoadingNoTeachingProfessionalExperience ? (
+                <Loader />
+              ) : (
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+                  <div className="space-y-5">
+                    <ReactSelect
+                      label        = "País"
+                      name         = "vPais"
+                      control      = {control}
+                      options      = {options.nationality}
+                      placeholder  = "Seleccione un país"
+                      errorMessage = {errors.vPais?.message}
+                      isLoading    = {loadingStates.nationality}
+                    />
 
-          <ReactSelect
-            label                = "Institución"
-            name                 = "cLegGraInstitucion"
-            control              = {control}
-            options              = {formatToOptions(institutions)}
-            placeholder          = "Seleccione una institución"
-            errorMessage         = {errors.cLegGraInstitucion?.message}
-            isLoading            = {loadInstitutions}
-            onMenuScrollToBottom = {loadMoreInstitutions}
-            onInputChange        = {handleSearch}
-            filterOption         = {() => true}
-          />
+                    <ReactSelect
+                      label                = "Institución"
+                      name                 = "cLegGraInstitucion"
+                      control              = {control}
+                      options              = {formatToOptions(institutions)}
+                      placeholder          = "Seleccione una institución"
+                      errorMessage         = {errors.cLegGraInstitucion?.message}
+                      isLoading            = {loadInstitutions}
+                      onMenuScrollToBottom = {loadMoreInstitutions}
+                      onInputChange        = {handleSearch}
+                      filterOption         = {() => true}
+                    />
 
-          {String(watch("cLegGraInstitucion.value")) === OTHER_INSTITUTION_VALUE && (
-            <InputField
-              label       = "Nombre de Institución"
-              register    = {register}
-              name        = "cLegGraOtraInst"
-              error       = {errors.cLegGraOtraInst}
-              placeholder = "Ingrese el nombre de institución"
-            />
-          )}
+                    {String(watch("cLegGraInstitucion.value")) === OTHER_INSTITUTION_VALUE && (
+                      <InputField
+                        label       = "Nombre de Institución"
+                        register    = {register}
+                        name        = "cLegGraOtraInst"
+                        error       = {errors.cLegGraOtraInst}
+                        placeholder = "Ingrese el nombre de institución"
+                      />
+                    )}
 
-          <ReactSelect
-            label        = "Régimen Dedicación"
-            name         = "vCargo"
-            control      = {control}
-            options      = {optionsDedicationRegime}
-            placeholder  = "Seleccione un régimen"
-            errorMessage = {errors.vCargo?.message}
-            isLoading    = {isLoadingDedicationRegime}
-          />
+                    <ReactSelect
+                      label        = "Régimen Dedicación"
+                      name         = "vCargo"
+                      control      = {control}
+                      options      = {optionsDedicationRegime}
+                      placeholder  = "Seleccione un régimen"
+                      errorMessage = {errors.vCargo?.message}
+                      isLoading    = {isLoadingDedicationRegime}
+                    />
 
-          <InputField
-            label       = "Cargo"
-            register    = {register}
-            name        = "cLegProCargoProf"
-            error       = {errors.cLegProCargoProf}
-            placeholder = "Ingrese el cargo"
-          />
+                    <InputField
+                      label       = "Cargo"
+                      register    = {register}
+                      name        = "cLegProCargoProf"
+                      error       = {errors.cLegProCargoProf}
+                      placeholder = "Ingrese el cargo"
+                    />
 
-          <InputDatePicker
-            control = {control}
-            name    = "dateFecIni"
-            label   = "Fecha Inicio"
-            required
-            errorMessage = {errors.dateFecIni?.message}
-          />
+                    <InputDatePicker
+                      control = {control}
+                      name    = "dateFecIni"
+                      label   = "Fecha Inicio"
+                      required
+                      errorMessage = {errors.dateFecIni?.message}
+                    />
 
-          <InputDatePicker
-            control = {control}
-            name    = "dateFecFin"
-            label   = "Fecha Fin"
-            required
-            errorMessage = {errors.dateFecFin?.message}
-          />
+                    <InputDatePicker
+                      control = {control}
+                      name    = "dateFecFin"
+                      label   = "Fecha Fin"
+                      required
+                      errorMessage = {errors.dateFecFin?.message}
+                    />
 
-          <FileUploader
-            name              = "cLegDocArchivo"
-            title             = "Adjuntar archivo (PNG, JPG, JPEG, PDF)"
-            acceptedFileTypes = "image/*, application/pdf"
-            setValue          = {setValue}
-            error             = {errors.cLegDocArchivo?.message}
-          />
-        </div>
+                    <FileUploader
+                      name              = "cLegDocArchivo"
+                      title             = "Adjuntar archivo (PNG, JPG, JPEG, PDF)"
+                      acceptedFileTypes = "image/*, application/pdf"
+                      setValue          = {setValue}
+                      error             = {errors.cLegDocArchivo?.message}
+                    />
+                  </div>
 
-        <Button type="submit" className="gap-2" disabled={isSubmitting}>
-        <LuSaveAll size = {16} />
-          {isSubmitting ? "Guardando..." : "Guardar"}
-        </Button>
-      </form>
+                  <Button type="submit" className="gap-2" disabled={isSubmitting}>
+                  <LuSaveAll size = {16} />
+                    {isSubmitting ? "Guardando..." : "Guardar"}
+                  </Button>
+                </form>
+              )
+            }
+          </>
+        )
+      }
     </ModalContainer>
   );
 };

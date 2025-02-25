@@ -98,4 +98,31 @@ export class InformationGeneralService {
       showNotification("error", "Ocurrió un error al mostrar las instituciones.");
     }  
   }
+
+  async getLanguageProficiency() {
+    try {
+      const response = await this.InformationGeneralRepository.getLanguageProficiency();
+      return response;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al mostrar los idiomas.");
+    }
+  }
+
+  async getOfficeSkills() {
+    try {
+      const response = await this.InformationGeneralRepository.getOfficeSkills();
+      return response;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al mostrar las habilidades.");
+    }
+  }
+
+  async getInformatic() {
+    try {
+      const response = await this.InformationGeneralRepository.getInformatic();
+      return response;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al mostrar las opciones de informática.");
+    }
+  }
 }

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useCountries } from "./useCountries";
 import { formatToOptions } from "../utils";
-import { useAcademicDegree, useMaritalStatus, useDocumentIdentity, useSexo, useLanguage, useZoneType, useStreetType } from "./useInformationGeneral";
+import { useAcademicDegree, useMaritalStatus, useDocumentIdentity, useSexo, useLanguage, useZoneType, useStreetType, useLanguageLevel, useOfficeSkills, useInformatic } from "./useInformationGeneral";
 
 export const useFormOptions = () => {
   const { nationalities, departments, isLoading: isLoadingCountries } = useCountries();
@@ -13,6 +13,10 @@ export const useFormOptions = () => {
   const { data: languages       , isLoading: isLoadingLanguage       } = useLanguage();
   const { data: zoneTypes       , isLoading: isLoadingZoneType       } = useZoneType();
   const { data: streetType      , isLoading: isLoadingStreetType     } = useStreetType();
+  const { data: languageLevel   , isLoading: isLoadingLanguageLevel  } = useLanguageLevel();
+  const { data: officeSkills    , isLoading: isLoadingOfficeSkills   } = useOfficeSkills();
+  const { data: informatic      , isLoading: isLoadingInformatic     } = useInformatic();
+
 
   const options = useMemo(
     () => ({
@@ -25,6 +29,25 @@ export const useFormOptions = () => {
       languages       : formatToOptions(languages),
       zoneTypes       : formatToOptions(zoneTypes),
       streetType      : formatToOptions(streetType),
+      languageLevel   : formatToOptions(languageLevel),
+      officeSkills    : formatToOptions(officeSkills),
+      informatic      : formatToOptions(informatic),
+
+      // Datos sin formatear (raw)
+      raw: {
+        academicDegree,
+        nationalities,
+        departments,
+        documentIdentity,
+        maritalStatus,
+        sexo,
+        languages,
+        zoneTypes,
+        streetType,
+        languageLevel,
+        officeSkills,
+        informatic
+      },
     }),
     [
       academicDegree,
@@ -36,6 +59,9 @@ export const useFormOptions = () => {
       languages,
       zoneTypes,
       streetType,
+      languageLevel,
+      officeSkills,
+      informatic
     ]
   );
 
@@ -48,7 +74,10 @@ export const useFormOptions = () => {
     sexo            : isLoadingSexo,
     languages       : isLoadingLanguage,
     zoneTypes       : isLoadingZoneType,
-    streetType      : isLoadingStreetType
+    streetType      : isLoadingStreetType,
+    languageLevel   : isLoadingLanguageLevel,
+    officeSkills    : isLoadingOfficeSkills,
+    informatic      : isLoadingInformatic,
   };
 
   return {

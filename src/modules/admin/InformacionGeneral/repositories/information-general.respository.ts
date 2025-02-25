@@ -118,7 +118,7 @@ export class InformationGeneralRepository {
     }
   }
 
-  // Obtener el sexo
+  // Obtener el idioma
   async getLanguage() {
     try {
       const response = await AxiosConfig<{ odata: IConstante[] }>("/get_idioma");
@@ -138,6 +138,51 @@ export class InformationGeneralRepository {
       const response = await AxiosConfig<{ odata: IPersona[] }>("/persona/1");
       const data = response.data.odata;
       return data.filter(item => item.cPerApellido !== "Otra");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        showNotification("error", error.response?.data?.message);
+      }
+      showNotification("error", "Ocurrió un error");
+      throw error;
+    }
+  }
+
+  // Obtener el nivel
+  async getLanguageProficiency() {
+    try {
+      const response = await AxiosConfig<{ odata: IConstante[] }>("/constante/5");
+      const data = response.data.odata;
+      return data.filter(x=>x.nConValor !== 0);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        showNotification("error", error.response?.data?.message);
+      }
+      showNotification("error", "Ocurrió un error");
+      throw error;
+    }
+  }
+
+  // Obtener el nivel
+  async getOfficeSkills() {
+    try {
+      const response = await AxiosConfig<{ odata: IConstante[] }>("/constante/24");
+      const data = response.data.odata;
+      return data.filter(x=>x.nConValor !== 0);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        showNotification("error", error.response?.data?.message);
+      }
+      showNotification("error", "Ocurrió un error");
+      throw error;
+    }
+  }
+
+  // Obtener el nivel
+  async getInformatic() {
+    try {
+      const response = await AxiosConfig<{ odata: IConstante[] }>("/constante/4");
+      const data = response.data.odata;
+      return data.filter(x=>x.nConValor !== 0);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);

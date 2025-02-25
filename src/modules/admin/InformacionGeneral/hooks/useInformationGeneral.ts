@@ -50,3 +50,24 @@ export const useLanguage = () => {
     informationGeneralService.getLanguage()
   );
 };
+
+// Nivel de Idioma
+export const useLanguageLevel = () => {
+  return useFetchData<IConstante[] | undefined>(() =>
+    informationGeneralService.getLanguageProficiency()
+  );
+};
+
+// Habilidad Ofimática
+export const useOfficeSkills = () => {
+  return useFetchData<IConstante[] | undefined>(() =>
+    informationGeneralService.getOfficeSkills()
+  );
+}
+
+// Opciones Onformática
+export const useInformatic = () => {
+  return useFetchData<IConstante[] | undefined>(() =>
+    informationGeneralService.getInformatic()
+  );
+}
