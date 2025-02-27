@@ -36,13 +36,13 @@ const Sidebar = () => {
           </span>
           <ul className="text-secondary-100 ml-5 space-y-1">
             <li>
-              <SidebarLink to="/dgeneral" name="Información General" icon={RiFolderInfoLine} />
+              <SidebarLink to="/dgeneral" name="Información General" icon={RiFolderInfoLine} onClick={() => setMenuIsOpen(false)} />
             </li>
             <li>
-              <SidebarLink to="/dcapacitaciones" name="Capacitación" icon={GiVideoConference} />
+              <SidebarLink to="/dcapacitaciones" name="Capacitación" icon={GiVideoConference} onClick={() => setMenuIsOpen(false)} />
             </li>
             <li>
-              <SidebarLink to="/dinvestigacion" name="Investigación" icon={GiArchiveResearch} />
+              <SidebarLink to="/dinvestigacion" name="Investigación" icon={GiArchiveResearch} onClick={() => setMenuIsOpen(false)} />
             </li>
           </ul>
         </div>

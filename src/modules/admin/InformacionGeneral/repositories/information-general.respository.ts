@@ -191,4 +191,19 @@ export class InformationGeneralRepository {
       throw error;
     }
   }
+
+  // Obtener cargos académicos
+  async getAcademicPositions() {
+    try {
+      const response = await AxiosConfig<{ odata: IConstante[] }>("/constante/16");
+      const data = response.data.odata;
+      return data.filter(x=>x.nConValor !== 0);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        showNotification("error", error.response?.data?.message);
+      }
+      showNotification("error", "Ocurrió un error");
+      throw error;
+    }
+  }
 }

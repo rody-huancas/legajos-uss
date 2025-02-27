@@ -34,7 +34,7 @@ interface Props {
 }
 
 const ModalComputerTools = ({ showModal, onClose, legGradoTitulo, id }: Props) => {
-  if (!legGradoTitulo) return;
+  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
 
   const dataFilter       = legGradoTitulo[0];
   const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
@@ -63,11 +63,8 @@ const ModalComputerTools = ({ showModal, onClose, legGradoTitulo, id }: Props) =
     if (id && computerTool) {
       const optionInformatic = options.raw?.informatic?.find(item => item?.nConValor.toString() === computerTool.nValorDesc.toString().substring(0, 4));
 
-      console.log(computerTool)
-
       setValue("vIdioma", { value: optionInformatic?.nConValor!, label: optionInformatic?.cConDescripcion! });
       if (computerTool.nValorDesc.toString().length > 4) {
-        console.log("first: ", computerTool.nValorDesc.toString().length)
         setValue("vHabilidad", { value: computerTool.vCodigoDesc.nConValor, label: computerTool.vCodigoDesc.cConDescripcion });
       }
       setValue("vNivel", { value: computerTool.vNivel.nConValor, label: computerTool.vNivel.cConDescripcion });

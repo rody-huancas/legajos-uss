@@ -125,4 +125,13 @@ export class InformationGeneralService {
       showNotification("error", "Ocurrió un error al mostrar las opciones de informática.");
     }
   }
+
+  async getAcademicPositions() {
+    try {
+      const response = await this.InformationGeneralRepository.getAcademicPositions();
+      return response;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al mostrar las opciones cargos acádemicos.");
+    }
+  }
 }

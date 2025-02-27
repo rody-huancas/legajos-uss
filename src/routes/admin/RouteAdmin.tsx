@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import withLazy from "@shared/components/common/LazyRoute/LazyRoute";
+import NotFoundPage from "@modules/not-found/NotFound";
 
 // Layouts y Pages
 const AdminLayout        = withLazy(lazy(() => import("@layouts/admin/AdminLayout")));
@@ -19,6 +20,8 @@ const RouteAdmin = () => {
       <Route path="/rol-por-usuario">
         <Route index element={<UserRole />} />
       </Route>
+
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

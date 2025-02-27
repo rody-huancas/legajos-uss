@@ -44,11 +44,14 @@ export const useDegreesTitleForm = ({ legGradoTitulo, id, onClose }: UseDegreesT
   // Establecer valores iniciales del formulario
   useEffect(() => {
     if (degreeTitle) {
+      console.log(degreeTitle)
       setValue("vPais", { value: degreeTitle.vPais.nIntCodigo, label: degreeTitle.vPais.cIntDescripcion });
       if (degreeTitle.cLegGraInstitucion.trim() === OTHER_INSTITUTION_VALUE) {
         setValue("cLegGraInstitucion", { value: degreeTitle.cLegGraInstitucion.toString().trim(), label: OTHER_INSTITUTION_LABEL });
       } else {
-        setValue("cLegGraInstitucion", { value: degreeTitle.cLegGraInstitucionNavigation.cPerCodigo, label: degreeTitle.cLegGraInstitucionNavigation.cPerNombre });
+        if (degreeTitle.cLegGraInstitucionNavigation) {
+          setValue("cLegGraInstitucion", { value: degreeTitle.cLegGraInstitucionNavigation.cPerCodigo, label: degreeTitle.cLegGraInstitucionNavigation.cPerNombre });
+        }
       }
       setValue("vGradoAcad", { value: degreeTitle.vGradoAcad.nIntCodigo, label: degreeTitle.vGradoAcad.cIntDescripcion });
       setValue("cLegGraCarreraProf", degreeTitle.cLegGraCarreraProf);
