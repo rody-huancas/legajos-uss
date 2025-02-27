@@ -23,7 +23,7 @@ interface Props {
 const ListDegreesTitle = ({ legGradoTitulo }: Props) => {
   const queryClient = useQueryClient();
 
-  if (!legGradoTitulo) return;
+  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
 
   const nLegGraDatCodigo = legGradoTitulo[0]?.nLegGraDatCodigo;
 

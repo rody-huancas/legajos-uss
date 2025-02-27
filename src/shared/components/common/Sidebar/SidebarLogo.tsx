@@ -11,6 +11,7 @@ const SidebarLogo = () => {
       <Link
         to="/"
         className="flex justify-center items-end text-2xl font-bold text-white"
+        onClick={() => setMenuIsOpen(false)}
       >
         <img
           src="/logo-uss.jpg"

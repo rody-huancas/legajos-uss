@@ -28,7 +28,7 @@ const ListComputerTools = ({ legGradoTitulo }: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [idDegree, setIdDegree]   = useState<number | null>(null)
 
-  if (!legGradoTitulo) return;
+  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
   const nLegGraDatCodigo = legGradoTitulo[0].nLegGraDatCodigo;
 
   const { data: computerTools, isLoading, isFetching, isError } = useQuery({

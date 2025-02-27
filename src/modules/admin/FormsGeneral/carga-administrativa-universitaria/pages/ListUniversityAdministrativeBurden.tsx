@@ -4,15 +4,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Table from "@shared/components/ui/Table/Table";
 import Loader from "@shared/components/ui/Loader/Loader";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
-import ModalNoTeachingProfessionalExperience from "./ModalNoTeachingProfessionalExperience";
+import ModalUniversityAdministrativeBurden from "./ModalUniversityAdministrativeBurden";
 /* Models */
 import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 /* Columns */
-import { columnsNoTeachingProfessionalExperience } from "../data/columnsNoTeachingProfessionalExperience";
+import { columnsUniversityAdministrativeBurden } from "../data/columnsUniversityAdministrativeBurden";
 /* Store */
 import { useDialogStore } from "@store/ui/useDialog.store";
 /* Services */
-import { noTeachingProfessionalExperienceService } from "../services";
+import { universityAdministrativeBurdenService } from "../services";
 /* Utils */
 import { showNotification } from "@shared/utils/notification.util";
 
@@ -20,7 +20,7 @@ interface Props {
   legGradoTitulo?: ILegGradoTitulo[];
 }
 
-const ListNoTeachingProfessionalExperience = ({ legGradoTitulo }: Props) => {
+const ListUniversityAdministrativeBurden = ({ legGradoTitulo }: Props) => {
   const queryClient = useQueryClient();
   // store
   const openDialog  = useDialogStore((state) => state.openDialog);
@@ -29,25 +29,26 @@ const ListNoTeachingProfessionalExperience = ({ legGradoTitulo }: Props) => {
   const [idDegree, setIdDegree]   = useState<number | null>(null)
 
   if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
+  
   const nLegGraDatCodigo = legGradoTitulo[0].nLegGraDatCodigo;
 
-  // listar la experiencia profesional no docente
-  const { data: noTeachingProfessionalExperience, isLoading, isFetching, isError } = useQuery({
-    queryKey: ["noTeachingProfessionalExperience", nLegGraDatCodigo],
+  // listar la carga administrativa universitaria
+  const { data: universitiesAdministrativeBurden, isLoading, isFetching, isError } = useQuery({
+    queryKey: ["universitiesAdministrativeBurden", nLegGraDatCodigo],
     queryFn: async () => {
-      const response = await noTeachingProfessionalExperienceService.getLstNoTeachingProfessionalExperience(nLegGraDatCodigo);
+      const response = await universityAdministrativeBurdenService.getLstUniversityAdministrativeBurden(nLegGraDatCodigo);
       return response;
     },
   });
 
-  // eliminar la experiencia profesional no docente
+  // eliminar la carga administrativa universitaria
   const { mutate: deleteNoTeachingProfessionalExperience, isPending: loadDelete } = useMutation({
     mutationFn: async (id: number) => {
-      await noTeachingProfessionalExperienceService.removeNoTeachingProfessionalExperience(id);
+      await universityAdministrativeBurdenService.removeUniversityAdministrativeBurden(id);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["noTeachingProfessionalExperience", nLegGraDatCodigo] });
-      showNotification("success", "Experiencia profesional no docente se eliminó correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["universitiesAdministrativeBurden", nLegGraDatCodigo] });
+      showNotification("success", "Carga administrativa universitaria se eliminó correctamente.");
     },
     onError: (error) => {
       showNotification("error", error.message);
@@ -57,7 +58,7 @@ const ListNoTeachingProfessionalExperience = ({ legGradoTitulo }: Props) => {
   const handleDelete = async (id: number) => {
     const confirmed = await openDialog({
       title   : "Confirmar eliminación",
-      message : "¿Está seguro de que desea eliminar esta experiencia profesional no docente?",
+      message : "¿Está seguro de que desea eliminar esta carga administrativa universitaria?",
       type    : "delete"
     });
 
@@ -71,7 +72,7 @@ const ListNoTeachingProfessionalExperience = ({ legGradoTitulo }: Props) => {
   };
 
   if (isError) {
-    return <AlertMessage variant="error" title="Error al cargar el experiencia profesional no docente" />;
+    return <AlertMessage variant="error" title="Error al cargar la carga administrativa universitaria" />;
   }
 
   return (
@@ -81,20 +82,20 @@ const ListNoTeachingProfessionalExperience = ({ legGradoTitulo }: Props) => {
           <Loader />
         ) : (
           <Table
-            columns={columnsNoTeachingProfessionalExperience({ handleDelete, handleEdit })}
-            data={noTeachingProfessionalExperience ?? []}
-            messageNoData="No se ha registrado experiencia profesional no docente."
+            columns={columnsUniversityAdministrativeBurden({ handleDelete, handleEdit })}
+            data={universitiesAdministrativeBurden ?? []}
+            messageNoData="No se ha registrado la carga administrativa universitaria."
           />
         )
       }
 
       {
         openModal && (
-          <ModalNoTeachingProfessionalExperience showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} legGradoTitulo={legGradoTitulo} />
+          <ModalUniversityAdministrativeBurden showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} legGradoTitulo={legGradoTitulo} />
         )
       }
     </div>
   );
 };
 
-export default ListNoTeachingProfessionalExperience;
+export default ListUniversityAdministrativeBurden;

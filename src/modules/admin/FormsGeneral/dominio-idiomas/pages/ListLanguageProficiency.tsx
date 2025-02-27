@@ -28,7 +28,7 @@ const ListLanguageProficiency = ({ legGradoTitulo }: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [idDegree, setIdDegree]   = useState<number | null>(null)
 
-  if (!legGradoTitulo) return;
+  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
   const nLegGraDatCodigo = legGradoTitulo[0].nLegGraDatCodigo;
 
   // listar la idiomas distintos al materno

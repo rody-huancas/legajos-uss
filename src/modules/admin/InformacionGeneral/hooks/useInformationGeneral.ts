@@ -71,3 +71,10 @@ export const useInformatic = () => {
     informationGeneralService.getInformatic()
   );
 }
+
+// Opciones Cargos Académicos
+export const useAcademicPositions = () => {
+  return useFetchData<IConstante[] | undefined>(() =>
+    informationGeneralService.getAcademicPositions()
+  );
+}

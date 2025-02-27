@@ -5,9 +5,9 @@ import Button from "@shared/components/ui/Button/Button";
 import { ILegGradoTitulo } from "../models/general-information.model";
 /* Modules */
 import ListTeachingDedicationRegime from "@modules/admin/FormsGeneral/regimen-dedicacion-docente/pages/ListTeachingDedicationRegime";
+import ModalTeachingDedicationRegime from "@modules/admin/FormsGeneral/regimen-dedicacion-docente/pages/ModalTeachingDedicationRegime";
 /* Icons */
 import { HiAcademicCap } from "react-icons/hi";
-import ModalTeachingDedicationRegime from "@modules/admin/FormsGeneral/regimen-dedicacion-docente/pages/ModalTeachingDedicationRegime";
 
 interface Props {
   legGradoTitulo?: ILegGradoTitulo[];

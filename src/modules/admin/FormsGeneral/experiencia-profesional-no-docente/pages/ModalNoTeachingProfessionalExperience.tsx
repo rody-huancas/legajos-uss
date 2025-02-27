@@ -39,7 +39,7 @@ interface Props {
 }
 
 const ModalNoTeachingProfessionalExperience = ({ showModal, onClose, legGradoTitulo, id }: Props) => {
-  if (!legGradoTitulo) return;
+  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
   const dataFilter       = legGradoTitulo[0];
   const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
 
