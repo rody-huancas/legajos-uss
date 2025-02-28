@@ -4,8 +4,8 @@ import Button from "@shared/components/ui/Button/Button";
 /* Models */
 import { ILegGradoTitulo } from "../models/general-information.model";
 /* Modules */
-import ListSocialProjection from "@modules/admin/FormsGeneral/reconocimiento-otras-instituciones copy/pages/ListSocialProjection";
-import ModalSocialProjection from "@modules/admin/FormsGeneral/reconocimiento-otras-instituciones copy/pages/ModalSocialProjection";
+import ListSocialProjection from "@modules/admin/FormsGeneral/proyeccion-social/pages/ListSocialProjection";
+import ModalSocialProjection from "@modules/admin/FormsGeneral/proyeccion-social/pages/ModalSocialProjection";
 /* Icons */
 import { HiAcademicCap } from "react-icons/hi";
 

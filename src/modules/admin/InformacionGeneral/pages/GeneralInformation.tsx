@@ -10,6 +10,7 @@ import { LazyLoadSection } from "@shared/components/common/LazyLoadSection/LazyL
 import { SectionGeneralData } from "../components/SectionGeneralData";
 import { SectionDegreesTitles } from "../components/SectionDegreesTitles";
 import { SectionAttachDocuments } from "../components/SectionAttachDocuments";
+import { SectionSocialProjection } from "../components/SectionSocialProjection";
 import { SectionTeachingCategory } from "../components/SectionTeachingCategory";
 import { SectionLanguageMasteryTools } from "../components/SectionLanguageMasteryTools";
 import { SectionExperienceUniversity } from "../components/SectionExperienceUniversity";
@@ -25,7 +26,6 @@ import { legajoDataSchema, LegajoDataSchemaType } from "../schemas/general-infor
 import { informationGeneralService } from "../services";
 /* Store */
 import { useAuthStore } from "@store/auth/auth.store";
-import { SectionSocialProjection } from "../components/SectionSocialProjection";
 
 const GeneralInformation = () => {
   const user = useAuthStore((state) => state.user);
