@@ -1,94 +1,107 @@
-import { useFetchData } from "@shared/hooks/useFetchData";
+import { useQuery } from "@tanstack/react-query";
 import { IInterface, IConstante } from "../models/information-general.model";
 import { informationGeneralService } from "../services";
 
 // Grado Académico
 export const useAcademicDegree = () => {
-  return useFetchData<IInterface[] | undefined>(() =>
-    informationGeneralService.getAcademicDegree()
-  );
+  return useQuery<IInterface[] | undefined, Error>({
+    queryKey: ["academicDegree"],
+    queryFn: () => informationGeneralService.getAcademicDegree(),
+  });
 };
 
 // Documento de identidad
 export const useDocumentIdentity = () => {
-  return useFetchData<IInterface[] | undefined>(() =>
-    informationGeneralService.getDocumentIdentity()
-  );
+  return useQuery<IInterface[] | undefined, Error>({
+    queryKey: ["documentIdentity"],
+    queryFn: () => informationGeneralService.getDocumentIdentity(),
+  });
 };
 
 // Estado Civil
 export const useMaritalStatus = () => {
-  return useFetchData<IConstante[] | undefined>(() =>
-    informationGeneralService.getMaritalStatus()
-  );
+  return useQuery<IConstante[] | undefined, Error>({
+    queryKey: ["maritalStatus"],
+    queryFn: () => informationGeneralService.getMaritalStatus(),
+  });
 };
 
 // Sexo
 export const useSexo = () => {
-  return useFetchData<IConstante[] | undefined>(() =>
-    informationGeneralService.getSexo()
-  );
+  return useQuery<IConstante[] | undefined, Error>({
+    queryKey: ["sexo"],
+    queryFn: () => informationGeneralService.getSexo(),
+  });
 };
 
 // Tipo de Zona
 export const useZoneType = () => {
-  return useFetchData<IConstante[] | undefined>(() =>
-    informationGeneralService.getZoneType()
-  );
+  return useQuery<IConstante[] | undefined, Error>({
+    queryKey: ["zoneType"],
+    queryFn: () => informationGeneralService.getZoneType(),
+  });
 };
 
 // Tipo de Calle
 export const useStreetType = () => {
-  return useFetchData<IConstante[] | undefined>(() =>
-    informationGeneralService.getStreetType()
-  );
+  return useQuery<IConstante[] | undefined, Error>({
+    queryKey: ["streetType"],
+    queryFn: () => informationGeneralService.getStreetType(),
+  });
 };
 
 // Idiomas
 export const useLanguage = () => {
-  return useFetchData<IConstante[] | undefined>(() =>
-    informationGeneralService.getLanguage()
-  );
+  return useQuery<IConstante[] | undefined, Error>({
+    queryKey: ["languages"],
+    queryFn: () => informationGeneralService.getLanguage(),
+  });
 };
 
 // Nivel de Idioma
 export const useLanguageLevel = () => {
-  return useFetchData<IConstante[] | undefined>(() =>
-    informationGeneralService.getLanguageProficiency()
-  );
+  return useQuery<IConstante[] | undefined, Error>({
+    queryKey: ["languageLevel"],
+    queryFn: () => informationGeneralService.getLanguageProficiency(),
+  });
 };
 
 // Habilidad Ofimática
 export const useOfficeSkills = () => {
-  return useFetchData<IConstante[] | undefined>(() =>
-    informationGeneralService.getOfficeSkills()
-  );
-}
+  return useQuery<IConstante[] | undefined, Error>({
+    queryKey: ["officeSkills"],
+    queryFn: () => informationGeneralService.getOfficeSkills(),
+  });
+};
 
-// Opciones Onformática
+// Opciones Informática
 export const useInformatic = () => {
-  return useFetchData<IConstante[] | undefined>(() =>
-    informationGeneralService.getInformatic()
-  );
-}
+  return useQuery<IConstante[] | undefined, Error>({
+    queryKey: ["informatic"],
+    queryFn: () => informationGeneralService.getInformatic(),
+  });
+};
 
-// Opciones Cargos Académicos
+// Cargos Académicos
 export const useAcademicPositions = () => {
-  return useFetchData<IConstante[] | undefined>(() =>
-    informationGeneralService.getAcademicPositions()
-  );
-}
+  return useQuery<IConstante[] | undefined, Error>({
+    queryKey: ["academicPositions"],
+    queryFn: () => informationGeneralService.getAcademicPositions(),
+  });
+};
 
-// Opciones reconocimientos
+// Reconocimientos
 export const useRecognitions = () => {
-  return useFetchData<IConstante[] | undefined>(() =>
-    informationGeneralService.getRecognitions()
-  );
-}
+  return useQuery<IConstante[] | undefined, Error>({
+    queryKey: ["recognitions"],
+    queryFn: () => informationGeneralService.getRecognitions(),
+  });
+};
 
-// Opciones documentos de reconocimiento
+// Documentos de Reconocimiento
 export const useRecognitionDocuments = () => {
-  return useFetchData<IConstante[] | undefined>(() =>
-    informationGeneralService.getRecognitionDocuments()
-  );
-}
+  return useQuery<IConstante[] | undefined, Error>({
+    queryKey: ["recognitionDocuments"],
+    queryFn: () => informationGeneralService.getRecognitionDocuments(),
+  });
+};

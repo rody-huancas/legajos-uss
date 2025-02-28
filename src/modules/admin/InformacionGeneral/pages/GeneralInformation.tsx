@@ -25,6 +25,7 @@ import { legajoDataSchema, LegajoDataSchemaType } from "../schemas/general-infor
 import { informationGeneralService } from "../services";
 /* Store */
 import { useAuthStore } from "@store/auth/auth.store";
+import { SectionSocialProjection } from "../components/SectionSocialProjection";
 
 const GeneralInformation = () => {
   const user = useAuthStore((state) => state.user);
@@ -109,6 +110,11 @@ const GeneralInformation = () => {
           <AccordionItem title="Reconocimiento de otras instituciones" index={9}>
             <LazyLoadSection>
               <SectionRecognitionOtherInstitutions legGradoTitulo={dataGI?.legGradoTitulo} />
+            </LazyLoadSection>
+          </AccordionItem>
+          <AccordionItem title="Proyección social" index={10}>
+            <LazyLoadSection>
+              <SectionSocialProjection legGradoTitulo={dataGI?.legGradoTitulo} />
             </LazyLoadSection>
           </AccordionItem>
         </Accordion>
