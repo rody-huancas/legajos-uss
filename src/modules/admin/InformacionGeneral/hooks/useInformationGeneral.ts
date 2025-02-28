@@ -105,3 +105,11 @@ export const useRecognitionDocuments = () => {
     queryFn: () => informationGeneralService.getRecognitionDocuments(),
   });
 };
+
+// Participaciones
+export const useParticipations = () => {
+  return useQuery<IConstante[] | undefined, Error>({
+    queryKey: ["participations"],
+    queryFn: () => informationGeneralService.getParticipations(),
+  });
+};
