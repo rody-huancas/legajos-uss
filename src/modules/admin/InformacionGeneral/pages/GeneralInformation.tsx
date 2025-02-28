@@ -6,6 +6,7 @@ import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import { Title } from "@shared/components/ui/Title/Title";
 import { Accordion } from "@shared/components/ui/Accordion/Accordion";
 import { AccordionItem } from "@shared/components/ui/Accordion/AccordionItem";
+import { LazyLoadSection } from "@shared/components/common/LazyLoadSection/LazyLoadSection";
 import { SectionGeneralData } from "../components/SectionGeneralData";
 import { SectionDegreesTitles } from "../components/SectionDegreesTitles";
 import { SectionAttachDocuments } from "../components/SectionAttachDocuments";
@@ -13,6 +14,7 @@ import { SectionTeachingCategory } from "../components/SectionTeachingCategory";
 import { SectionLanguageMasteryTools } from "../components/SectionLanguageMasteryTools";
 import { SectionExperienceUniversity } from "../components/SectionExperienceUniversity";
 import { SectionTeachingDedicationRegime } from "../components/SectionTeachingDedicationRegime";
+import { SectionRecognitionOtherInstitutions } from "../components/SectionRecognitionOtherInstitutions";
 import { SectionUniversityAdministrativeBurden } from "../components/SectionUniversityAdministrativeBurden";
 import { SectionNoTeachingProfessionalExperience } from "../components/SectionNoTeachingProfessionalExperience";
 /* Hooks */
@@ -46,47 +48,68 @@ const GeneralInformation = () => {
   }
 
   if (isError) {
-    return <AlertMessage variant="error" title="Error al cargar la información." />
+    return <AlertMessage variant="error" title="Error al cargar la información." />;
   }
 
   if (dataGI === undefined) {
-    return <AlertMessage variant="error" title="Ocurrió un error al cargar la información." />
+    return <AlertMessage variant="error" title="Ocurrió un error al cargar la información." />;
   }
 
   return (
     <div className="w-full space-y-5">
-      <Title level={2} size="lg">
-        Información General
-      </Title>
-      
+      <Title level={2} size="lg">Información General</Title>
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
         <Accordion>
           <AccordionItem title="Datos Generales" index={0}>
-            <SectionGeneralData control={control} errors={errors} register={register} watch={watch} />
+            <LazyLoadSection>
+              <SectionGeneralData control={control} errors={errors} register={register} watch={watch} />
+            </LazyLoadSection>
           </AccordionItem>
           <AccordionItem title="Adjuntar Documentos" index={1}>
-            <SectionAttachDocuments setValue={setValue} errors={errors} />
+            <LazyLoadSection>
+              <SectionAttachDocuments setValue={setValue} errors={errors} />
+            </LazyLoadSection>
           </AccordionItem>
           <AccordionItem title="Grados y Títulos" index={2}>
-            <SectionDegreesTitles setValue={setValue} errors={errors} legGradoTitulo={dataGI?.legGradoTitulo} />
+            <LazyLoadSection>
+              <SectionDegreesTitles setValue={setValue} errors={errors} legGradoTitulo={dataGI?.legGradoTitulo} />
+            </LazyLoadSection>
           </AccordionItem>
           <AccordionItem title="Experiencia en Docencia Universitaria" index={3}>
-            <SectionExperienceUniversity legGradoTitulo={dataGI?.legGradoTitulo} />
+            <LazyLoadSection>
+              <SectionExperienceUniversity legGradoTitulo={dataGI?.legGradoTitulo} />
+            </LazyLoadSection>
           </AccordionItem>
           <AccordionItem title="Categoría Docente" index={4}>
-            <SectionTeachingCategory legGradoTitulo={dataGI?.legGradoTitulo} />
+            <LazyLoadSection>
+              <SectionTeachingCategory legGradoTitulo={dataGI?.legGradoTitulo} />
+            </LazyLoadSection>
           </AccordionItem>
           <AccordionItem title="Régimen Dedicación Docente" index={5}>
-            <SectionTeachingDedicationRegime legGradoTitulo={dataGI?.legGradoTitulo} />
+            <LazyLoadSection>
+              <SectionTeachingDedicationRegime legGradoTitulo={dataGI?.legGradoTitulo} />
+            </LazyLoadSection>
           </AccordionItem>
           <AccordionItem title="Experiencia Profesional no Docente" index={6}>
-            <SectionNoTeachingProfessionalExperience legGradoTitulo={dataGI?.legGradoTitulo} />
+            <LazyLoadSection>
+              <SectionNoTeachingProfessionalExperience legGradoTitulo={dataGI?.legGradoTitulo} />
+            </LazyLoadSection>
           </AccordionItem>
           <AccordionItem title="Dominio de idiomas - Herramientas de Informática" index={7}>
-            <SectionLanguageMasteryTools legGradoTitulo={dataGI?.legGradoTitulo} />
+            <LazyLoadSection>
+              <SectionLanguageMasteryTools legGradoTitulo={dataGI?.legGradoTitulo} />
+            </LazyLoadSection>
           </AccordionItem>
           <AccordionItem title="Carga administrativa universitaria" index={8}>
-            <SectionUniversityAdministrativeBurden legGradoTitulo={dataGI?.legGradoTitulo} />
+            <LazyLoadSection>
+              <SectionUniversityAdministrativeBurden legGradoTitulo={dataGI?.legGradoTitulo} />
+            </LazyLoadSection>
+          </AccordionItem>
+          <AccordionItem title="Reconocimiento de otras instituciones" index={9}>
+            <LazyLoadSection>
+              <SectionRecognitionOtherInstitutions legGradoTitulo={dataGI?.legGradoTitulo} />
+            </LazyLoadSection>
           </AccordionItem>
         </Accordion>
         
