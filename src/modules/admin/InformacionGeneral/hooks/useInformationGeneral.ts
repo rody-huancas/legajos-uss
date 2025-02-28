@@ -78,3 +78,17 @@ export const useAcademicPositions = () => {
     informationGeneralService.getAcademicPositions()
   );
 }
+
+// Opciones reconocimientos
+export const useRecognitions = () => {
+  return useFetchData<IConstante[] | undefined>(() =>
+    informationGeneralService.getRecognitions()
+  );
+}
+
+// Opciones documentos de reconocimiento
+export const useRecognitionDocuments = () => {
+  return useFetchData<IConstante[] | undefined>(() =>
+    informationGeneralService.getRecognitionDocuments()
+  );
+}

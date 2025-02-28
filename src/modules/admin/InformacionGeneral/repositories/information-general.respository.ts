@@ -15,7 +15,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -29,7 +28,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -43,7 +41,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -57,7 +54,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -71,7 +67,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -85,7 +80,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -99,7 +93,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -113,7 +106,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -127,7 +119,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -142,7 +133,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -157,7 +147,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -172,7 +161,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -187,7 +175,6 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
       throw error;
     }
   }
@@ -202,7 +189,34 @@ export class InformationGeneralRepository {
       if (axios.isAxiosError(error)) {
         showNotification("error", error.response?.data?.message);
       }
-      showNotification("error", "Ocurrió un error");
+      throw error;
+    }
+  }
+
+  // Obtener reconocimientos
+  async getRecognitions() {
+    try {
+      const response = await AxiosConfig<{ odata: IConstante[] }>("/constante/10");
+      const data = response.data.odata;
+      return data.filter(x=>x.nConValor !== 0);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        showNotification("error", error.response?.data?.message);
+      }
+      throw error;
+    }
+  }
+
+  // Obtener documento de reconocimientos
+  async getRecognitionDocuments() {
+    try {
+      const response = await AxiosConfig<{ odata: IConstante[] }>("/constante/11");
+      const data = response.data.odata;
+      return data.filter(x=>x.nConValor !== 0);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        showNotification("error", error.response?.data?.message);
+      }
       throw error;
     }
   }

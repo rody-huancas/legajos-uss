@@ -134,4 +134,22 @@ export class InformationGeneralService {
       showNotification("error", "Ocurrió un error al mostrar las opciones cargos acádemicos.");
     }
   }
+
+  async getRecognitions() {
+    try {
+      const response = await this.InformationGeneralRepository.getRecognitions();
+      return response;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al mostrar los reconocimientos.");
+    }
+  }
+
+  async getRecognitionDocuments() {
+    try {
+      const response = await this.InformationGeneralRepository.getRecognitionDocuments();
+      return response;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al mostrar los documentos de reconocimientos.");
+    }
+  }
 }
