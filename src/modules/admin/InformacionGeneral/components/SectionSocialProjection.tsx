@@ -4,8 +4,8 @@ import Button from "@shared/components/ui/Button/Button";
 /* Models */
 import { ILegGradoTitulo } from "../models/general-information.model";
 /* Modules */
-import ListRecognitionOtherInstitutions from "@modules/admin/FormsGeneral/reconocimiento-otras-instituciones/pages/ListRecognitionOtherInstitutions";
-import ModalRecognitionOtherInstitutions from "@modules/admin/FormsGeneral/reconocimiento-otras-instituciones/pages/ModalRecognitionOtherInstitutions";
+import ListSocialProjection from "@modules/admin/FormsGeneral/reconocimiento-otras-instituciones copy/pages/ListSocialProjection";
+import ModalSocialProjection from "@modules/admin/FormsGeneral/reconocimiento-otras-instituciones copy/pages/ModalSocialProjection";
 /* Icons */
 import { HiAcademicCap } from "react-icons/hi";
 
@@ -30,12 +30,12 @@ export const SectionSocialProjection = (props: Props) => {
         </div>
 
         {/* Tabla */}
-        <ListRecognitionOtherInstitutions legGradoTitulo={legGradoTitulo} />
+        <ListSocialProjection legGradoTitulo={legGradoTitulo} />
       </div>
 
       {
         showModal && (
-          <ModalRecognitionOtherInstitutions showModal={showModal} onClose={() => setShowModal(false)} legGradoTitulo={legGradoTitulo} />
+          <ModalSocialProjection showModal={showModal} onClose={() => setShowModal(false)} legGradoTitulo={legGradoTitulo} />
         )
       }
     </>

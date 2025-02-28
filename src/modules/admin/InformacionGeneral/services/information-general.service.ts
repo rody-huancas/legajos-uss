@@ -152,4 +152,13 @@ export class InformationGeneralService {
       showNotification("error", "Ocurrió un error al mostrar los documentos de reconocimientos.");
     }
   }
+
+  async getParticipations() {
+    try {
+      const response = await this.InformationGeneralRepository.getParticipations();
+      return response;
+    } catch (error) {
+      showNotification("error", "Ocurrió un error al mostrar las participaciones.");
+    }
+  }
 }

@@ -220,4 +220,18 @@ export class InformationGeneralRepository {
       throw error;
     }
   }
+
+  // Obtener participaciones
+  async getParticipations() {
+    try {
+      const response = await AxiosConfig<{ odata: IConstante[] }>("/constante/15");
+      const data = response.data.odata;
+      return data.filter(x=>x.nConValor !== 0);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        showNotification("error", error.response?.data?.message);
+      }
+      throw error;
+    }
+  }
 }

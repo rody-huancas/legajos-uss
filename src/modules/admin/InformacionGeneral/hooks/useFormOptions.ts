@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useCountries } from "./useCountries";
 import { formatToOptions } from "../utils";
-import { useAcademicDegree, useMaritalStatus, useDocumentIdentity, useSexo, useLanguage, useZoneType, useStreetType, useLanguageLevel, useOfficeSkills, useInformatic, useAcademicPositions, useRecognitionDocuments, useRecognitions } from "./useInformationGeneral";
+import { useAcademicDegree, useMaritalStatus, useDocumentIdentity, useSexo, useLanguage, useZoneType, useStreetType, useLanguageLevel, useOfficeSkills, useInformatic, useAcademicPositions, useRecognitionDocuments, useRecognitions, useParticipations } from "./useInformationGeneral";
 
 export const useFormOptions = () => {
   const { nationalities, departments, isLoading: isLoadingCountries } = useCountries();
@@ -19,6 +19,7 @@ export const useFormOptions = () => {
   const { data: academicPositions   , isLoading: isLoadingAcademicPositions    } = useAcademicPositions();
   const { data: recognitions        , isLoading: isLoadingRecognitions         } = useRecognitions();
   const { data: recognitionDocuments, isLoading: isLoadingRecognitionDocuments } = useRecognitionDocuments();
+  const { data: participations      , isLoading: isLoadingParticipations       } = useParticipations();
 
   const options = useMemo(
     () => ({
@@ -37,6 +38,7 @@ export const useFormOptions = () => {
       academicPositions   : formatToOptions(academicPositions),
       recognitions        : formatToOptions(recognitions),
       recognitionDocuments: formatToOptions(recognitionDocuments),
+      participations      : formatToOptions(participations),
 
       // Datos sin formatear (raw)
       raw: {
@@ -54,7 +56,8 @@ export const useFormOptions = () => {
         informatic,
         academicPositions,
         recognitions,
-        recognitionDocuments
+        recognitionDocuments,
+        participations
       },
     }),
     [
@@ -72,7 +75,8 @@ export const useFormOptions = () => {
       informatic,
       academicPositions,
       recognitions,
-      recognitionDocuments
+      recognitionDocuments,
+      participations
     ]
   );
 
@@ -91,7 +95,8 @@ export const useFormOptions = () => {
     informatic          : isLoadingInformatic,
     academicPositions   : isLoadingAcademicPositions,
     recognitions        : isLoadingRecognitions,
-    recognitionDocuments: isLoadingRecognitionDocuments
+    recognitionDocuments: isLoadingRecognitionDocuments,
+    participations      : isLoadingParticipations
   };
 
   return {
