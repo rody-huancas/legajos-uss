@@ -47,7 +47,7 @@ const ModalSocialProjection = ({ showModal, onClose, legGradoTitulo, id }: Props
   const queryClient = useQueryClient();
 
   const { options, loadingStates } = useFormOptions();
-  const { register, control, handleSubmit, formState: { errors }, watch, setValue } = useZodForm(projectionSocialSchema);
+  const { register, control, handleSubmit, formState: { errors }, watch, setValue, reset } = useZodForm(projectionSocialSchema);
   const { institutions, loadInstitutions, loadMoreInstitutions, handleSearch } = useInstitutionForm({
     countryFieldName         : "vPais",
     institutionFieldName     : "cLegProyInstitucion",
@@ -109,6 +109,7 @@ const ModalSocialProjection = ({ showModal, onClose, legGradoTitulo, id }: Props
       if (id) showNotification("success", "Proyección social actualizado correctamente.");
       else showNotification("success", "Proyección social registrado correctamente.");
 
+      reset()
       onClose();
     },
     onError: (error) => {
