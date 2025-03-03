@@ -22,8 +22,8 @@ import { INoTeachigProfessionalExperiencePost } from "../models/no-teaching-prof
   /* Config */
 import { OTHER_INSTITUTION_LABEL, OTHER_INSTITUTION_VALUE } from "@config/constants/variables";
 /* Models */
+import { IGeneralProps } from "@shared/models/global.model";
 import { IBaseOptionGI } from "@modules/admin/InformacionGeneral/models/information-general.model";
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 import { noTeachingProfessionalExperienceService } from "../services";
 import { noTeachingProfessionalExperienceSchema, NoTeachingProfessionalExperienceSchemaType } from "../schemas/teaching-dedication-regime.validation";
 /* Services */
@@ -31,14 +31,7 @@ import { experienceUnivesityService } from "../../experiencia-docencia-universit
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-interface Props {
-  showModal      : boolean;
-  onClose        : () => void;
-  id            ?: number | null;
-  legGradoTitulo?: ILegGradoTitulo[];
-}
-
-const ModalNoTeachingProfessionalExperience = ({ showModal, onClose, legGradoTitulo, id }: Props) => {
+const ModalNoTeachingProfessionalExperience = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
   if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
   const dataFilter       = legGradoTitulo[0];
   const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
@@ -133,7 +126,8 @@ const ModalNoTeachingProfessionalExperience = ({ showModal, onClose, legGradoTit
       cLegProInstitucion: data.cLegGraInstitucion.value,
       cLegProPais       : data.vPais.value.toString(),
       cLegProCargoProf  : data.cLegProCargoProf,
-      cLegProOtraInst   : data.cLegGraOtraInst ?? "",
+      // cLegProOtraInst   : data.cLegGraOtraInst ?? "",
+      cLegProOtraInst   : data.cLegGraInstitucion.value === OTHER_INSTITUTION_VALUE ? data.cLegGraOtraInst : "",
       nLegProCargo      : cargoData.nConCodigo,
       nValorCargo       : cargoData.nConValor,
       dLegProFechaInicio: formatDate(data.dateFecIni, "short", "-"),
@@ -144,6 +138,13 @@ const ModalNoTeachingProfessionalExperience = ({ showModal, onClose, legGradoTit
     };
 
     registerTeachingDedicationRegime(dataMapper);
+  };
+
+  const handleSubmitForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    handleSubmit(onSubmit)();
   };
 
   return (
@@ -157,7 +158,7 @@ const ModalNoTeachingProfessionalExperience = ({ showModal, onClose, legGradoTit
               isLoadingNoTeachingProfessionalExperience ? (
                 <Loader />
               ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+                <form onSubmit={handleSubmitForm} className="space-y-7">
                   <div className="space-y-5">
                     <ReactSelect
                       label        = "País"

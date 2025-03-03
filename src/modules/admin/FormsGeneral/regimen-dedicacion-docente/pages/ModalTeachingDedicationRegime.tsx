@@ -21,8 +21,8 @@ import { showNotification } from "@shared/utils/notification.util";
 /* Config */
 import { OTHER_INSTITUTION_LABEL, OTHER_INSTITUTION_VALUE } from "@config/constants/variables";
 /* Models */
+import { IGeneralProps } from "@shared/models/global.model";
 import { IBaseOptionGI } from "@modules/admin/InformacionGeneral/models/information-general.model";
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 import { ITeachingDedicactionsRegimePost } from "../models/teaching-dedication-regime.model";
 /* Schemas */
 import { teachingDedicationRegimeSchema, TeachingDedicationRegimeType } from "../schemas/teaching-dedication-regime.validation";
@@ -32,14 +32,7 @@ import { teachingDedicationRegimeService } from "../services";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-interface Props {
-  showModal      : boolean;
-  onClose        : () => void;
-  id            ?: number | null;
-  legGradoTitulo?: ILegGradoTitulo[];
-}
-
-const ModalTeachingDedicationRegime = ({ showModal, onClose, legGradoTitulo, id }: Props) => {
+const ModalTeachingDedicationRegime = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
   if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
   const dataFilter = legGradoTitulo[0];
   const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
@@ -136,7 +129,8 @@ const ModalTeachingDedicationRegime = ({ showModal, onClose, legGradoTitulo, id 
       nLegRegCodigo     : id ?? undefined,
       cLegCatInstitucion: data.cLegGraInstitucion.value,
       cLegRegPais       : data.vPais.value.toString(),
-      cLegRegOtraInst   : data.cLegGraOtraInst ?? "",
+      // cLegRegOtraInst   : data.cLegGraOtraInst ?? "",
+      cLegRegOtraInst   : data.cLegGraInstitucion.value === OTHER_INSTITUTION_VALUE ? data.cLegGraOtraInst : "",
       nLegRegDedicacion : regimeData.nConCodigo,
       nValorDedicacion  : regimeData.nConValor,
       dLegRegFechaInicio: formatDate(data.dateFecIni, "short", "-"),
@@ -147,6 +141,13 @@ const ModalTeachingDedicationRegime = ({ showModal, onClose, legGradoTitulo, id 
     }
 
     registerTeachingDedicationRegime(dataMapper);
+  };
+
+  const handleSubmitForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    handleSubmit(onSubmit)();
   };
 
   return (
@@ -160,7 +161,7 @@ const ModalTeachingDedicationRegime = ({ showModal, onClose, legGradoTitulo, id 
               isLoadingTeachingDedicationRegime ? (
                 <Loader />
               ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+                <form onSubmit={handleSubmitForm} className="space-y-7">
                   <div className="space-y-5">
                     <ReactSelect
                       label="País"

@@ -23,7 +23,7 @@ export const DatePickerCustomHeader = (props: CustomHeaderProps) => {
     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
   ];
 
-  const years = Array.from({ length: 111 }, (_, i) => date.getFullYear() - 100 + i);
+  const years = Array.from({ length: 70 }, (_, i) => date.getFullYear() - 70 + i);
 
   return (
     <div className="px-2 rounded-xl z-20">

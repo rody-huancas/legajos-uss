@@ -17,21 +17,14 @@ import { showNotification } from "@shared/utils/notification.util";
 /* Schemas */
 import { languageProficiencySchema, LanguageProficiencyType } from "../schemas/language-proficiency.validation";
 /* Models */
+import { IGeneralProps } from "@shared/models/global.model";
 import { ILanguageProficiencyPost } from "../models/language-proficiency.model";
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 /* Services */
 import { languageProficiencyService } from "../services";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-interface Props {
-  showModal      : boolean;
-  onClose        : () => void;
-  id            ?: number | null;
-  legGradoTitulo?: ILegGradoTitulo[];
-}
-
-const ModalLanguageProficiency = ({ showModal, onClose, legGradoTitulo, id }: Props) => {
+const ModalLanguageProficiency = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
   if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
   const dataFilter       = legGradoTitulo[0];
   const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
@@ -107,6 +100,13 @@ const ModalLanguageProficiency = ({ showModal, onClose, legGradoTitulo, id }: Pr
     registerLanguageProficiency(dataMapper)
   };
 
+  const handleSubmitForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    handleSubmit(onSubmit)();
+  };
+
   return (
     <ModalContainer
       isOpen={showModal}
@@ -122,7 +122,7 @@ const ModalLanguageProficiency = ({ showModal, onClose, legGradoTitulo, id }: Pr
               isLoading ? (
                 <Loader />
               ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+                <form onSubmit={handleSubmitForm} className="space-y-7">
                   <div className="space-y-5">
                     <ReactSelect
                       label="Idioma"

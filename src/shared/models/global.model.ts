@@ -1,3 +1,5 @@
+import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
+
 export interface ResponseSuccess {
   ncode   : number;
   cstate  : boolean;
@@ -6,8 +8,15 @@ export interface ResponseSuccess {
 }
 
 export interface IColumn<T> {
-  key?   : keyof T;
+  key   ?: keyof T;
   header : string;
   render?: (row: T) => React.ReactNode;
-  cell?  : () => React.ReactNode;
+  cell  ?: () => React.ReactNode;
+}
+
+export interface IGeneralProps {
+  showModal      : boolean;
+  onClose        : () => void;
+  legGradoTitulo?: ILegGradoTitulo[];
+  id            ?: number | null;
 }
