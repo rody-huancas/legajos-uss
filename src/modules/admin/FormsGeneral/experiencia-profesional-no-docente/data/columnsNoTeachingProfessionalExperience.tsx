@@ -34,7 +34,8 @@ export const columnsNoTeachingProfessionalExperience = ({ handleDelete, handleEd
       key: "cLegProInstitucionNavigation",
       header: "Institución",
       render: (row) => (
-        <span>{(row.cLegProInstitucionNavigation ? row.cLegProInstitucionNavigation.cPerNombre : row.cLegProOtraInst) || ""}</span>
+        <span>{(row.cLegProOtraInst ? row.cLegProOtraInst : row.cLegProInstitucionNavigation && row.cLegProInstitucionNavigation.cPerNombre) || ""}</span>
+        // <span>{(row.cLegProInstitucionNavigation ? row.cLegProInstitucionNavigation.cPerNombre : row.cLegProOtraInst) || ""}</span>
       ),
     },
     {

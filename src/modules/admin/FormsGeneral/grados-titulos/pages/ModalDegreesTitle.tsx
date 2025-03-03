@@ -1,24 +1,18 @@
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
-import { formatToOptions } from "@modules/admin/InformacionGeneral/utils";
-import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
-import InputDatePicker from "@shared/components/ui/DatePicker/DatePicker";
-import FileUploader from "@shared/components/ui/FileUploader/FileUploader";
-import InputField from "@shared/components/ui/InputField/InputField";
-import Loader from "@shared/components/ui/Loader/Loader";
-import ModalContainer from "@shared/components/ui/Modal/Modal";
-import ReactSelect from "@shared/components/ui/ReactSelect/ReactSelect";
-import { useDegreesTitleForm } from "../hooks/useDegreesTitleForm";
-import { LuSaveAll } from 'react-icons/lu';
 import Button from "@shared/components/ui/Button/Button";
+import Loader from "@shared/components/ui/Loader/Loader";
+import InputField from "@shared/components/ui/InputField/InputField";
+import ReactSelect from "@shared/components/ui/ReactSelect/ReactSelect";
+import FileUploader from "@shared/components/ui/FileUploader/FileUploader";
+import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
+import ModalContainer from "@shared/components/ui/Modal/Modal";
+import InputDatePicker from "@shared/components/ui/DatePicker/DatePicker";
+import { IGeneralProps } from "@shared/models/global.model";
+import { formatToOptions } from "@modules/admin/InformacionGeneral/utils";
+import { useDegreesTitleForm } from "../hooks/useDegreesTitleForm";
+/* Icons */
+import { LuSaveAll } from 'react-icons/lu';
 
-interface Props {
-  showModal      : boolean;
-  onClose        : () => void;
-  legGradoTitulo?: ILegGradoTitulo[];
-  id?            : number | null;
-}
-
-const ModalDegreesTitle = ({ showModal, onClose, legGradoTitulo, id }: Props) => {
+const ModalDegreesTitle = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
   const {
     register,
     control,
@@ -39,6 +33,14 @@ const ModalDegreesTitle = ({ showModal, onClose, legGradoTitulo, id }: Props) =>
     loadingStates,
   } = useDegreesTitleForm({ legGradoTitulo, id, onClose });
 
+  
+  const handleSubmitForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    handleSubmit(onSubmit)();
+  };
+
   return (
     <ModalContainer isOpen={showModal} onClose={onClose} title="Agregar Grado y Título">
       {isLoading ? (
@@ -48,7 +50,7 @@ const ModalDegreesTitle = ({ showModal, onClose, legGradoTitulo, id }: Props) =>
           {isError ? (
             <AlertMessage variant="error" title="No se pudo cargar los datos." />
           ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+            <form onSubmit={handleSubmitForm} className="space-y-7">
               <div className="space-y-5">
                 <ReactSelect
                   label="País"

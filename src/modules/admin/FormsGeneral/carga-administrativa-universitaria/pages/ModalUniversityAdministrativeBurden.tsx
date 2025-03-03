@@ -21,8 +21,8 @@ import { showNotification } from "@shared/utils/notification.util";
 /* Config */
 import { OTHER_INSTITUTION_LABEL, OTHER_INSTITUTION_VALUE } from "@config/constants/variables";
 /* Models */
+import { IGeneralProps } from "@shared/models/global.model";
 import { IBaseOptionGI } from "@modules/admin/InformacionGeneral/models/information-general.model";
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 import { IUniversityAdministrativeBurdenPost } from "../models/university-administrative-burden.model";
 /* Schemas */
 import { universityAdministrativeBurdenSchema, UniversityAdministrativeBurdenType } from "../schemas/university-administrative-burden.validation";
@@ -31,14 +31,7 @@ import { universityAdministrativeBurdenService } from "../services";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-interface Props {
-  showModal      : boolean;
-  onClose        : () => void;
-  id            ?: number | null;
-  legGradoTitulo?: ILegGradoTitulo[];
-}
-
-const ModalUniversityAdministrativeBurden = ({ showModal, onClose, legGradoTitulo, id }: Props) => {
+const ModalUniversityAdministrativeBurden = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
   if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
   const dataFilter = legGradoTitulo[0];
   const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
@@ -82,7 +75,7 @@ const ModalUniversityAdministrativeBurden = ({ showModal, onClose, legGradoTitul
           setValue("cLegGraInstitucion", { value: universityAdministrativeBurden.cLegAdmInstitucion.toString().trim(), label: OTHER_INSTITUTION_LABEL });
         } else {
           if (universityAdministrativeBurden.cLegAdmInstitucionNavigation) {
-            setValue("cLegGraInstitucion", { value: universityAdministrativeBurden.cLegAdmInstitucionNavigation.cPerApellido, label: universityAdministrativeBurden.cLegAdmInstitucionNavigation.cPerNombre });
+            setValue("cLegGraInstitucion", { value: universityAdministrativeBurden.cLegAdmInstitucionNavigation.cPerCodigo, label: universityAdministrativeBurden.cLegAdmInstitucionNavigation.cPerNombre });
           }
         }
         
@@ -138,8 +131,15 @@ const ModalUniversityAdministrativeBurden = ({ showModal, onClose, legGradoTitul
       cLegAdmValida     : "false",
       cLegAdmEstado     : "true",
     };
-  
+  console.log(dataMapper)
     registerUniversityAdministrativeBurden(dataMapper);
+  };
+
+  const handleSubmitForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    handleSubmit(onSubmit)();
   };
 
   return (
@@ -150,7 +150,7 @@ const ModalUniversityAdministrativeBurden = ({ showModal, onClose, legGradoTitul
         ) : isLoadingUniversityAdministrativeBurden ? (
           <Loader />
         ) : (
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+          <form onSubmit={handleSubmitForm} className="space-y-7">
             <div className="space-y-5">
               <ReactSelect
                 label="País"

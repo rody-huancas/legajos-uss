@@ -45,6 +45,7 @@ export const useDegreesTitleForm = ({ legGradoTitulo, id, onClose }: UseDegreesT
   useEffect(() => {
     if (degreeTitle) {
       setValue("vPais", { value: degreeTitle.vPais.nIntCodigo, label: degreeTitle.vPais.cIntDescripcion });
+      
       if (degreeTitle.cLegGraInstitucion.trim() === OTHER_INSTITUTION_VALUE) {
         setValue("cLegGraInstitucion", { value: degreeTitle.cLegGraInstitucion.toString().trim(), label: OTHER_INSTITUTION_LABEL });
       } else {
@@ -68,7 +69,7 @@ export const useDegreesTitleForm = ({ legGradoTitulo, id, onClose }: UseDegreesT
       let data: IPersona[] | undefined = [];
 
       if (watch("vPais.label") !== "PERU") {
-        const otraInstitucion: IPersona = { cPerCodigo: "PER100", cPerNombre: "OTRA INSTITUCIÓN" };
+        const otraInstitucion: IPersona = { cPerCodigo: OTHER_INSTITUTION_VALUE, cPerNombre: OTHER_INSTITUTION_LABEL };
               data                      = [otraInstitucion, ...(data || [])];
       } else {
         data = response?.filter((item) => item.cUbigeoCodigo!.length > 3);
@@ -111,7 +112,8 @@ export const useDegreesTitleForm = ({ legGradoTitulo, id, onClose }: UseDegreesT
         NClaseGradoAcad   : dataFilter.nClaseGradoAcad ?? 0,
         CLegGraCarreraProf: data.cLegGraCarreraProf ?? "",
         CLegGraInstitucion: data.cLegGraInstitucion?.value ?? '',
-        CLegGraOtraInst   : data.cLegGraOtraInst,
+        // CLegGraOtraInst   : data.cLegGraOtraInst,
+        CLegGraOtraInst   : data.cLegGraInstitucion.value === OTHER_INSTITUTION_VALUE ? data.cLegGraOtraInst : "",
         NLegGraPais       : data.vPais.value ?? 0,
         NClasePais        : dataFilter.nClasePais ?? 0,
         DLegGraFecha      : data.dLegGraFecha.toISOString().split('T')[0],

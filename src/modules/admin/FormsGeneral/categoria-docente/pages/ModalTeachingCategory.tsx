@@ -20,8 +20,8 @@ import { formatToOptions } from "@modules/admin/InformacionGeneral/utils";
 import { teachingCategoryService } from "../services";
 import { experienceUnivesityService } from "../../experiencia-docencia-universitaria/services";
 /* Models */
+import { IGeneralProps } from "@shared/models/global.model";
 import { IBaseOptionGI } from "@modules/admin/InformacionGeneral/models/information-general.model";
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 import { ITeachingCategoryPost } from "../models/teaching-category.model";
 /* Schemas */
 import { teachingCategorySchema, TeachingCategorySchemaType } from "../schemas/teaching-category.validation";
@@ -30,14 +30,7 @@ import { OTHER_INSTITUTION_LABEL, OTHER_INSTITUTION_VALUE } from "@config/consta
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-interface Props {
-  showModal      : boolean;
-  onClose        : () => void;
-  id            ?: number | null;
-  legGradoTitulo?: ILegGradoTitulo[];
-}
-
-const ModalTeachingCategory = ({ showModal, onClose, legGradoTitulo, id }: Props) => {
+const ModalTeachingCategory = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
   if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
 
   const dataFilter = legGradoTitulo[0];
@@ -140,7 +133,8 @@ const ModalTeachingCategory = ({ showModal, onClose, legGradoTitulo, id }: Props
       nLegCatCodigo     : id ?? undefined,
       cLegCatInstitucion: data.cLegGraInstitucion.value,
       cLegCatPais       : data.vPais.value.toString(),
-      cLegCatOtraInst   : data.cLegGraOtraInst ?? "",
+      // cLegCatOtraInst   : data.cLegGraOtraInst ?? "",
+      cLegCatOtraInst   : data.cLegGraInstitucion.value === OTHER_INSTITUTION_VALUE ? data.cLegGraOtraInst : "",
       nLegCatCategoria  : categoryData.nConCodigo,
       nValorCategoria   : categoryData.nConValor,
       dLegCatFechaInicio: formatDate(data.dateFecIni, "short", "-"),
@@ -153,13 +147,20 @@ const ModalTeachingCategory = ({ showModal, onClose, legGradoTitulo, id }: Props
     registerTeaching(dataMapper);
   };
 
+  const handleSubmitForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    handleSubmit(onSubmit)();
+  };
+
   return (
     <ModalContainer isOpen={showModal} onClose={onClose} title="Agregar Categoría del Docente">
       {
         loadTeachingCategory ? (
           <Loader />
         ) : (
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+          <form onSubmit={handleSubmitForm} className="space-y-7">
             <div className="space-y-5">
               <ReactSelect
                 label="País"

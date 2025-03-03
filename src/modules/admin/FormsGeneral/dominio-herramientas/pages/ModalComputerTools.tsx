@@ -19,21 +19,14 @@ import { showNotification } from "@shared/utils/notification.util";
 import { computerToolsSchema, ComputerToolsType } from "../schemas/computer-tools.validation";
 /* Models */
 import { IConstante } from "@modules/admin/InformacionGeneral/models/information-general.model";
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
+import { IGeneralProps } from "@shared/models/global.model";
 import { IComputerToolsPost } from "../models/computer-tools.model";
 /* Services */
 import { computerToolsService } from "../services";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-interface Props {
-  showModal      : boolean;
-  onClose        : () => void;
-  id            ?: number | null;
-  legGradoTitulo?: ILegGradoTitulo[];
-}
-
-const ModalComputerTools = ({ showModal, onClose, legGradoTitulo, id }: Props) => {
+const ModalComputerTools = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
   if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
 
   const dataFilter       = legGradoTitulo[0];
@@ -64,9 +57,11 @@ const ModalComputerTools = ({ showModal, onClose, legGradoTitulo, id }: Props) =
       const optionInformatic = options.raw?.informatic?.find(item => item?.nConValor.toString() === computerTool.nValorDesc.toString().substring(0, 4));
 
       setValue("vIdioma", { value: optionInformatic?.nConValor!, label: optionInformatic?.cConDescripcion! });
+      
       if (computerTool.nValorDesc.toString().length > 4) {
         setValue("vHabilidad", { value: computerTool.vCodigoDesc.nConValor, label: computerTool.vCodigoDesc.cConDescripcion });
       }
+
       setValue("vNivel", { value: computerTool.vNivel.nConValor, label: computerTool.vNivel.cConDescripcion });
       setValue("dateFecCert", new Date(computerTool.dLegIdOfFecha));
     }
@@ -126,6 +121,13 @@ const ModalComputerTools = ({ showModal, onClose, legGradoTitulo, id }: Props) =
     registerComputerTools(dataMapper)
   };
 
+  const handleSubmitForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    handleSubmit(onSubmit)();
+  };
+
   return (
     <ModalContainer
       isOpen={showModal}
@@ -141,7 +143,7 @@ const ModalComputerTools = ({ showModal, onClose, legGradoTitulo, id }: Props) =
               isLoading ? (
                 <Loader />
               ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+                <form onSubmit={handleSubmitForm} className="space-y-7">
                   <div className="space-y-5">
                     <ReactSelect
                       label="Informática"

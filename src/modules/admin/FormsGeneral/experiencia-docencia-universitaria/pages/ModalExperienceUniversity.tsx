@@ -10,7 +10,6 @@ import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import FileUploader from "@shared/components/ui/FileUploader/FileUploader";
 import ModalContainer from "@shared/components/ui/Modal/Modal";
 import InputDatePicker from "@shared/components/ui/DatePicker/DatePicker";
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 /* Hooks */
 import { useZodForm } from "@shared/hooks/useZodForm";
 import { useInstitutionForm } from "@shared/hooks/useInstitutionForm";
@@ -21,25 +20,19 @@ import { formatToOptions } from "@modules/admin/InformacionGeneral/utils";
 /* Config */
 import { OTHER_INSTITUTION_LABEL, OTHER_INSTITUTION_VALUE } from "@config/constants/variables";
 /* Models */
+import { IGeneralProps } from "@shared/models/global.model";
 import { IBaseOptionGI } from "@modules/admin/InformacionGeneral/models/information-general.model";
 import { IExperienceUniversityPost } from "../models/experience-university.model";
 /* Schemas */
 import { experienceUniversitySchema, type ExperienceUniversitySchemaType } from "../schemas/experience-university.validation";
 /* Services */
 import { experienceUnivesityService } from "../services";
+/* Utils */
+import { showNotification } from "@shared/utils/notification.util";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
-import { showNotification } from "@shared/utils/notification.util";
 
-interface Props {
-  showModal      : boolean;
-  onClose        : () => void;
-  id            ?: number | null;
-  legGradoTitulo?: ILegGradoTitulo[];
-}
-
-
-const ModalExperienceUniversity = ({ showModal, onClose, legGradoTitulo, id }: Props) => {
+const ModalExperienceUniversity = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
   const queryClient = useQueryClient();
   const { options, loadingStates } = useFormOptions();
   const { register, control, handleSubmit, formState: { errors }, watch, setValue } = useZodForm(experienceUniversitySchema);
@@ -158,7 +151,8 @@ const ModalExperienceUniversity = ({ showModal, onClose, legGradoTitulo, id }: P
       nValorCategoria   : categoryData.nConValor,
       cLegDocUniversidad: data.cLegGraInstitucion.value,
       cLegDocPais       : data.vPais.value.toString(),
-      cLegDocOtraInst   : data.cLegGraOtraInst,
+      // cLegDocOtraInst   : data.cLegGraOtraInst,
+      cLegDocOtraInst   : data.cLegGraInstitucion.value === OTHER_INSTITUTION_VALUE ? data.cLegGraOtraInst : "",
       dLegDocFechaInicio: formatDate(data.dateFecIni, "short", "-"),
       dLegDocFechaFin   : formatDate(data.dateFecFin, "short", "-"),
       cFile             : data.cLegDocArchivo,
@@ -167,6 +161,13 @@ const ModalExperienceUniversity = ({ showModal, onClose, legGradoTitulo, id }: P
     };
 
     registerExperience(dataMapper);
+  };
+
+  const handleSubmitForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    handleSubmit(onSubmit)();
   };
 
   return (
@@ -180,7 +181,7 @@ const ModalExperienceUniversity = ({ showModal, onClose, legGradoTitulo, id }: P
               loadExperience ? (
                 <Loader />
               ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+                <form onSubmit={handleSubmitForm} className="space-y-7">
                   <div className="space-y-5">
                     <ReactSelect
                       label="País"
