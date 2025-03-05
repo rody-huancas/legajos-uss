@@ -1,39 +1,38 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { informationGeneralService } from "../services";
-import { IInterface } from "../models/information-general.model";
 
 export const useCountries = () => {
-  const [ubigeo, setUbigeo]               = useState<IInterface[]>([]);
-  const [departments, setDepartments]     = useState<IInterface[]>([]);
-  const [nationalities, setNationalities] = useState<IInterface[]>([]);
-  const [countries, setCountries]         = useState<IInterface[]>([]);
-  const [isLoading, setIsLoading]         = useState<boolean>(true);
-  
   const fetchCountries = async () => {
-    try {
-      setIsLoading(true);
-      const data = await informationGeneralService.getCountries();
+    const data = await informationGeneralService.getCountries();
 
-      const filteredUbigeo = data?.filter((x) => x.nIntCodigo !== 0) || [];
-      setUbigeo(filteredUbigeo);
+    const filteredUbigeo  = data?.filter((x) => x.nIntCodigo !== 0) || [];
+    const departmentData  = filteredUbigeo.filter((x) => x.cIntJerarquia.trim().length === 2);
+    const nationalityData = filteredUbigeo.filter((x) => x.cIntJerarquia.trim().length === 3);
 
-      const departmentData = filteredUbigeo.filter((x) => x.cIntJerarquia.trim().length === 2);
-      setDepartments(departmentData);
-
-      const nationalityData = filteredUbigeo.filter((x) => x.cIntJerarquia.trim().length === 3);
-      setNationalities(nationalityData);
-      
-      setCountries([...nationalityData]);
-    } catch (err) {
-      console.error("Error al obtener los países:", err);
-    } finally {
-      setIsLoading(false);
-    }
+    return {
+      ubigeo       : filteredUbigeo,
+      departments  : departmentData,
+      nationalities: nationalityData,
+      countries    : [...nationalityData],
+    };
   };
 
-  useEffect(() => {
-    fetchCountries();
-  }, []);
+  const { data: countriesData, isLoading, isError, error } = useQuery({
+    queryKey            : ["countries"],
+    queryFn             : fetchCountries,
+    retry               : 1,
+    refetchOnWindowFocus: false,
+  });
 
-  return { ubigeo, departments, nationalities, countries, isLoading };
+  const { ubigeo = [], departments = [], nationalities = [], countries = [] } = countriesData || {};
+
+  return {
+    ubigeo,
+    departments,
+    nationalities,
+    countries,
+    isLoading,
+    isError,
+    error,
+  };
 };
