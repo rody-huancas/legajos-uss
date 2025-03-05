@@ -26,6 +26,7 @@ import { legajoDataSchema, LegajoDataSchemaType } from "../schemas/general-infor
 import { informationGeneralService } from "../services";
 /* Store */
 import { useAuthStore } from "@store/auth/auth.store";
+import { useEffect } from "react";
 
 const GeneralInformation = () => {
   const user = useAuthStore((state) => state.user);
@@ -40,6 +41,11 @@ const GeneralInformation = () => {
     enabled: !!user?.cPerCodigo,
   });
 
+  useEffect(() => {
+    console.log(user)
+    console.log(dataGI)
+  }, [user, dataGI])
+  
   const onSubmit = async (data: LegajoDataSchemaType) => {
     console.log(data);
   };
