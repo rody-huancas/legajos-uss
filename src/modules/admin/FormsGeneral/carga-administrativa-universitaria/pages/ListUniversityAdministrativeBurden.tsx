@@ -5,8 +5,6 @@ import Table from "@shared/components/ui/Table/Table";
 import Loader from "@shared/components/ui/Loader/Loader";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import ModalUniversityAdministrativeBurden from "./ModalUniversityAdministrativeBurden";
-/* Models */
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 /* Columns */
 import { columnsUniversityAdministrativeBurden } from "../data/columnsUniversityAdministrativeBurden";
 /* Store */
@@ -17,10 +15,10 @@ import { universityAdministrativeBurdenService } from "../services";
 import { showNotification } from "@shared/utils/notification.util";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
-const ListUniversityAdministrativeBurden = ({ legGradoTitulo }: Props) => {
+const ListUniversityAdministrativeBurden = ({ nLegDatCodigo }: Props) => {
   const queryClient = useQueryClient();
   // store
   const openDialog  = useDialogStore((state) => state.openDialog);
@@ -28,15 +26,11 @@ const ListUniversityAdministrativeBurden = ({ legGradoTitulo }: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [idDegree, setIdDegree]   = useState<number | null>(null)
 
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
-  
-  const nLegGraDatCodigo = legGradoTitulo[0].nLegGraDatCodigo;
-
   // listar la carga administrativa universitaria
   const { data: universitiesAdministrativeBurden, isLoading, isFetching, isError } = useQuery({
-    queryKey: ["universitiesAdministrativeBurden", nLegGraDatCodigo],
+    queryKey: ["universitiesAdministrativeBurden", nLegDatCodigo],
     queryFn: async () => {
-      const response = await universityAdministrativeBurdenService.getLstUniversityAdministrativeBurden(nLegGraDatCodigo);
+      const response = await universityAdministrativeBurdenService.getLstUniversityAdministrativeBurden(nLegDatCodigo);
       return response;
     },
   });
@@ -47,7 +41,7 @@ const ListUniversityAdministrativeBurden = ({ legGradoTitulo }: Props) => {
       await universityAdministrativeBurdenService.removeUniversityAdministrativeBurden(id);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["universitiesAdministrativeBurden", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["universitiesAdministrativeBurden", nLegDatCodigo] });
       showNotification("success", "Carga administrativa universitaria se eliminó correctamente.");
     },
     onError: (error) => {
@@ -91,7 +85,7 @@ const ListUniversityAdministrativeBurden = ({ legGradoTitulo }: Props) => {
 
       {
         openModal && (
-          <ModalUniversityAdministrativeBurden showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} legGradoTitulo={legGradoTitulo} />
+          <ModalUniversityAdministrativeBurden showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} nLegDatCodigo={nLegDatCodigo} />
         )
       }
     </div>

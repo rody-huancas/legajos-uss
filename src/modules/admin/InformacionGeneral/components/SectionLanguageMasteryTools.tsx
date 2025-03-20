@@ -4,19 +4,17 @@ import Button from "@shared/components/ui/Button/Button";
 import ListComputerTools from "@modules/admin/FormsGeneral/dominio-herramientas/pages/ListComputerTools";
 import ModalComputerTools from "@modules/admin/FormsGeneral/dominio-herramientas/pages/ModalComputerTools";
 import ModalLanguageProficiency from "@modules/admin/FormsGeneral/dominio-idiomas/pages/ModalLanguageProficiency";
-/* Models */
-import { ILegGradoTitulo } from "../models/general-information.model";
 /* Modules */
 import ListLanguageProficiency from "@modules/admin/FormsGeneral/dominio-idiomas/pages/ListLanguageProficiency";
 /* Icons */
 import { HiAcademicCap } from "react-icons/hi";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
 export const SectionLanguageMasteryTools = (props: Props) => {
-  const { legGradoTitulo = [] } = props;
+  const { nLegDatCodigo } = props;
   const [showModalTools, setShowModalTools]       = useState<boolean>(false)
   const [showModalLanguage, setShowModalLanguage] = useState<boolean>(false)
   
@@ -36,7 +34,7 @@ export const SectionLanguageMasteryTools = (props: Props) => {
             </div>
 
             {/* Tabla */}
-            <ListLanguageProficiency legGradoTitulo={legGradoTitulo} />
+            <ListLanguageProficiency nLegDatCodigo={nLegDatCodigo} />
           </div>
 
           <div className="space-y-3 mt-5">
@@ -51,17 +49,17 @@ export const SectionLanguageMasteryTools = (props: Props) => {
             </div>
 
             {/* Tabla */}
-            <ListComputerTools legGradoTitulo={legGradoTitulo} />
+            <ListComputerTools nLegDatCodigo={nLegDatCodigo} />
           </div>
         </div>
       </div>
 
 
       {/* Modal de dominio de idioma */}
-      { showModalLanguage && <ModalLanguageProficiency showModal={showModalLanguage} onClose={() => setShowModalLanguage(false)} legGradoTitulo={legGradoTitulo} /> }
+      { showModalLanguage && <ModalLanguageProficiency showModal={showModalLanguage} onClose={() => setShowModalLanguage(false)} nLegDatCodigo={nLegDatCodigo} /> }
 
       {/* Modal de dominio de TIC's */}
-      { showModalTools && <ModalComputerTools showModal={showModalTools} onClose={() => setShowModalTools(false)} legGradoTitulo={legGradoTitulo} /> }
+      { showModalTools && <ModalComputerTools showModal={showModalTools} onClose={() => setShowModalTools(false)} nLegDatCodigo={nLegDatCodigo} /> }
     </>
   );
 };

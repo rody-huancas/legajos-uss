@@ -1,20 +1,18 @@
 import { useState } from "react";
 /* Components */
 import Button from "@shared/components/ui/Button/Button";
-/* Models */
-import { ILegGradoTitulo } from "../models/general-information.model";
 /* Modules */
 import ListTeachingCategory from "@modules/admin/FormsGeneral/categoria-docente/pages/ListTeachingCategory";
+import ModalTeachingCategory from "@modules/admin/FormsGeneral/categoria-docente/pages/ModalTeachingCategory";
 /* Icons */
 import { HiAcademicCap } from "react-icons/hi";
-import ModalTeachingCategory from "@modules/admin/FormsGeneral/categoria-docente/pages/ModalTeachingCategory";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
 export const SectionTeachingCategory = (props: Props) => {
-  const { legGradoTitulo = [] } = props;
+  const { nLegDatCodigo } = props;
   const [showModal, setShowModal] = useState<boolean>(false)
   
   return (
@@ -28,12 +26,12 @@ export const SectionTeachingCategory = (props: Props) => {
           </div>
 
           {/* Tabla */}
-          <ListTeachingCategory legGradoTitulo={legGradoTitulo} />
+          <ListTeachingCategory nLegDatCodigo={nLegDatCodigo} />
         </div>
       </div>
 
       {
-        showModal && <ModalTeachingCategory legGradoTitulo={legGradoTitulo} showModal={showModal} onClose={() => setShowModal(false)} />
+        showModal && <ModalTeachingCategory nLegDatCodigo={nLegDatCodigo} showModal={showModal} onClose={() => setShowModal(false)} />
       }
     </>
   );

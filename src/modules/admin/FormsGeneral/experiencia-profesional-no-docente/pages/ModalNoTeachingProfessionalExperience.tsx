@@ -31,11 +31,9 @@ import { experienceUnivesityService } from "../../experiencia-docencia-universit
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-const ModalNoTeachingProfessionalExperience = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
-  const dataFilter       = legGradoTitulo[0];
-  const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
-
+const ModalNoTeachingProfessionalExperience = ({ showModal, onClose, nLegDatCodigo, id }: IGeneralProps) => {
+  if (!nLegDatCodigo) return;
+  
   const queryClient = useQueryClient();
 
   const { options, loadingStates } = useFormOptions();
@@ -50,7 +48,7 @@ const ModalNoTeachingProfessionalExperience = ({ showModal, onClose, legGradoTit
 
   // Obtener el régimen dedicación docente
   const { data: noTeachingProfessionalExperienceData, isLoading: isLoadingNoTeachingProfessionalExperience, isError: isErrorNoTeachingProfessionalExperience } = useQuery({
-    queryKey: ["noTeachingProfessionalExperience", nLegGraDatCodigo, id],
+    queryKey: ["noTeachingProfessionalExperience", nLegDatCodigo, id],
     queryFn: async () => {
       if (id) {
         const response = await noTeachingProfessionalExperienceService.getNoTeachingProfessionalExperience(id);
@@ -99,11 +97,11 @@ const ModalNoTeachingProfessionalExperience = ({ showModal, onClose, legGradoTit
       if (id) {
         await noTeachingProfessionalExperienceService.updateNoTeachingProfessionalExperience(id, data);
       } else {
-        await noTeachingProfessionalExperienceService.registerNoTeachingProfessionalExperience(nLegGraDatCodigo, data);
+        await noTeachingProfessionalExperienceService.registerNoTeachingProfessionalExperience(nLegDatCodigo, data);
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["noTeachingProfessionalExperience", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["noTeachingProfessionalExperience", nLegDatCodigo] });
       if (id) showNotification("success", "La Experiencia Profesional no Docente se ha actualizado correctamente.");
       else showNotification("success", "La Experiencia Profesional no Docente se ha registrado correctamente.");
       onClose();

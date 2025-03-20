@@ -98,7 +98,7 @@ export const useDegreesTitleForm = ({ legGradoTitulo, id, onClose }: UseDegreesT
     fetchAcademics();
   }, []);
 
-    // Mutación para guardar o actualizar
+  // Mutación para guardar o actualizar
   const { mutate, isPending: isSubmitting } = useMutation({
     mutationFn: async (data: DegreesTitleSchemaType) => {
       const dataFilter = legGradoTitulo?.[0];

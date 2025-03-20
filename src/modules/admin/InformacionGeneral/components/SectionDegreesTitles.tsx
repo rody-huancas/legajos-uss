@@ -18,10 +18,11 @@ interface Props {
   setValue       : UseFormSetValue<LegajoDataSchemaType>;
   errors         : FieldErrors<LegajoDataSchemaType>;
   legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo  : number;
 }
 
 export const SectionDegreesTitles = (props: Props) => {
-  const { setValue, errors, legGradoTitulo = [] } = props;
+  const { setValue, errors, legGradoTitulo = [], nLegDatCodigo } = props;
   const [addRegister, setAddRegister] = useState<boolean>(false);
 
   return (
@@ -38,7 +39,7 @@ export const SectionDegreesTitles = (props: Props) => {
             </Button>
           </div>
 
-          <ListDegreesTitle legGradoTitulo={legGradoTitulo} />
+          <ListDegreesTitle legGradoTitulo={legGradoTitulo} nLegDatCodigo={nLegDatCodigo} />
         </div>
       </div>
 

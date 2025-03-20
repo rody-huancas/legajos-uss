@@ -26,11 +26,8 @@ import { computerToolsService } from "../services";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-const ModalComputerTools = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
-
-  const dataFilter       = legGradoTitulo[0];
-  const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
+const ModalComputerTools = ({ showModal, onClose, nLegDatCodigo, id }: IGeneralProps) => {
+  if (!nLegDatCodigo) return;
 
   const queryClient = useQueryClient();
 
@@ -41,7 +38,7 @@ const ModalComputerTools = ({ showModal, onClose, legGradoTitulo, id }: IGeneral
 
   // Obtener el dominio de TICs
   const { data: computerTool, isLoading, isError } = useQuery({
-    queryKey: ["computerTool", nLegGraDatCodigo, id],
+    queryKey: ["computerTool", nLegDatCodigo, id],
     queryFn: async () => {
       if (id) {
         const response = await computerToolsService.getComputerTool(id);
@@ -83,10 +80,10 @@ const ModalComputerTools = ({ showModal, onClose, legGradoTitulo, id }: IGeneral
   const { mutate: registerComputerTools, isPending: isSubmitting } = useMutation({
     mutationFn: async (data: IComputerToolsPost) => {
       if (id) await computerToolsService.updateComputerTools(id, data);
-      else await computerToolsService.registerComputerTools(nLegGraDatCodigo, data);
+      else await computerToolsService.registerComputerTools(nLegDatCodigo, data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["computerTools", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["computerTools", nLegDatCodigo] });
       if (id) showNotification( "success", "El dominio de TICs se ha actualizado correctamente." );
       else showNotification( "success", "El dominio de TICs se ha registrado correctamente." );
       onClose();

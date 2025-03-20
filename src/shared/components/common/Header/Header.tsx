@@ -51,7 +51,7 @@ const Header = () => {
               <img
                 src={photo}
                 alt={`Foto del usuario ${user?.cPerNombre}`}
-                className="w-14 h-14 object-contain rounded-full"
+                className="w-24 h-24 object-contain rounded-full border-2 border-gray-500"
               />
               <div className="flex flex-col gap-1 text-sm">
                 <span className="text-sm text-secondary-800/85 font-bold">

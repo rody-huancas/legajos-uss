@@ -32,7 +32,7 @@ import { showNotification } from "@shared/utils/notification.util";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-const ModalExperienceUniversity = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
+const ModalExperienceUniversity = ({ showModal, onClose, id, nLegDatCodigo }: IGeneralProps) => {
   const queryClient = useQueryClient();
   const { options, loadingStates } = useFormOptions();
   const { register, control, handleSubmit, formState: { errors }, watch, setValue } = useZodForm(experienceUniversitySchema);
@@ -77,28 +77,23 @@ const ModalExperienceUniversity = ({ showModal, onClose, legGradoTitulo, id }: I
 
   const { mutate: registerExperience, isPending: isSubmitting } = useMutation({
     mutationFn: async (dataMapper: IExperienceUniversityPost) => {
-      const dataFilter = legGradoTitulo?.[0];
-      if (!dataFilter) return;
-      const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
+      if (!nLegDatCodigo) return;
 
       if (id) {
         await experienceUnivesityService.updateDegreeTitle(id, dataMapper);
       } else {
-        await experienceUnivesityService.registerExperienceUniversity(nLegGraDatCodigo, dataMapper);
+        await experienceUnivesityService.registerExperienceUniversity(nLegDatCodigo, dataMapper);
       }
 
     },
     onSuccess: () => {
-      const dataFilter = legGradoTitulo?.[0];
-      if (dataFilter) {
-        queryClient.invalidateQueries({ queryKey: ["experiencesUniversity", dataFilter.nLegGraDatCodigo] });
+      if (nLegDatCodigo) {
+        queryClient.invalidateQueries({ queryKey: ["experiencesUniversity", nLegDatCodigo] });
       }
 
-      if (id) {
-        showNotification("success", "Experiencia Universitaria actualizado correctamente.")
-      } else {
-        showNotification("success", "Experiencia Universitaria registrado correctamente.")
-      }
+      if (id) showNotification("success", "Experiencia Universitaria actualizado correctamente.")
+      else showNotification("success", "Experiencia Universitaria registrado correctamente.")
+      
       onClose();
     },
     onError: (error) => {
@@ -132,9 +127,6 @@ const ModalExperienceUniversity = ({ showModal, onClose, legGradoTitulo, id }: I
   }, [experienceUniversity, setValue, options.nationality]);
 
   const onSubmit = async (data: ExperienceUniversitySchemaType) => {
-    const dataFilter = legGradoTitulo?.[0];
-    if (!dataFilter) return;
-
     const regime   = dedicationRegime?.filter(item => item.nConValor === data.lRegimenDed.value);
     const category = teachingCategory?.filter(item => item.nConValor === data.lCategoriaDoc.value);
     

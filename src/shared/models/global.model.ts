@@ -19,4 +19,5 @@ export interface IGeneralProps {
   onClose        : () => void;
   legGradoTitulo?: ILegGradoTitulo[];
   id            ?: number | null;
+  nLegDatCodigo ?: number;
 }

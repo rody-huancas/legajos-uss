@@ -31,12 +31,9 @@ import { socialProjectionService } from "../services";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-const ModalSocialProjection = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
+const ModalSocialProjection = ({ showModal, onClose, nLegDatCodigo, id }: IGeneralProps) => {
+  if (!nLegDatCodigo) return;
 
-  const dataFilter       = legGradoTitulo[0];
-  const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
-  
   const queryClient = useQueryClient();
 
   const { options, loadingStates } = useFormOptions();
@@ -51,7 +48,7 @@ const ModalSocialProjection = ({ showModal, onClose, legGradoTitulo, id }: IGene
 
   // Obtener la carga administrativa universitaria
   const { data: socialProjection, isLoading: isLoadingsocialProjection, isError: isErrorsocialProjection } = useQuery({
-    queryKey: ["socialProjection", nLegGraDatCodigo, id],
+    queryKey: ["socialProjection", nLegDatCodigo, id],
     queryFn: async () => {
       if (id) {
         const response = await socialProjectionService.getSocialProjection(id);
@@ -94,10 +91,10 @@ const ModalSocialProjection = ({ showModal, onClose, legGradoTitulo, id }: IGene
   const { mutate: registerSocialProjection, isPending: isSubmitting } = useMutation({
     mutationFn: async (data: ISocialProjectionPost) => {
       if (id) await socialProjectionService.updateSocialProjection(id, data)
-      else await socialProjectionService.registerSocialProjection(nLegGraDatCodigo, data)
+      else await socialProjectionService.registerSocialProjection(nLegDatCodigo, data)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["socialProjections", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["socialProjections", nLegDatCodigo] });
   
       if (id) showNotification("success", "Proyección social actualizado correctamente.");
       else showNotification("success", "Proyección social registrado correctamente.");

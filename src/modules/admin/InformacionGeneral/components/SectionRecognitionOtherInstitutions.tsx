@@ -1,8 +1,6 @@
 import { useState } from "react";
 /* Components */
 import Button from "@shared/components/ui/Button/Button";
-/* Models */
-import { ILegGradoTitulo } from "../models/general-information.model";
 /* Modules */
 import ListRecognitionOtherInstitutions from "@modules/admin/FormsGeneral/reconocimiento-otras-instituciones/pages/ListRecognitionOtherInstitutions";
 import ModalRecognitionOtherInstitutions from "@modules/admin/FormsGeneral/reconocimiento-otras-instituciones/pages/ModalRecognitionOtherInstitutions";
@@ -10,11 +8,11 @@ import ModalRecognitionOtherInstitutions from "@modules/admin/FormsGeneral/recon
 import { HiAcademicCap } from "react-icons/hi";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
 export const SectionRecognitionOtherInstitutions = (props: Props) => {
-  const { legGradoTitulo = [] } = props;
+  const { nLegDatCodigo } = props;
   const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
@@ -30,12 +28,12 @@ export const SectionRecognitionOtherInstitutions = (props: Props) => {
         </div>
 
         {/* Tabla */}
-        <ListRecognitionOtherInstitutions legGradoTitulo={legGradoTitulo} />
+        <ListRecognitionOtherInstitutions nLegDatCodigo={nLegDatCodigo} />
       </div>
 
       {
         showModal && (
-          <ModalRecognitionOtherInstitutions showModal={showModal} onClose={() => setShowModal(false)} legGradoTitulo={legGradoTitulo} />
+          <ModalRecognitionOtherInstitutions showModal={showModal} onClose={() => setShowModal(false)} nLegDatCodigo={nLegDatCodigo} />
         )
       }
     </>

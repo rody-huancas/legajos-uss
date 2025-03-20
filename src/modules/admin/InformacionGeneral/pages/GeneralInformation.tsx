@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 /* Components */
+import Tabs from "@shared/components/ui/Tabs/Tabs";
 import Button from "@shared/components/ui/Button/Button";
 import Loader from "@shared/components/ui/Loader/Loader";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
@@ -8,6 +10,7 @@ import { Accordion } from "@shared/components/ui/Accordion/Accordion";
 import { AccordionItem } from "@shared/components/ui/Accordion/AccordionItem";
 import { LazyLoadSection } from "@shared/components/common/LazyLoadSection/LazyLoadSection";
 import { SectionGeneralData } from "../components/SectionGeneralData";
+import { SectionDocumentsDJ } from "../components/SectionDocumentsDJ";
 import { SectionDegreesTitles } from "../components/SectionDegreesTitles";
 import { SectionAttachDocuments } from "../components/SectionAttachDocuments";
 import { SectionSocialProjection } from "../components/SectionSocialProjection";
@@ -26,7 +29,6 @@ import { legajoDataSchema, LegajoDataSchemaType } from "../schemas/general-infor
 import { informationGeneralService } from "../services";
 /* Store */
 import { useAuthStore } from "@store/auth/auth.store";
-import { useEffect } from "react";
 
 const GeneralInformation = () => {
   const user = useAuthStore((state) => state.user);
@@ -62,68 +64,93 @@ const GeneralInformation = () => {
     return <AlertMessage variant="error" title="Ocurrió un error al cargar la información." />;
   }
 
-  return (
-    <div className="w-full space-y-5">
-      <Title level={2} size="lg">Información General</Title>
+  const tabs = [
+    {
+      label: "Curriculum Vitae",
+      content: (
+        <div className="space-y-5">
+          <Title level={2} size="lg">Información General</Title>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+          <Accordion>
+            <AccordionItem title="Datos Generales" index={0}>
+              <LazyLoadSection>
+                <SectionGeneralData control={control} errors={errors} register={register} watch={watch} />
+              </LazyLoadSection>
+            </AccordionItem>
+            <AccordionItem title="Adjuntar Documentos" index={1}>
+              <LazyLoadSection>
+                <SectionAttachDocuments setValue={setValue} errors={errors} />
+              </LazyLoadSection>
+            </AccordionItem>
+            <AccordionItem title="Grados y Títulos" index={2}>
+              <LazyLoadSection>
+                <SectionDegreesTitles setValue={setValue} errors={errors} nLegDatCodigo={dataGI.nLegDatCodigo} legGradoTitulo={dataGI?.legGradoTitulo} />
+              </LazyLoadSection>
+            </AccordionItem>
+            <AccordionItem title="Experiencia en Docencia Universitaria" index={3}>
+              <LazyLoadSection>
+                <SectionExperienceUniversity nLegDatCodigo={dataGI.nLegDatCodigo} />
+              </LazyLoadSection>
+            </AccordionItem>
+            <AccordionItem title="Categoría Docente" index={4}>
+              <LazyLoadSection>
+                <SectionTeachingCategory nLegDatCodigo={dataGI.nLegDatCodigo} />
+              </LazyLoadSection>
+            </AccordionItem>
+            <AccordionItem title="Régimen Dedicación Docente" index={5}>
+              <LazyLoadSection>
+                <SectionTeachingDedicationRegime nLegDatCodigo={dataGI.nLegDatCodigo} />
+              </LazyLoadSection>
+            </AccordionItem>
+            <AccordionItem title="Experiencia Profesional no Docente" index={6}>
+              <LazyLoadSection>
+                <SectionNoTeachingProfessionalExperience nLegDatCodigo={dataGI.nLegDatCodigo} />
+              </LazyLoadSection>
+            </AccordionItem>
+            <AccordionItem title="Dominio de idiomas - Herramientas de Informática" index={7}>
+              <LazyLoadSection>
+                <SectionLanguageMasteryTools nLegDatCodigo={dataGI.nLegDatCodigo} />
+              </LazyLoadSection>
+            </AccordionItem>
+            <AccordionItem title="Carga administrativa universitaria" index={8}>
+              <LazyLoadSection>
+                <SectionUniversityAdministrativeBurden nLegDatCodigo={dataGI.nLegDatCodigo} />
+              </LazyLoadSection>
+            </AccordionItem>
+            <AccordionItem title="Reconocimiento de otras instituciones" index={9}>
+              <LazyLoadSection>
+                <SectionRecognitionOtherInstitutions nLegDatCodigo={dataGI.nLegDatCodigo} />
+              </LazyLoadSection>
+            </AccordionItem>
+            <AccordionItem title="Proyección social" index={10}>
+              <LazyLoadSection>
+                <SectionSocialProjection nLegDatCodigo={dataGI.nLegDatCodigo} />
+              </LazyLoadSection>
+            </AccordionItem>
+          </Accordion>
+        </div>
+      ),
+    },
+    {
+      label: "Documentos/DJ",
+      content: (
         <Accordion>
-          <AccordionItem title="Datos Generales" index={0}>
+          <AccordionItem title="Declaraciones Juradas" index={0}>
             <LazyLoadSection>
-              <SectionGeneralData control={control} errors={errors} register={register} watch={watch} />
-            </LazyLoadSection>
-          </AccordionItem>
-          <AccordionItem title="Adjuntar Documentos" index={1}>
-            <LazyLoadSection>
-              <SectionAttachDocuments setValue={setValue} errors={errors} />
-            </LazyLoadSection>
-          </AccordionItem>
-          <AccordionItem title="Grados y Títulos" index={2}>
-            <LazyLoadSection>
-              <SectionDegreesTitles setValue={setValue} errors={errors} legGradoTitulo={dataGI?.legGradoTitulo} />
-            </LazyLoadSection>
-          </AccordionItem>
-          <AccordionItem title="Experiencia en Docencia Universitaria" index={3}>
-            <LazyLoadSection>
-              <SectionExperienceUniversity legGradoTitulo={dataGI?.legGradoTitulo} />
-            </LazyLoadSection>
-          </AccordionItem>
-          <AccordionItem title="Categoría Docente" index={4}>
-            <LazyLoadSection>
-              <SectionTeachingCategory legGradoTitulo={dataGI?.legGradoTitulo} />
-            </LazyLoadSection>
-          </AccordionItem>
-          <AccordionItem title="Régimen Dedicación Docente" index={5}>
-            <LazyLoadSection>
-              <SectionTeachingDedicationRegime legGradoTitulo={dataGI?.legGradoTitulo} />
-            </LazyLoadSection>
-          </AccordionItem>
-          <AccordionItem title="Experiencia Profesional no Docente" index={6}>
-            <LazyLoadSection>
-              <SectionNoTeachingProfessionalExperience legGradoTitulo={dataGI?.legGradoTitulo} />
-            </LazyLoadSection>
-          </AccordionItem>
-          <AccordionItem title="Dominio de idiomas - Herramientas de Informática" index={7}>
-            <LazyLoadSection>
-              <SectionLanguageMasteryTools legGradoTitulo={dataGI?.legGradoTitulo} />
-            </LazyLoadSection>
-          </AccordionItem>
-          <AccordionItem title="Carga administrativa universitaria" index={8}>
-            <LazyLoadSection>
-              <SectionUniversityAdministrativeBurden legGradoTitulo={dataGI?.legGradoTitulo} />
-            </LazyLoadSection>
-          </AccordionItem>
-          <AccordionItem title="Reconocimiento de otras instituciones" index={9}>
-            <LazyLoadSection>
-              <SectionRecognitionOtherInstitutions legGradoTitulo={dataGI?.legGradoTitulo} />
-            </LazyLoadSection>
-          </AccordionItem>
-          <AccordionItem title="Proyección social" index={10}>
-            <LazyLoadSection>
-              <SectionSocialProjection legGradoTitulo={dataGI?.legGradoTitulo} />
+              <SectionDocumentsDJ />
             </LazyLoadSection>
           </AccordionItem>
         </Accordion>
+      ),
+    },
+  ];
+
+  return (
+    <div className="w-full space-y-5">
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+        
+        <Tabs tabs={tabs} />
         
         <Button type="submit">Guardar Datos</Button>
       </form>

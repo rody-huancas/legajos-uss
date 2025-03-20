@@ -5,8 +5,6 @@ import Table from "@shared/components/ui/Table/Table";
 import Loader from "@shared/components/ui/Loader/Loader";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import ModalTeachingDedicationRegime from "./ModalTeachingDedicationRegime";
-/* Models */
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 /* Columns */
 import { columnsTeachingDedicationRegime } from "../data/columnsTeachingDedicationRegime";
 /* Store */
@@ -17,10 +15,10 @@ import { teachingDedicationRegimeService } from "../services";
 import { showNotification } from "@shared/utils/notification.util";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
-const ListTeachingDedicationRegime = ({ legGradoTitulo }: Props) => {
+const ListTeachingDedicationRegime = ({ nLegDatCodigo }: Props) => {
   const queryClient = useQueryClient();
   // store
   const openDialog  = useDialogStore((state) => state.openDialog);
@@ -28,14 +26,13 @@ const ListTeachingDedicationRegime = ({ legGradoTitulo }: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [idDegree, setIdDegree]   = useState<number | null>(null)
 
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
-  const nLegGraDatCodigo = legGradoTitulo[0].nLegGraDatCodigo;
-
+  if (!nLegDatCodigo) return;
+  
   // listar Régimen Dedicación Docente
   const { data: teachingCategories, isLoading, isFetching, isError } = useQuery({
-    queryKey: ["teachingDedicationRegime", nLegGraDatCodigo],
+    queryKey: ["teachingDedicationRegime", nLegDatCodigo],
     queryFn: async () => {
-      const response = await teachingDedicationRegimeService.getTeachingDedicationsRegime(nLegGraDatCodigo);
+      const response = await teachingDedicationRegimeService.getTeachingDedicationsRegime(nLegDatCodigo);
       return response;
     },
   });
@@ -46,7 +43,7 @@ const ListTeachingDedicationRegime = ({ legGradoTitulo }: Props) => {
       await teachingDedicationRegimeService.removeTeachingDedicationRegime(id);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["teachingDedicationRegime", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["teachingDedicationRegime", nLegDatCodigo] });
       showNotification("success", "Régimen dedicación docente se eliminó correctamente.");
     },
     onError: (error) => {
@@ -90,7 +87,7 @@ const ListTeachingDedicationRegime = ({ legGradoTitulo }: Props) => {
 
       {
         openModal && (
-          <ModalTeachingDedicationRegime showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} legGradoTitulo={legGradoTitulo} />
+          <ModalTeachingDedicationRegime showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} nLegDatCodigo={nLegDatCodigo} />
         )
       }
     </div>

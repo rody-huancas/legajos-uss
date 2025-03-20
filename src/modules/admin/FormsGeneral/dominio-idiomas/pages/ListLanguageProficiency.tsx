@@ -5,8 +5,6 @@ import Table from "@shared/components/ui/Table/Table";
 import Loader from "@shared/components/ui/Loader/Loader";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import ModalLanguageProficiency from "./ModalLanguageProficiency";
-/* Models */
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 /* Columns */
 import { columnsLanguageProficiency } from "../data/columnsLanguageProficiency";
 /* Store */
@@ -17,10 +15,10 @@ import { languageProficiencyService } from "../services";
 import { showNotification } from "@shared/utils/notification.util";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
-const ListLanguageProficiency = ({ legGradoTitulo }: Props) => {
+const ListLanguageProficiency = ({ nLegDatCodigo }: Props) => {
   const queryClient = useQueryClient();
   // store
   const openDialog  = useDialogStore((state) => state.openDialog);
@@ -28,14 +26,13 @@ const ListLanguageProficiency = ({ legGradoTitulo }: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [idDegree, setIdDegree]   = useState<number | null>(null)
 
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
-  const nLegGraDatCodigo = legGradoTitulo[0].nLegGraDatCodigo;
-
+  if (!nLegDatCodigo) return;
+ 
   // listar la idiomas distintos al materno
   const { data: languagesProficiencies, isLoading, isFetching, isError } = useQuery({
-    queryKey: ["languagesProficiencies", nLegGraDatCodigo],
+    queryKey: ["languagesProficiencies", nLegDatCodigo],
     queryFn: async () => {
-      const response = await languageProficiencyService.getLstLanguageProficiencies(nLegGraDatCodigo);
+      const response = await languageProficiencyService.getLstLanguageProficiencies(nLegDatCodigo);
       return response;
     },
   });
@@ -46,7 +43,7 @@ const ListLanguageProficiency = ({ legGradoTitulo }: Props) => {
       await languageProficiencyService.removeLanguageProficiency(id);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["languagesProficiencies", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["languagesProficiencies", nLegDatCodigo] });
       showNotification("success", "El Dominio de Idioma se eliminó correctamente.");
     },
     onError: (error) => {
@@ -89,7 +86,7 @@ const ListLanguageProficiency = ({ legGradoTitulo }: Props) => {
       }
 
       {
-        openModal && <ModalLanguageProficiency showModal={openModal} onClose={() => setOpenModal(false)} legGradoTitulo={legGradoTitulo} id={idDegree} />
+        openModal && <ModalLanguageProficiency showModal={openModal} onClose={() => setOpenModal(false)} nLegDatCodigo={nLegDatCodigo} id={idDegree} />
       }
     </div>
   );

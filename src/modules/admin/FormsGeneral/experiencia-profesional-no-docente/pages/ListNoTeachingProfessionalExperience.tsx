@@ -5,8 +5,6 @@ import Table from "@shared/components/ui/Table/Table";
 import Loader from "@shared/components/ui/Loader/Loader";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import ModalNoTeachingProfessionalExperience from "./ModalNoTeachingProfessionalExperience";
-/* Models */
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 /* Columns */
 import { columnsNoTeachingProfessionalExperience } from "../data/columnsNoTeachingProfessionalExperience";
 /* Store */
@@ -17,10 +15,10 @@ import { noTeachingProfessionalExperienceService } from "../services";
 import { showNotification } from "@shared/utils/notification.util";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
-const ListNoTeachingProfessionalExperience = ({ legGradoTitulo }: Props) => {
+const ListNoTeachingProfessionalExperience = ({ nLegDatCodigo }: Props) => {
   const queryClient = useQueryClient();
   // store
   const openDialog  = useDialogStore((state) => state.openDialog);
@@ -28,14 +26,13 @@ const ListNoTeachingProfessionalExperience = ({ legGradoTitulo }: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [idDegree, setIdDegree]   = useState<number | null>(null)
 
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
-  const nLegGraDatCodigo = legGradoTitulo[0].nLegGraDatCodigo;
+  if (!nLegDatCodigo) return;
 
   // listar la experiencia profesional no docente
   const { data: noTeachingProfessionalExperience, isLoading, isFetching, isError } = useQuery({
-    queryKey: ["noTeachingProfessionalExperience", nLegGraDatCodigo],
+    queryKey: ["noTeachingProfessionalExperience", nLegDatCodigo],
     queryFn: async () => {
-      const response = await noTeachingProfessionalExperienceService.getLstNoTeachingProfessionalExperience(nLegGraDatCodigo);
+      const response = await noTeachingProfessionalExperienceService.getLstNoTeachingProfessionalExperience(nLegDatCodigo);
       return response;
     },
   });
@@ -46,7 +43,7 @@ const ListNoTeachingProfessionalExperience = ({ legGradoTitulo }: Props) => {
       await noTeachingProfessionalExperienceService.removeNoTeachingProfessionalExperience(id);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["noTeachingProfessionalExperience", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["noTeachingProfessionalExperience", nLegDatCodigo] });
       showNotification("success", "Experiencia profesional no docente se eliminó correctamente.");
     },
     onError: (error) => {
@@ -90,7 +87,7 @@ const ListNoTeachingProfessionalExperience = ({ legGradoTitulo }: Props) => {
 
       {
         openModal && (
-          <ModalNoTeachingProfessionalExperience showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} legGradoTitulo={legGradoTitulo} />
+          <ModalNoTeachingProfessionalExperience showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} nLegDatCodigo={nLegDatCodigo} />
         )
       }
     </div>

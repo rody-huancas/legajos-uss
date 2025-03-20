@@ -4,23 +4,19 @@ import Table from "@shared/components/ui/Table/Table";
 import Loader from "@shared/components/ui/Loader/Loader";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import ModalExperienceUniversity from "./ModalExperienceUniversity";
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
-import { experienceUnivesityService } from "../services";
-import { ColumnsExperienceUniversity } from "../data/ColumnsExperienceUniversity";
 import { useDialogStore } from "@store/ui/useDialog.store";
 import { showNotification } from "@shared/utils/notification.util";
+import { experienceUnivesityService } from "../services";
+import { ColumnsExperienceUniversity } from "../data/ColumnsExperienceUniversity";
 
 interface Props {
-  legGradoTitulo: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
-const ListExperienceUniversity = ({ legGradoTitulo }: Props) => {
-  if (!legGradoTitulo || legGradoTitulo.length === 0) return null;
+const ListExperienceUniversity = ({ nLegDatCodigo }: Props) => {
+  if (!nLegDatCodigo) return null;
 
   const queryClient = useQueryClient();
-
-  const dataFilter = legGradoTitulo[0];
-  const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
 
   const openDialog  = useDialogStore((state) => state.openDialog);
 
@@ -28,9 +24,9 @@ const ListExperienceUniversity = ({ legGradoTitulo }: Props) => {
   const [idDegree, setIdDegree]   = useState<number | null>(null)
 
   const { data: experienceUniversity, isLoading, isFetching, isError } = useQuery({
-    queryKey: ["experiencesUniversity", nLegGraDatCodigo],
+    queryKey: ["experiencesUniversity", nLegDatCodigo],
     queryFn: async () => {
-      const response = await experienceUnivesityService.getExperiencesUniversity(nLegGraDatCodigo);
+      const response = await experienceUnivesityService.getExperiencesUniversity(nLegDatCodigo);
       return response;
     },
   });
@@ -40,7 +36,7 @@ const ListExperienceUniversity = ({ legGradoTitulo }: Props) => {
       await experienceUnivesityService.removeExperienceUniversity(id);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["experiencesUniversity", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["experiencesUniversity", nLegDatCodigo] });
       showNotification("success", "La experiencia universitaria se eliminó correctamente.");
     },
     onError: () => {
@@ -77,12 +73,13 @@ const ListExperienceUniversity = ({ legGradoTitulo }: Props) => {
         <Table
           columns={ColumnsExperienceUniversity({ handleDelete, handleEdit })}
           data={experienceUniversity ?? []}
+          messageNoData="No se ha registrado la experiencia universitaria"
         />
       )}
       
       {
         openModal && (
-          <ModalExperienceUniversity showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} legGradoTitulo={legGradoTitulo} />
+          <ModalExperienceUniversity showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} nLegDatCodigo={nLegDatCodigo} />
         )
       }
     </div>

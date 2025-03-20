@@ -5,8 +5,6 @@ import Table from "@shared/components/ui/Table/Table";
 import Loader from "@shared/components/ui/Loader/Loader";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import ModalSocialProjection from "./ModalSocialProjection";
-/* Models */
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 /* Columns */
 import { columnsSocialProjection } from "../data/columnsSocialProjection";
 /* Store */
@@ -17,10 +15,10 @@ import { socialProjectionService } from "../services";
 import { showNotification } from "@shared/utils/notification.util";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
-const ListSocialProjection = ({ legGradoTitulo }: Props) => {
+const ListSocialProjection = ({ nLegDatCodigo }: Props) => {
   const queryClient = useQueryClient();
   // store
   const openDialog  = useDialogStore((state) => state.openDialog);
@@ -28,15 +26,13 @@ const ListSocialProjection = ({ legGradoTitulo }: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [idDegree, setIdDegree]   = useState<number | null>(null)
 
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
+  if (!nLegDatCodigo) return;
   
-  const nLegGraDatCodigo = legGradoTitulo[0].nLegGraDatCodigo;
-
   // listar la proyección social
   const { data: socialProjections, isLoading, isFetching, isError } = useQuery({
-    queryKey: ["socialProjections", nLegGraDatCodigo],
+    queryKey: ["socialProjections", nLegDatCodigo],
     queryFn: async () => {
-      const response = await socialProjectionService.getLstSocialProjections(nLegGraDatCodigo);
+      const response = await socialProjectionService.getLstSocialProjections(nLegDatCodigo);
       return response;
     },
   });
@@ -47,7 +43,7 @@ const ListSocialProjection = ({ legGradoTitulo }: Props) => {
       await socialProjectionService.removeSocialProjection(id);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["socialProjections", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["socialProjections", nLegDatCodigo] });
       showNotification("success", "La proyección social se eliminó correctamente.");
     },
     onError: (error) => {
@@ -91,7 +87,7 @@ const ListSocialProjection = ({ legGradoTitulo }: Props) => {
 
       {
         openModal && (
-          <ModalSocialProjection showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} legGradoTitulo={legGradoTitulo} />
+          <ModalSocialProjection showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} nLegDatCodigo={nLegDatCodigo} />
         )
       }
     </div>
