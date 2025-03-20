@@ -5,8 +5,7 @@ import Table from "@shared/components/ui/Table/Table";
 import Loader from "@shared/components/ui/Loader/Loader";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import ModalTeachingCategory from "./ModalTeachingCategory";
-/* Models */
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
+/* Data */
 import { ColumnsTeachingCategory } from "../data/ColumnsTeachingCategory";
 /* Services */
 import { teachingCategoryService } from "../services";
@@ -16,17 +15,14 @@ import { useDialogStore } from "@store/ui/useDialog.store";
 import { showNotification } from "@shared/utils/notification.util";
 
 interface Props {
-  legGradoTitulo: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
-const ListTeachingCategory = ({ legGradoTitulo }: Props) => {
-  if (!legGradoTitulo || legGradoTitulo.length === 0) return null;
+const ListTeachingCategory = ({ nLegDatCodigo }: Props) => {
+  if (!nLegDatCodigo) return null;
 
   const queryClient = useQueryClient();
   
-  const dataFilter = legGradoTitulo[0];
-  const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
-
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [idDegree, setIdDegree]   = useState<number | null>(null)
 
@@ -34,9 +30,9 @@ const ListTeachingCategory = ({ legGradoTitulo }: Props) => {
 
   // listar categorías del docente
   const { data: teachingCategories, isLoading, isFetching, isError } = useQuery({
-    queryKey: ["teachingCategories", nLegGraDatCodigo],
+    queryKey: ["teachingCategories", nLegDatCodigo],
     queryFn: async () => {
-      const response = await teachingCategoryService.getTeachingCategories(nLegGraDatCodigo);
+      const response = await teachingCategoryService.getTeachingCategories(nLegDatCodigo);
       return response;
     },
   });
@@ -47,7 +43,7 @@ const ListTeachingCategory = ({ legGradoTitulo }: Props) => {
       await teachingCategoryService.removeTeachingCategory(id);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["teachingCategories", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["teachingCategories", nLegDatCodigo] });
       showNotification("success", "La categoría de docente se eliminó correctamente.");
     },
     onError: (error) => {
@@ -90,7 +86,7 @@ const ListTeachingCategory = ({ legGradoTitulo }: Props) => {
 
       {
         openModal && (
-          <ModalTeachingCategory showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} legGradoTitulo={legGradoTitulo} />
+          <ModalTeachingCategory showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} nLegDatCodigo={nLegDatCodigo} />
         )
       }
     </div>

@@ -5,8 +5,6 @@ import Table from "@shared/components/ui/Table/Table";
 import Loader from "@shared/components/ui/Loader/Loader";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import ModalComputerTools from "./ModalComputerTools";
-/* Models */
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 /* Columns */
 import { columnsComputerTools } from "../data/columnsComputerTools";
 /* Store */
@@ -17,10 +15,10 @@ import { computerToolsService } from "../services";
 import { showNotification } from "@shared/utils/notification.util";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
-const ListComputerTools = ({ legGradoTitulo }: Props) => {
+const ListComputerTools = ({ nLegDatCodigo }: Props) => {
   const queryClient = useQueryClient();
   // store
   const openDialog  = useDialogStore((state) => state.openDialog);
@@ -28,13 +26,12 @@ const ListComputerTools = ({ legGradoTitulo }: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [idDegree, setIdDegree]   = useState<number | null>(null)
 
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
-  const nLegGraDatCodigo = legGradoTitulo[0].nLegGraDatCodigo;
-
+  if (!nLegDatCodigo) return;
+  
   const { data: computerTools, isLoading, isFetching, isError } = useQuery({
-    queryKey: ["computerTools", nLegGraDatCodigo],
+    queryKey: ["computerTools", nLegDatCodigo],
     queryFn: async () => {
-      const response = await computerToolsService.getLstComputerTools(nLegGraDatCodigo);
+      const response = await computerToolsService.getLstComputerTools(nLegDatCodigo);
       return response;
     },
   });
@@ -44,7 +41,7 @@ const ListComputerTools = ({ legGradoTitulo }: Props) => {
       await computerToolsService.removeComputerTools(id);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["computerTools", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["computerTools", nLegDatCodigo] });
       showNotification("success", "El dominio de TIC's se eliminó correctamente.");
     },
     onError: (error) => {
@@ -87,7 +84,7 @@ const ListComputerTools = ({ legGradoTitulo }: Props) => {
       }
 
       {
-        openModal &&  <ModalComputerTools showModal={openModal} onClose={() => setOpenModal(false)} legGradoTitulo={legGradoTitulo} id={idDegree} />
+        openModal &&  <ModalComputerTools showModal={openModal} onClose={() => setOpenModal(false)} nLegDatCodigo={nLegDatCodigo} id={idDegree} />
       }
     </div>
   );

@@ -32,10 +32,8 @@ import { teachingDedicationRegimeService } from "../services";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-const ModalTeachingDedicationRegime = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
-  const dataFilter = legGradoTitulo[0];
-  const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
+const ModalTeachingDedicationRegime = ({ showModal, onClose, nLegDatCodigo, id }: IGeneralProps) => {
+  if (!nLegDatCodigo) return;
   
   const queryClient = useQueryClient();
 
@@ -51,7 +49,7 @@ const ModalTeachingDedicationRegime = ({ showModal, onClose, legGradoTitulo, id 
 
   // Obtener el régimen dedicación docente
   const { data: teachingDedicationRegimeData, isLoading: isLoadingTeachingDedicationRegime, isError: isErrorTeachingDedicationRegime } = useQuery({
-    queryKey: ["teachingDedicationRegime", nLegGraDatCodigo, id],
+    queryKey: ["teachingDedicationRegime", nLegDatCodigo, id],
     queryFn: async () => {
       if (id) {
         const response = await teachingDedicationRegimeService.getTeachingDedicationRegime(id);
@@ -103,11 +101,11 @@ const ModalTeachingDedicationRegime = ({ showModal, onClose, legGradoTitulo, id 
       if (id) {
         await teachingDedicationRegimeService.updateTeachingDedicationRegime(id, data)
       } else{
-        await teachingDedicationRegimeService.registerTeachingDedicationRegime(nLegGraDatCodigo, data)
+        await teachingDedicationRegimeService.registerTeachingDedicationRegime(nLegDatCodigo, data)
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["teachingDedicationRegime", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["teachingDedicationRegime", nLegDatCodigo] });
   
       if (id) showNotification("success", "Régimen Dedicación Docente actualizado correctamente.");
       else showNotification("success", "Régimen Dedicación Docente registrado correctamente.");

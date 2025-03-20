@@ -31,12 +31,9 @@ import { recognitionOtherInstitutionsService } from "../services";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-const ModalRecognitionOtherInstitutions = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
+const ModalRecognitionOtherInstitutions = ({ showModal, onClose, nLegDatCodigo, id }: IGeneralProps) => {
+  if (!nLegDatCodigo) return;
 
-  const dataFilter       = legGradoTitulo[0];
-  const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
-  
   const queryClient = useQueryClient();
 
   const { options, loadingStates } = useFormOptions();
@@ -51,7 +48,7 @@ const ModalRecognitionOtherInstitutions = ({ showModal, onClose, legGradoTitulo,
 
   // Obtener la carga administrativa universitaria
   const { data: recognitionOtherInstitution, isLoading: isLoadingRecognitionOtherInstitution, isError: isErrorRecognitionOtherInstitution } = useQuery({
-    queryKey: ["recognitionOtherInstitution", nLegGraDatCodigo, id],
+    queryKey: ["recognitionOtherInstitution", nLegDatCodigo, id],
     queryFn: async () => {
       if (id) {
         const response = await recognitionOtherInstitutionsService.getRecognitionOtherInstitution(id);
@@ -95,10 +92,10 @@ const ModalRecognitionOtherInstitutions = ({ showModal, onClose, legGradoTitulo,
   const { mutate: registerRecognitionOtherInstitution, isPending: isSubmitting } = useMutation({
     mutationFn: async (data: IRecognitionOtherInstitutionPost) => {
       if (id) await recognitionOtherInstitutionsService.updateRecognitionOtherInstitutions(id, data)
-      else await recognitionOtherInstitutionsService.registerRecognitionOtherInstitutions(nLegGraDatCodigo, data)
+      else await recognitionOtherInstitutionsService.registerRecognitionOtherInstitutions(nLegDatCodigo, data)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["recognitionOtherInstitutions", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["recognitionOtherInstitutions", nLegDatCodigo] });
   
       if (id) showNotification("success", "Régimen Dedicación Docente actualizado correctamente.");
       else showNotification("success", "Régimen Dedicación Docente registrado correctamente.");

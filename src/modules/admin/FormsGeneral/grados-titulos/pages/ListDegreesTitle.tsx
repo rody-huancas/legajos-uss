@@ -18,14 +18,15 @@ import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/genera
 
 interface Props {
   legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo  : number;
 }
 
-const ListDegreesTitle = ({ legGradoTitulo }: Props) => {
+const ListDegreesTitle = ({ legGradoTitulo, nLegDatCodigo }: Props) => {
   const queryClient = useQueryClient();
 
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
+  if (!nLegDatCodigo) return;
 
-  const nLegGraDatCodigo = legGradoTitulo[0]?.nLegGraDatCodigo;
+  const nLegGraDatCodigo = nLegDatCodigo;
 
   // store
   const openDialog  = useDialogStore((state) => state.openDialog);
@@ -87,6 +88,7 @@ const ListDegreesTitle = ({ legGradoTitulo }: Props) => {
         <Table
           columns = {columnsDegreesTitles({ handleDelete, handleEdit })}
           data    = {degreesTitle || []}
+          messageNoData="Aún no se ha registrado los grados y títulos"
         />
       )}
 

@@ -1,8 +1,6 @@
 import { useState } from "react";
 /* Components */
 import Button from "@shared/components/ui/Button/Button";
-/* Models */
-import { ILegGradoTitulo } from "../models/general-information.model";
 /* Modules */
 import ListNoTeachingProfessionalExperience from "@modules/admin/FormsGeneral/experiencia-profesional-no-docente/pages/ListNoTeachingProfessionalExperience";
 /* Icons */
@@ -10,11 +8,11 @@ import { HiAcademicCap } from "react-icons/hi";
 import ModalNoTeachingProfessionalExperience from "@modules/admin/FormsGeneral/experiencia-profesional-no-docente/pages/ModalNoTeachingProfessionalExperience";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
 export const SectionNoTeachingProfessionalExperience = (props: Props) => {
-  const { legGradoTitulo = [] } = props;
+  const { nLegDatCodigo } = props;
   const [showModal, setShowModal] = useState<boolean>(false)
   
   return (
@@ -28,12 +26,12 @@ export const SectionNoTeachingProfessionalExperience = (props: Props) => {
           </div>
 
           {/* Tabla */}
-          <ListNoTeachingProfessionalExperience legGradoTitulo={legGradoTitulo} />
+          <ListNoTeachingProfessionalExperience nLegDatCodigo={nLegDatCodigo} />
         </div>
       </div>
 
       {
-        showModal && <ModalNoTeachingProfessionalExperience showModal={showModal} onClose={() => setShowModal(false)} legGradoTitulo={legGradoTitulo} />
+        showModal && <ModalNoTeachingProfessionalExperience showModal={showModal} onClose={() => setShowModal(false)} nLegDatCodigo={nLegDatCodigo} />
       }
     </>
   );

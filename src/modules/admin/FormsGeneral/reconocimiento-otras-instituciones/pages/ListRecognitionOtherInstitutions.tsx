@@ -5,8 +5,6 @@ import Table from "@shared/components/ui/Table/Table";
 import Loader from "@shared/components/ui/Loader/Loader";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import ModalRecognitionOtherInstitutions from "./ModalRecognitionOtherInstitutions";
-/* Models */
-import { ILegGradoTitulo } from "@modules/admin/InformacionGeneral/models/general-information.model";
 /* Columns */
 import { columnsRecognitionOtherInstitutions } from "../data/columnsRecognitionOtherInstitutions";
 /* Store */
@@ -17,10 +15,10 @@ import { recognitionOtherInstitutionsService } from "../services";
 import { showNotification } from "@shared/utils/notification.util";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
-const ListRecognitionOtherInstitutions = ({ legGradoTitulo }: Props) => {
+const ListRecognitionOtherInstitutions = ({ nLegDatCodigo }: Props) => {
   const queryClient = useQueryClient();
   // store
   const openDialog  = useDialogStore((state) => state.openDialog);
@@ -28,15 +26,13 @@ const ListRecognitionOtherInstitutions = ({ legGradoTitulo }: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [idDegree, setIdDegree]   = useState<number | null>(null)
 
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
+  if (!nLegDatCodigo) return;
   
-  const nLegGraDatCodigo = legGradoTitulo[0].nLegGraDatCodigo;
-
   // listar el reconocimiento de otras instituciones
   const { data: recognitionOtherInstitutions, isLoading, isFetching, isError } = useQuery({
-    queryKey: ["recognitionOtherInstitutions", nLegGraDatCodigo],
+    queryKey: ["recognitionOtherInstitutions", nLegDatCodigo],
     queryFn: async () => {
-      const response = await recognitionOtherInstitutionsService.getLstRecognitionOtherInstitutions(nLegGraDatCodigo);
+      const response = await recognitionOtherInstitutionsService.getLstRecognitionOtherInstitutions(nLegDatCodigo);
       return response;
     },
   });
@@ -47,7 +43,7 @@ const ListRecognitionOtherInstitutions = ({ legGradoTitulo }: Props) => {
       await recognitionOtherInstitutionsService.removeRecognitionOtherInstitution(id);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["recognitionOtherInstitutions", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["recognitionOtherInstitutions", nLegDatCodigo] });
       showNotification("success", "El reconocimiento de otras instituciones se eliminó correctamente.");
     },
     onError: (error) => {
@@ -91,7 +87,7 @@ const ListRecognitionOtherInstitutions = ({ legGradoTitulo }: Props) => {
 
       {
         openModal && (
-          <ModalRecognitionOtherInstitutions showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} legGradoTitulo={legGradoTitulo} />
+          <ModalRecognitionOtherInstitutions showModal={openModal} onClose={() => setOpenModal(false)} id={idDegree} nLegDatCodigo={nLegDatCodigo} />
         )
       }
     </div>

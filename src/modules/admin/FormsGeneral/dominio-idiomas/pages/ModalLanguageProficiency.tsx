@@ -24,10 +24,8 @@ import { languageProficiencyService } from "../services";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-const ModalLanguageProficiency = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
-  const dataFilter       = legGradoTitulo[0];
-  const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
+const ModalLanguageProficiency = ({ showModal, onClose, nLegDatCodigo, id }: IGeneralProps) => {
+  if (!nLegDatCodigo) return;
 
   const queryClient = useQueryClient();
 
@@ -36,7 +34,7 @@ const ModalLanguageProficiency = ({ showModal, onClose, legGradoTitulo, id }: IG
 
   // Obtener el dominio del idioma
   const { data: languagesProficiency, isLoading, isError } = useQuery({
-    queryKey: ["languagesProficiency", nLegGraDatCodigo, id],
+    queryKey: ["languagesProficiency", nLegDatCodigo, id],
     queryFn: async () => {
       if (id) {
         const response = await languageProficiencyService.getLanguageProficiency(id);
@@ -59,12 +57,12 @@ const ModalLanguageProficiency = ({ showModal, onClose, legGradoTitulo, id }: IG
       if (id) {
         await languageProficiencyService.updateLanguageProficiency(id, data);
       } else {
-        await languageProficiencyService.registerLanguageProficiency(nLegGraDatCodigo, data);
+        await languageProficiencyService.registerLanguageProficiency(nLegDatCodigo, data);
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["languagesProficiencies", nLegGraDatCodigo],
+        queryKey: ["languagesProficiencies", nLegDatCodigo],
       });
       if (id) showNotification( "success", "El dominio de idioma se ha actualizado correctamente." );
       else showNotification( "success", "El dominio de idioma se ha registrado correctamente." );

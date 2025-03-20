@@ -7,7 +7,7 @@ export const LazyLoadSection = ({ children }: { children: React.ReactNode }) => 
   });
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className="w-full">
       {inView ? (
         children
       ) : (

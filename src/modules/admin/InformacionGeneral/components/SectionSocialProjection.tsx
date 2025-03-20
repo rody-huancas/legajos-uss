@@ -1,8 +1,6 @@
 import { useState } from "react";
 /* Components */
 import Button from "@shared/components/ui/Button/Button";
-/* Models */
-import { ILegGradoTitulo } from "../models/general-information.model";
 /* Modules */
 import ListSocialProjection from "@modules/admin/FormsGeneral/proyeccion-social/pages/ListSocialProjection";
 import ModalSocialProjection from "@modules/admin/FormsGeneral/proyeccion-social/pages/ModalSocialProjection";
@@ -10,11 +8,11 @@ import ModalSocialProjection from "@modules/admin/FormsGeneral/proyeccion-social
 import { HiAcademicCap } from "react-icons/hi";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
 export const SectionSocialProjection = (props: Props) => {
-  const { legGradoTitulo = [] } = props;
+  const { nLegDatCodigo } = props;
   const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
@@ -30,12 +28,12 @@ export const SectionSocialProjection = (props: Props) => {
         </div>
 
         {/* Tabla */}
-        <ListSocialProjection legGradoTitulo={legGradoTitulo} />
+        <ListSocialProjection nLegDatCodigo={nLegDatCodigo} />
       </div>
 
       {
         showModal && (
-          <ModalSocialProjection showModal={showModal} onClose={() => setShowModal(false)} legGradoTitulo={legGradoTitulo} />
+          <ModalSocialProjection showModal={showModal} onClose={() => setShowModal(false)} nLegDatCodigo={nLegDatCodigo} />
         )
       }
     </>

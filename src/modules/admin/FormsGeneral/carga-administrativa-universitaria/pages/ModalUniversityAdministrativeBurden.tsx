@@ -31,10 +31,8 @@ import { universityAdministrativeBurdenService } from "../services";
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-const ModalUniversityAdministrativeBurden = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
-  const dataFilter = legGradoTitulo[0];
-  const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
+const ModalUniversityAdministrativeBurden = ({ showModal, onClose, nLegDatCodigo, id }: IGeneralProps) => {
+  if (!nLegDatCodigo) return;
   
   const queryClient = useQueryClient();
 
@@ -50,7 +48,7 @@ const ModalUniversityAdministrativeBurden = ({ showModal, onClose, legGradoTitul
 
   // Obtener la carga administrativa universitaria
   const { data: universityAdministrativeBurden, isLoading: isLoadingUniversityAdministrativeBurden, isError: isErrorUniversityAdministrativeBurden } = useQuery({
-    queryKey: ["universityAdministrativeBurden", nLegGraDatCodigo, id],
+    queryKey: ["universityAdministrativeBurden", nLegDatCodigo, id],
     queryFn: async () => {
       if (id) {
         const response = await universityAdministrativeBurdenService.getUniversityAdministrativeBurden(id);
@@ -93,10 +91,10 @@ const ModalUniversityAdministrativeBurden = ({ showModal, onClose, legGradoTitul
   const { mutate: registerUniversityAdministrativeBurden, isPending: isSubmitting } = useMutation({
     mutationFn: async (data: IUniversityAdministrativeBurdenPost) => {
       if (id) await universityAdministrativeBurdenService.updateUniversityAdministrativeBurden(id, data)
-      else await universityAdministrativeBurdenService.registerUniversityAdministrativeBurden(nLegGraDatCodigo, data)
+      else await universityAdministrativeBurdenService.registerUniversityAdministrativeBurden(nLegDatCodigo, data)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["universitiesAdministrativeBurden", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["universitiesAdministrativeBurden", nLegDatCodigo] });
   
       if (id) showNotification("success", "Régimen Dedicación Docente actualizado correctamente.");
       else showNotification("success", "Régimen Dedicación Docente registrado correctamente.");
@@ -109,9 +107,6 @@ const ModalUniversityAdministrativeBurden = ({ showModal, onClose, legGradoTitul
   });
 
   const onSubmit = async (data: UniversityAdministrativeBurdenType) => {
-    const dataFilter = legGradoTitulo?.[0];
-    if (!dataFilter) return;
-  
     const academicPositions = options.raw.academicPositions?.filter(item => item.nConValor === data.vCargo.value);
     if (!academicPositions) return;
     

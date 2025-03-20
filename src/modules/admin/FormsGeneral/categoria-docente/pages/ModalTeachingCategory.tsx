@@ -30,11 +30,8 @@ import { OTHER_INSTITUTION_LABEL, OTHER_INSTITUTION_VALUE } from "@config/consta
 /* Icons */
 import { LuSaveAll } from "react-icons/lu";
 
-const ModalTeachingCategory = ({ showModal, onClose, legGradoTitulo, id }: IGeneralProps) => {
-  if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
-
-  const dataFilter = legGradoTitulo[0];
-  const nLegGraDatCodigo = dataFilter.nLegGraDatCodigo;
+const ModalTeachingCategory = ({ showModal, onClose, nLegDatCodigo, id }: IGeneralProps) => {
+  if (!nLegDatCodigo) return;
 
   const queryClient = useQueryClient();
 
@@ -50,7 +47,7 @@ const ModalTeachingCategory = ({ showModal, onClose, legGradoTitulo, id }: IGene
 
   // Obtener la categoría del docente
   const { data: teachingCategoryData, isLoading: loadTeachingCategory } = useQuery({
-    queryKey: ["teachingCategory", nLegGraDatCodigo],
+    queryKey: ["teachingCategory", nLegDatCodigo],
     queryFn : async () => {
       if (id) {
         const  response = await teachingCategoryService.getTeachingCategory(id);
@@ -103,11 +100,11 @@ const ModalTeachingCategory = ({ showModal, onClose, legGradoTitulo, id }: IGene
       if (id) {
         await teachingCategoryService.updateTeachingCategory(id, dataMapper);
       } else {
-        await teachingCategoryService.registerTeachingCategory(nLegGraDatCodigo, dataMapper);
+        await teachingCategoryService.registerTeachingCategory(nLegDatCodigo, dataMapper);
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["teachingCategories", nLegGraDatCodigo] });
+      queryClient.invalidateQueries({ queryKey: ["teachingCategories", nLegDatCodigo] });
       if (id) {
         showNotification("success", "Categoría docente actualizada correctamente.");
       } else {
@@ -121,8 +118,6 @@ const ModalTeachingCategory = ({ showModal, onClose, legGradoTitulo, id }: IGene
   });
 
   const onSubmit = async (data: TeachingCategorySchemaType) => {
-    if (!legGradoTitulo || legGradoTitulo.length <= 0) return;
-
     const category = teachingCategory?.filter(item => item.nConValor === data.lCategoriaDoc.value);
 
     if (!category) return;

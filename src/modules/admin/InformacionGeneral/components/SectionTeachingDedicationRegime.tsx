@@ -1,8 +1,6 @@
 import { useState } from "react";
 /* Components */
 import Button from "@shared/components/ui/Button/Button";
-/* Models */
-import { ILegGradoTitulo } from "../models/general-information.model";
 /* Modules */
 import ListTeachingDedicationRegime from "@modules/admin/FormsGeneral/regimen-dedicacion-docente/pages/ListTeachingDedicationRegime";
 import ModalTeachingDedicationRegime from "@modules/admin/FormsGeneral/regimen-dedicacion-docente/pages/ModalTeachingDedicationRegime";
@@ -10,11 +8,11 @@ import ModalTeachingDedicationRegime from "@modules/admin/FormsGeneral/regimen-d
 import { HiAcademicCap } from "react-icons/hi";
 
 interface Props {
-  legGradoTitulo?: ILegGradoTitulo[];
+  nLegDatCodigo: number;
 }
 
 export const SectionTeachingDedicationRegime = (props: Props) => {
-  const { legGradoTitulo = [] } = props;
+  const { nLegDatCodigo } = props;
   const [showModal, setShowModal] = useState<boolean>(false)
   
   return (
@@ -28,12 +26,12 @@ export const SectionTeachingDedicationRegime = (props: Props) => {
           </div>
 
           {/* Tabla */}
-          <ListTeachingDedicationRegime legGradoTitulo={legGradoTitulo} />
+          <ListTeachingDedicationRegime nLegDatCodigo={nLegDatCodigo} />
         </div>
       </div>
 
       {
-        showModal && <ModalTeachingDedicationRegime showModal={showModal} onClose={() => setShowModal(false)} legGradoTitulo={legGradoTitulo} />
+        showModal && <ModalTeachingDedicationRegime showModal={showModal} onClose={() => setShowModal(false)} nLegDatCodigo={nLegDatCodigo} />
       }
     </>
   );

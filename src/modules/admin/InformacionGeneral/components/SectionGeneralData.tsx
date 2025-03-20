@@ -138,7 +138,7 @@ export const SectionGeneralData = (props: Props) => {
             name="vTipoDoc"
             control={control}
             options={options.documentIdentity}
-            placeholder="Seleccione un tipo de documento"
+            placeholder="Seleccione un documento"
             errorMessage={errors.vTipoDoc?.message}
             isLoading={loadingStates.documentIdentity}
           />
