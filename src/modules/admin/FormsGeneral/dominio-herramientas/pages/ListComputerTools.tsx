@@ -34,6 +34,7 @@ const ListComputerTools = ({ nLegDatCodigo }: Props) => {
       const response = await computerToolsService.getLstComputerTools(nLegDatCodigo);
       return response;
     },
+    refetchOnWindowFocus: false,
   });
 
   const { mutate: deleteLanguageProficiency, isPending: loadDelete } = useMutation({

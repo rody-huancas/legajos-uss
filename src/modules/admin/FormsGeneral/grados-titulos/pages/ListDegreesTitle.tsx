@@ -42,6 +42,7 @@ const ListDegreesTitle = ({ legGradoTitulo, nLegDatCodigo }: Props) => {
       return response;
     },
     enabled: !!nLegGraDatCodigo,
+    refetchOnWindowFocus: false,
   });
 
   const { mutate: deleteDegreeTitle } = useMutation({

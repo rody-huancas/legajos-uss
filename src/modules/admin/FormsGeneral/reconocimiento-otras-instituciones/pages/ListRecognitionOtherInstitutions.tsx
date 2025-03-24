@@ -35,6 +35,7 @@ const ListRecognitionOtherInstitutions = ({ nLegDatCodigo }: Props) => {
       const response = await recognitionOtherInstitutionsService.getLstRecognitionOtherInstitutions(nLegDatCodigo);
       return response;
     },
+    refetchOnWindowFocus: false,
   });
 
   // eliminar el reconocimiento de otras instituciones

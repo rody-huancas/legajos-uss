@@ -35,6 +35,7 @@ const ListTeachingDedicationRegime = ({ nLegDatCodigo }: Props) => {
       const response = await teachingDedicationRegimeService.getTeachingDedicationsRegime(nLegDatCodigo);
       return response;
     },
+    refetchOnWindowFocus: false,
   });
 
   // eliminar categoría

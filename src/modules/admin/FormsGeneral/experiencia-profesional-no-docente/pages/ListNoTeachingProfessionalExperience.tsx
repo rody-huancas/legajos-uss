@@ -35,6 +35,7 @@ const ListNoTeachingProfessionalExperience = ({ nLegDatCodigo }: Props) => {
       const response = await noTeachingProfessionalExperienceService.getLstNoTeachingProfessionalExperience(nLegDatCodigo);
       return response;
     },
+    refetchOnWindowFocus: false,
   });
 
   // eliminar la experiencia profesional no docente

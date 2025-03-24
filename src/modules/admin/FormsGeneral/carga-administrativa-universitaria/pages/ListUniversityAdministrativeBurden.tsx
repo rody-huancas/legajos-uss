@@ -33,6 +33,7 @@ const ListUniversityAdministrativeBurden = ({ nLegDatCodigo }: Props) => {
       const response = await universityAdministrativeBurdenService.getLstUniversityAdministrativeBurden(nLegDatCodigo);
       return response;
     },
+    refetchOnWindowFocus: false,
   });
 
   // eliminar la carga administrativa universitaria

@@ -10,6 +10,7 @@ import { useCountries } from "../hooks/useCountries";
 import { useFormOptions } from "../hooks/useFormOptions";
 /* Models */
 import { IInterface } from "../models/information-general.model";
+import { ILegDatosGenerales } from "../models/general-information.model";
 /* Utils */
 import { calculateAge } from "@shared/utils/globals.util";
 import { formatToOptions } from "../utils";
@@ -17,14 +18,15 @@ import { formatToOptions } from "../utils";
 import { LegajoDataSchemaType } from "../schemas/general-information.validation";
 
 interface Props {
-  control : Control<LegajoDataSchemaType>;
-  watch   : UseFormWatch<LegajoDataSchemaType>;
-  errors  : FieldErrors<LegajoDataSchemaType>;
-  register: UseFormRegister<LegajoDataSchemaType>;
+  control    : Control<LegajoDataSchemaType>;
+  watch      : UseFormWatch<LegajoDataSchemaType>;
+  errors     : FieldErrors<LegajoDataSchemaType>;
+  register   : UseFormRegister<LegajoDataSchemaType>;
+  generalData: ILegDatosGenerales;
 }
 
 export const SectionGeneralData = (props: Props) => {
-  const { control, watch, errors, register } = props;
+  const { control, watch, errors, register, generalData } = props;
 
   const { ubigeo } = useCountries();
   const { options, loadingStates } = useFormOptions();
@@ -143,7 +145,7 @@ export const SectionGeneralData = (props: Props) => {
             isLoading={loadingStates.documentIdentity}
           />
           <InputField
-            label="N° Documento de Identidad" register={register} name="cLegDatNroDoc" error={errors.cLegDatNroDoc} placeholder="N° Documento de Identidad" 
+            label="N° Documento de Identidad" register={register} name="cLegDatNroDoc" error={errors.cLegDatNroDoc} placeholder="N° Documento de Identidad" value={generalData.cLegDatNroDoc}
           />
           <InputField
             label="Apellido Paterno" register={register} name="cLegDatApellidoPaterno" error={errors.cLegDatApellidoPaterno} placeholder="Apellido Paterno" classContainer="sm:col-span-2" 

@@ -35,6 +35,7 @@ const ListLanguageProficiency = ({ nLegDatCodigo }: Props) => {
       const response = await languageProficiencyService.getLstLanguageProficiencies(nLegDatCodigo);
       return response;
     },
+    refetchOnWindowFocus: false,
   });
 
   // eliminar idioma distinto al materno
