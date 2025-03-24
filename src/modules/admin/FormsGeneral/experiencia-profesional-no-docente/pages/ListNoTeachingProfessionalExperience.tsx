@@ -62,7 +62,6 @@ const ListNoTeachingProfessionalExperience = ({ nLegDatCodigo }: Props) => {
     if (confirmed) deleteNoTeachingProfessionalExperience(id);
   };
 
-
   const handleEdit = (id: number) => {
     setIdDegree(id);
     setOpenModal(true);
