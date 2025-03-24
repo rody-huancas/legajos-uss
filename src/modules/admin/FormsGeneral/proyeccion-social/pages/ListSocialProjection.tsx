@@ -35,6 +35,7 @@ const ListSocialProjection = ({ nLegDatCodigo }: Props) => {
       const response = await socialProjectionService.getLstSocialProjections(nLegDatCodigo);
       return response;
     },
+    refetchOnWindowFocus: false,
   });
 
   // eliminar la proyección social

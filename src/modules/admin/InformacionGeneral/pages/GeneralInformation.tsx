@@ -74,7 +74,7 @@ const GeneralInformation = () => {
           <Accordion>
             <AccordionItem title="Datos Generales" index={0}>
               <LazyLoadSection>
-                <SectionGeneralData control={control} errors={errors} register={register} watch={watch} />
+                <SectionGeneralData control={control} errors={errors} register={register} watch={watch} generalData={dataGI} />
               </LazyLoadSection>
             </AccordionItem>
             <AccordionItem title="Adjuntar Documentos" index={1}>

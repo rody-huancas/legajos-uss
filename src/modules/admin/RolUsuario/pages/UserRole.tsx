@@ -5,7 +5,6 @@ import { useZodForm } from "@shared/hooks/useZodForm";
 /* Components */
 import Button from "@shared/components/ui/Button/Button";
 import ReactSelect from "@shared/components/ui/ReactSelect/ReactSelect";
-import ModalSwornDeclaration from "../components/ModalSwornDeclaration";
 /* Layouts */
 import AuthBGLayout from "@layouts/auth/AuthBGLayout";
 /* Validations */
@@ -33,7 +32,7 @@ const UserRol = () => {
   const logoutUser = useAuthStore((state) => state.logoutUser);
   const setProfile = useAuthStore(state => state.setProfile);
   
-  const [open, setOpen] = useState<boolean>(true);
+  // const [open, setOpen] = useState<boolean>(true);
   const [roleOptions, setRoleOptions] = useState<Option[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -41,7 +40,7 @@ const UserRol = () => {
     defaultValues: { select: undefined }, 
   });
 
-  const handleModal = () => setOpen(!open);
+  // const handleModal = () => setOpen(!open);
 
   useEffect(() => {
     const fetchUserType = async() => {
@@ -117,7 +116,7 @@ const UserRol = () => {
           </div>
         </div>
       </section>
-      { open && <ModalSwornDeclaration isOpen={open} onClose={handleModal} /> }
+      {/* { open && <ModalSwornDeclaration isOpen={open} onClose={handleModal} /> } */}
     </AuthBGLayout>
   );
 };

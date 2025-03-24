@@ -29,6 +29,7 @@ const ListExperienceUniversity = ({ nLegDatCodigo }: Props) => {
       const response = await experienceUnivesityService.getExperiencesUniversity(nLegDatCodigo);
       return response;
     },
+    refetchOnWindowFocus: false,
   });
 
   const { mutate: deleteDegreeTitle, isPending: loadDelete } = useMutation({

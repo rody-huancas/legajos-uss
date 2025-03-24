@@ -35,6 +35,7 @@ const ListTeachingCategory = ({ nLegDatCodigo }: Props) => {
       const response = await teachingCategoryService.getTeachingCategories(nLegDatCodigo);
       return response;
     },
+    refetchOnWindowFocus: false,
   });
 
   // eliminar categoría
