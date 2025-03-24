@@ -4,11 +4,15 @@ import Header from "@shared/components/common/Header/Header";
 import Sidebar from "@shared/components/common/Sidebar/Sidebar";
 /* Store */
 import { useAuthStore } from "@store/auth/auth.store";
+import { useInactivityTimer } from "@shared/hooks/useInactivityTimer";
 
 const AdminLayout = () => {
+  useInactivityTimer();
+
   const profile = useAuthStore((state) => state.profile);
 
   if (profile === "") return <Navigate to="/rol-por-usuario" />;
+
 
   return (
     <div className="min-h-screen grid grid-cols-1 xl:grid-cols-6">
