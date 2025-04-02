@@ -44,8 +44,10 @@ const GeneralInformation = () => {
   });
 
   useEffect(() => {
-    // console.log(user)
-    // console.log(dataGI)
+    console.log({
+      user,
+      dataGI
+    })
   }, [user, dataGI])
   
   const onSubmit = async (data: LegajoDataSchemaType) => {

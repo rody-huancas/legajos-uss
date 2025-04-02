@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { UseFormSetValue, UseFormWatch, FieldValues } from "react-hook-form";
 import { IPersona } from "@modules/admin/InformacionGeneral/models/information-general.model";
 import { informationGeneralService } from "@modules/admin/InformacionGeneral/services";
+import { OTHER_INSTITUTION_LABEL, OTHER_INSTITUTION_VALUE } from "@config/constants/variables";
 
 interface UseInstitutionFormProps<T extends FieldValues> {
   countryFieldName         : string;
@@ -31,7 +32,7 @@ export const useInstitutionForm = <T extends FieldValues>({
       let data: IPersona[] = [];
 
       if (watch(`${countryFieldName}.label` as any) !== "PERU") {
-        const otraInstitucion: IPersona = { cPerCodigo: "PER100", cPerNombre: "OTRA INSTITUCIÓN" };
+        const otraInstitucion: IPersona = { cPerCodigo: OTHER_INSTITUTION_VALUE, cPerNombre: OTHER_INSTITUTION_LABEL };
         data = [otraInstitucion, ...(data || [])];
       } else {
         data = response?.filter((item) => item.cUbigeoCodigo!.length > 3) || [];
@@ -46,7 +47,7 @@ export const useInstitutionForm = <T extends FieldValues>({
   }, [watch(countryFieldName as any)]);
  
   useEffect(() => {
-    if (String(watch(`${institutionFieldName}.value` as any)) !== "PER100") {
+    if (String(watch(`${institutionFieldName}.value` as any)) !== OTHER_INSTITUTION_VALUE) {
       setValue(otherInstitutionFieldName as any, watch(`${institutionFieldName}.label` as any));
     }
   }, [watch(institutionFieldName as any)]);
