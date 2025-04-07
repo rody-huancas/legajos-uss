@@ -36,6 +36,9 @@ const Sidebar = () => {
           </span>
           <ul className="text-secondary-100 ml-5 space-y-1">
             <li>
+              <SidebarLink to="/legajo" name="Control de Legajos" icon={RiFolderInfoLine} onClick={() => setMenuIsOpen(false)} />
+            </li>
+            <li>
               <SidebarLink to="/dgeneral" name="Información General" icon={RiFolderInfoLine} onClick={() => setMenuIsOpen(false)} />
             </li>
             <li>
