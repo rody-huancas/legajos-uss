@@ -8,6 +8,7 @@ const AdminLayout        = withLazy(lazy(() => import("@layouts/admin/AdminLayou
 const Dashboard          = withLazy(lazy(() => import("@modules/admin/Dashboard/pages/Dashboard")));
 const UserRole           = withLazy(lazy(() => import("@modules/admin/RolUsuario/pages/UserRole")));
 const GeneralInformation = withLazy(lazy(() => import("@modules/admin/InformacionGeneral/pages/GeneralInformation")));
+const ControlLegajos     = withLazy(lazy(() => import("@modules/admin/ControlLegajos/pages/ControlLegajos")));
 
 const RouteAdmin = () => {
   return (
@@ -15,6 +16,7 @@ const RouteAdmin = () => {
       <Route path="/" element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="/dgeneral" element={<GeneralInformation />} />
+        <Route path="/legajo" element={<ControlLegajos />} />
       </Route>
       
       <Route path="/rol-por-usuario">
