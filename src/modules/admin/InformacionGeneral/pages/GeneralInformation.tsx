@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import Tabs from "@shared/components/ui/Tabs/Tabs";
 import Button from "@shared/components/ui/Button/Button";
 import Loader from "@shared/components/ui/Loader/Loader";
+import Breadcrumb from "@shared/components/ui/Breadcrumb/Breadcrumb";
 import AlertMessage from "@shared/components/ui/AlertMessage/AlertMessage";
 import { Title } from "@shared/components/ui/Title/Title";
 import { Accordion } from "@shared/components/ui/Accordion/Accordion";
@@ -149,6 +150,7 @@ const GeneralInformation = () => {
 
   return (
     <div className="w-full space-y-5">
+      <Breadcrumb items={[{ name: "Información General" }]} />
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
         
